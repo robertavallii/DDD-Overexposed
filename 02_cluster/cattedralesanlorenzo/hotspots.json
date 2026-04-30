@@ -1,0 +1,229 @@
+[
+  {
+    "cluster_id": 8,
+    "size": 323,
+    "label": "San Lorenzo Cathedral Bell Tower",
+    "description": "The images feature the iconic stone bell tower of the San Lorenzo Cathedral overlooking the town of Lugano and its lake. They capture a classic panorama including the surrounding mountains and the local funicular tracks.",
+    "search_prompt": "stone bell tower with a green dome overlooking a lake and town with mountains",
+    "confidence": 1.0,
+    "representative_photos": [
+      "foto/cattedralesanlorenzo/2935212433987741114_01.jpg",
+      "foto/cattedralesanlorenzo/2994483741715868403_01.jpg",
+      "foto/cattedralesanlorenzo/2367032508737890987_01.jpg",
+      "foto/cattedralesanlorenzo/2553384533975098553_01.jpg",
+      "foto/cattedralesanlorenzo/2622494774846627877_01.jpg",
+      "foto/cattedralesanlorenzo/3743421748051020360_01.jpg",
+      "foto/cattedralesanlorenzo/2873687713635634055_01.jpg",
+      "foto/cattedralesanlorenzo/2892503829347261700_01.jpg"
+    ]
+  },
+  {
+    "cluster_id": 10,
+    "size": 57,
+    "label": "San Lorenzo Cathedral Interior",
+    "description": "The ornate high altar and frescoed apse of the Cattedrale di San Lorenzo, a landmark Roman Catholic cathedral in Lugano.",
+    "search_prompt": "ornate church interior with baroque high altar and frescoed vaulted ceilings",
+    "confidence": 1.0,
+    "representative_photos": [
+      "foto/cattedralesanlorenzo/3005694129226558420_01.jpg",
+      "foto/cattedralesanlorenzo/3030772977213601565_01.jpg",
+      "foto/cattedralesanlorenzo/3826010880786307290_01.jpg",
+      "foto/cattedralesanlorenzo/1627713762865160796_01.jpg",
+      "foto/cattedralesanlorenzo/1942988827716822807_01.jpg",
+      "foto/cattedralesanlorenzo/3518660385067907577_01.jpg",
+      "foto/cattedralesanlorenzo/3740921630097865075_01.jpg",
+      "foto/cattedralesanlorenzo/1799892127438845673_01.jpg"
+    ]
+  },
+  {
+    "cluster_id": 11,
+    "size": 54,
+    "label": "Altar of San Rocco Church",
+    "description": "An ornate Baroque altar within the Church of San Rocco in Lugano, featuring a central religious painting flanked by marble columns and statues under a frescoed dome.",
+    "search_prompt": "ornate Baroque church altar with marble columns and central religious painting under a frescoed dome",
+    "confidence": 1.0,
+    "representative_photos": [
+      "foto/cattedralesanlorenzo/3633939304100076851_01.jpg",
+      "foto/cattedralesanlorenzo/2877936987295866839_01.jpg",
+      "foto/cattedralesanlorenzo/3051645483536862224_01.jpg",
+      "foto/cattedralesanlorenzo/3376943751485091815_01.jpg",
+      "foto/cattedralesanlorenzo/2487223146160269197_01.jpg",
+      "foto/cattedralesanlorenzo/3446517515518361165_01.jpg",
+      "foto/cattedralesanlorenzo/3172036767968040461_01.jpg",
+      "foto/cattedralesanlorenzo/3740363998907706020_01.jpg"
+    ]
+  },
+  {
+    "cluster_id": 7,
+    "size": 15,
+    "label": "St. Lawrence Cathedral ceiling",
+    "description": "The ornate, frescoed vaulted ceilings of the Cattedrale di San Lorenzo in Lugano, featuring distinctive red star patterns and ecclesiastical heraldry.",
+    "search_prompt": "frescoed vaulted church ceiling with red stars and sunburst motifs",
+    "confidence": 1.0,
+    "representative_photos": [
+      "foto/cattedralesanlorenzo/3005695173121619147_01.jpg",
+      "foto/cattedralesanlorenzo/2222974502741372035_01.jpg",
+      "foto/cattedralesanlorenzo/3116801389524053818_01.jpg",
+      "foto/cattedralesanlorenzo/2653754607180479644_01.jpg",
+      "foto/cattedralesanlorenzo/3266321073405345039_01.jpg",
+      "foto/cattedralesanlorenzo/2359433194679293472_01.jpg",
+      "foto/cattedralesanlorenzo/3460513387387485528_01.jpg",
+      "foto/cattedralesanlorenzo/2214636277542144916_01.jpg"
+    ]
+  },
+  {
+    "cluster_id": 3,
+    "size": 13,
+    "label": "San Lorenzo Cathedral Interior",
+    "description": "A marble statue of a seated religious figure positioned in front of a tall, vertical stained-glass window featuring an archangel and the coat of arms of Lugano.",
+    "search_prompt": "seated marble bishop statue in front of a tall narrow stained-glass window with an archangel in a church interior",
+    "confidence": 1.0,
+    "representative_photos": [
+      "foto/cattedralesanlorenzo/2192972362919340920_01.jpg",
+      "foto/cattedralesanlorenzo/2824709979836696013_01.jpg",
+      "foto/cattedralesanlorenzo/3358999838781929612_01.jpg",
+      "foto/cattedralesanlorenzo/2819984258409897931_01.jpg",
+      "foto/cattedralesanlorenzo/2906268171372097498_01.jpg",
+      "foto/cattedralesanlorenzo/3358284951583812828_01.jpg",
+      "foto/cattedralesanlorenzo/2603285924121330642_01.jpg",
+      "foto/cattedralesanlorenzo/2059722076790256160_01.jpg"
+    ]
+  },
+  {
+    "cluster_id": 12,
+    "size": 12,
+    "label": "Religious altarpieces in a church",
+    "description": "Ornate side altars and religious oil paintings framed in marble, located inside a historic church in Lugano near Parco Ciani.",
+    "search_prompt": "ornate church side altar with a religious oil painting and decorative marble architecture",
+    "confidence": 0.95,
+    "representative_photos": [
+      "foto/cattedralesanlorenzo/2230217810450204527_01.jpg",
+      "foto/cattedralesanlorenzo/2230217854079247516_01.jpg",
+      "foto/cattedralesanlorenzo/2159009406724471951_01.jpg",
+      "foto/cattedralesanlorenzo/2977305539130284671_01.jpg",
+      "foto/cattedralesanlorenzo/2912465730546377563_01.jpg",
+      "foto/cattedralesanlorenzo/2420575747958647239_01.jpg",
+      "foto/cattedralesanlorenzo/3826008409301074843_01.jpg",
+      "foto/cattedralesanlorenzo/2177155229228185417_01.jpg"
+    ]
+  },
+  {
+    "cluster_id": 1,
+    "size": 9,
+    "label": "Cathedral Pipe Organ and Frescoes",
+    "description": "A grand pipe organ situated above a church portal, featuring an ornate balcony, a rose window, and elaborate frescoed vaulting.",
+    "search_prompt": "large pipe organ in a cathedral with frescoed ceilings and a circular stained glass window",
+    "confidence": 1.0,
+    "representative_photos": [
+      "foto/cattedralesanlorenzo/3826008976824006465_01.jpg",
+      "foto/cattedralesanlorenzo/2939351350728196755_01.jpg",
+      "foto/cattedralesanlorenzo/2798959636583507843_01.jpg",
+      "foto/cattedralesanlorenzo/2198673003176771109_01.jpg",
+      "foto/cattedralesanlorenzo/2588704016409225773_01.jpg",
+      "foto/cattedralesanlorenzo/2536773983904046181_01.jpg",
+      "foto/cattedralesanlorenzo/1766639678129634887_01.jpg",
+      "foto/cattedralesanlorenzo/2199313514551867053_01.jpg"
+    ]
+  },
+  {
+    "cluster_id": 9,
+    "size": 8,
+    "label": "Villa Ciani architectural reliefs",
+    "description": "Intricate stone carvings and decorative reliefs featuring mythological figures, masks, and foliage found on the facade of Villa Ciani. These architectural details showcase ornate historical craftsmanship within the park.",
+    "search_prompt": "ornate stone relief carvings of mythological figures and masks on a historical building facade",
+    "confidence": 0.95,
+    "representative_photos": [
+      "foto/cattedralesanlorenzo/2308954919666032907_01.jpg",
+      "foto/cattedralesanlorenzo/2867181951887710774_01.jpg",
+      "foto/cattedralesanlorenzo/2308997366659958493_01.jpg",
+      "foto/cattedralesanlorenzo/3460513694007811882_01.jpg",
+      "foto/cattedralesanlorenzo/2308980881644401225_01.jpg",
+      "foto/cattedralesanlorenzo/3405709876628940941_01.jpg",
+      "foto/cattedralesanlorenzo/2138400279993832092_01.jpg",
+      "foto/cattedralesanlorenzo/2308997970254087355_01.jpg"
+    ]
+  },
+  {
+    "cluster_id": 2,
+    "size": 8,
+    "label": "Catholic clergy in liturgical vestments",
+    "description": "A collection of photos showing Catholic priests, bishops, and religious figures wearing ceremonial white and cream robes during a religious event in Lugano. The group is gathered outdoors, with some images featuring the San Lorenzo Cathedral in the background.",
+    "search_prompt": "group of people wearing white Catholic liturgical vestments and chasubles standing in a church courtyard or public square",
+    "confidence": 0.95,
+    "representative_photos": [
+      "foto/cattedralesanlorenzo/3453340155802314663_01.jpg",
+      "foto/cattedralesanlorenzo/3453099717007222694_01.jpg",
+      "foto/cattedralesanlorenzo/3279396002790572217_01.jpg",
+      "foto/cattedralesanlorenzo/3122234367774327366_01.jpg",
+      "foto/cattedralesanlorenzo/3533751164895431800_01.jpg",
+      "foto/cattedralesanlorenzo/2955484020272180543_01.jpg",
+      "foto/cattedralesanlorenzo/3018633115089785706_01.jpg",
+      "foto/cattedralesanlorenzo/2955571984297650725_01.jpg"
+    ]
+  },
+  {
+    "cluster_id": 4,
+    "size": 7,
+    "label": "Lugano Cathedral choir performances",
+    "description": "These images depict choral groups performing inside the ornate interior of the Cattedrale di San Lorenzo in Lugano, including promotional posters for its sacred music concerts.",
+    "search_prompt": "a choir group singing inside a cathedral with a large baroque altarpiece and religious statues",
+    "confidence": 1.0,
+    "representative_photos": [
+      "foto/cattedralesanlorenzo/3406412355165994931_01.jpg",
+      "foto/cattedralesanlorenzo/3614299889195257216_01.jpg",
+      "foto/cattedralesanlorenzo/3470732078679062256_01.jpg",
+      "foto/cattedralesanlorenzo/3402598642286471169_01.jpg",
+      "foto/cattedralesanlorenzo/3626466620624561700_01.jpg",
+      "foto/cattedralesanlorenzo/3831686283328492551_01.jpg",
+      "foto/cattedralesanlorenzo/3549956924473902496_01.jpg"
+    ]
+  },
+  {
+    "cluster_id": 5,
+    "size": 6,
+    "label": "Frescoes of San Rocco Church",
+    "description": "A series of fragmented medieval and Renaissance mural paintings located inside the Church of San Rocco in Lugano, depicting religious figures and historical donor inscriptions.",
+    "search_prompt": "medieval religious fresco wall fragments with saints, halos, and latin text",
+    "confidence": 0.95,
+    "representative_photos": [
+      "foto/cattedralesanlorenzo/1812530438310053544_01.jpg",
+      "foto/cattedralesanlorenzo/1812528956797982159_01.jpg",
+      "foto/cattedralesanlorenzo/1714800810956035984_01.jpg",
+      "foto/cattedralesanlorenzo/1714801178704162779_01.jpg",
+      "foto/cattedralesanlorenzo/1812528305363845586_01.jpg",
+      "foto/cattedralesanlorenzo/1656555466551056670_01.jpg"
+    ]
+  },
+  {
+    "cluster_id": 6,
+    "size": 6,
+    "label": "Lugano Old Town Streets",
+    "description": "These images capture the characteristic narrow cobblestone streets and colorful Mediterranean-style buildings found in the historic center of Lugano. The views highlight the iconic sloped pedestrian paths, traditional architecture, and storefronts typical of the city's old town.",
+    "search_prompt": "narrow cobblestone street in Lugano historic center with yellow and orange buildings on a slope",
+    "confidence": 0.95,
+    "representative_photos": [
+      "foto/cattedralesanlorenzo/2163098884028407802_01.jpg",
+      "foto/cattedralesanlorenzo/3195269918181051339_01.jpg",
+      "foto/cattedralesanlorenzo/2824233218092128551_01.jpg",
+      "foto/cattedralesanlorenzo/1907578110540686995_01.jpg",
+      "foto/cattedralesanlorenzo/1941318548003320825_01.jpg",
+      "foto/cattedralesanlorenzo/3188853874416113815_01.jpg"
+    ]
+  },
+  {
+    "cluster_id": 0,
+    "size": 6,
+    "label": "Saint Joseph mosaic fountain",
+    "description": "A rustic stone fountain in Parco Ciani featuring a stylized mosaic of Saint Joseph holding the infant Jesus, set against a curved stone wall.",
+    "search_prompt": "stone water fountain with a rectangular basin and a mosaic of a saint on a curved stone wall",
+    "confidence": 1.0,
+    "representative_photos": [
+      "foto/cattedralesanlorenzo/3084597960712695365_01.jpg",
+      "foto/cattedralesanlorenzo/3169401212171828560_01.jpg",
+      "foto/cattedralesanlorenzo/2580532675403003381_01.jpg",
+      "foto/cattedralesanlorenzo/2819567563139225849_01.jpg",
+      "foto/cattedralesanlorenzo/2897705541630204302_01.jpg",
+      "foto/cattedralesanlorenzo/3046187322294540389_01.jpg"
+    ]
+  }
+]

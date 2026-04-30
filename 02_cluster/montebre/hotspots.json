@@ -1,0 +1,440 @@
+[
+  {
+    "cluster_id": 23,
+    "size": 290,
+    "label": "View of Monte San Salvatore",
+    "description": "An elevated panoramic view of Lake Lugano featuring the iconic sugarloaf-shaped Monte San Salvatore and the Melide causeway.",
+    "search_prompt": "scenic aerial view of Lake Lugano with Monte San Salvatore mountain",
+    "confidence": 1.0,
+    "representative_photos": [
+      "foto/montebre/3161139185850953092_01.jpg",
+      "foto/montebre/3188756106698810424_01.jpg",
+      "foto/montebre/3142461919133412266_01.jpg",
+      "foto/montebre/2744946793546086971_01.jpg",
+      "foto/montebre/3135988470017813480_01.jpg",
+      "foto/montebre/3159683113621193918_01.jpg",
+      "foto/montebre/3411456126992273276_01.jpg",
+      "foto/montebre/3081556558709209876_01.jpg"
+    ]
+  },
+  {
+    "cluster_id": 20,
+    "size": 158,
+    "label": "Wrought-iron gate in Parco Ciani",
+    "description": "An ornate wrought-iron gate flanked by stone pillars, offering a picturesque view of Lake Lugano and the surrounding mountains.",
+    "search_prompt": "wrought iron gate between stone pillars with spherical finials overlooking lake and mountains",
+    "confidence": 1.0,
+    "representative_photos": [
+      "foto/montebre/3679484590019463105_01.jpg",
+      "foto/montebre/3726367727767285149_01.jpg",
+      "foto/montebre/3722351563214988639_01.jpg",
+      "foto/montebre/3169202259656676375_01.jpg",
+      "foto/montebre/3454954372377114959_01.jpg",
+      "foto/montebre/3678309015713264374_01.jpg",
+      "foto/montebre/3684615018338502435_01.jpg",
+      "foto/montebre/3411874040354217062_01.jpg"
+    ]
+  },
+  {
+    "cluster_id": 24,
+    "size": 63,
+    "label": "Monte San Salvatore from Parco Ciani",
+    "description": "The distinctive cone-shaped Monte San Salvatore mountain dominates the horizon across Lake Lugano. These views are captured from the lakeside promenade of Parco Ciani, typically featuring vibrant flower beds in the foreground.",
+    "search_prompt": "conical green mountain across a large blue lake with colorful lakeside flower beds in the foreground",
+    "confidence": 1.0,
+    "representative_photos": [
+      "foto/montebre/3705697681424838008_01.jpg",
+      "foto/montebre/3697136673368596112_01.jpg",
+      "foto/montebre/3380927961798942196_01.jpg",
+      "foto/montebre/3138888883050659455_01.jpg",
+      "foto/montebre/3213200035816906915_01.jpg",
+      "foto/montebre/3151565288143055916_01.jpg",
+      "foto/montebre/3169867347774581522_01.jpg",
+      "foto/montebre/3668672482468227317_01.jpg"
+    ]
+  },
+  {
+    "cluster_id": 15,
+    "size": 34,
+    "label": "Sfera sculpture by Helidon Xhixha",
+    "description": "A large, mirror-polished stainless steel sphere with a jagged, crystalline cutout, located in Parco Ciani overlooking Lake Lugano.",
+    "search_prompt": "large reflective stainless steel sphere with a jagged crystalline indentation",
+    "confidence": 1.0,
+    "representative_photos": [
+      "foto/montebre/3222902808423116364_01.jpg",
+      "foto/montebre/3499142214054216598_01.jpg",
+      "foto/montebre/3701727462795198938_01.jpg",
+      "foto/montebre/3489067179980372909_01.jpg",
+      "foto/montebre/3339513303824304537_01.jpg",
+      "foto/montebre/3279354167166130377_01.jpg",
+      "foto/montebre/3242425931862826220_01.jpg",
+      "foto/montebre/3533836799563898642_01.jpg"
+    ]
+  },
+  {
+    "cluster_id": 7,
+    "size": 18,
+    "label": "Live music performance",
+    "description": "Musicians and bands performing on an outdoor stage under vibrant concert lighting during a festival.",
+    "search_prompt": "a musician or band performing on a stage with colorful spotlights",
+    "confidence": 1.0,
+    "representative_photos": [
+      "foto/montebre/3221292500092656884_01.jpg",
+      "foto/montebre/3221292509384789008_01.jpg",
+      "foto/montebre/3410011700281693574_01.jpg",
+      "foto/montebre/3680436863592719710_01.jpg",
+      "foto/montebre/3747443264417805218_01.jpg",
+      "foto/montebre/3221292550391508982_01.jpg",
+      "foto/montebre/3721659663377772847_01.jpg",
+      "foto/montebre/3219843156945556069_01.jpg"
+    ]
+  },
+  {
+    "cluster_id": 19,
+    "size": 18,
+    "label": "Poppies at Parco Ciani",
+    "description": "White and yellow Iceland poppies in the foreground with views across Lake Lugano toward Monte San Salvatore.",
+    "search_prompt": "field of white poppies overlooking a lake with a prominent pyramid-shaped mountain in the background",
+    "confidence": 1.0,
+    "representative_photos": [
+      "foto/montebre/3595326649830453270_01.jpg",
+      "foto/montebre/3591239181960531183_01.jpg",
+      "foto/montebre/3632449633893312756_01.jpg",
+      "foto/montebre/3607651065599829861_01.jpg",
+      "foto/montebre/3617442763859690479_01.jpg",
+      "foto/montebre/3604729476542370094_01.jpg",
+      "foto/montebre/3602672527743508930_01.jpg",
+      "foto/montebre/3602673918390206451_01.jpg"
+    ]
+  },
+  {
+    "cluster_id": 3,
+    "size": 17,
+    "label": "Modified BMW E36 cars",
+    "description": "A collection of customized BMW 3 Series (E36 generation) vehicles, including coupe, touring, and convertible variants, parked at a scenic mountain pass location.",
+    "search_prompt": "modified BMW E36 car parked in a mountain pass parking lot",
+    "confidence": 1.0,
+    "representative_photos": [
+      "foto/montebre/3387294393890900344_01.jpg",
+      "foto/montebre/3383942402938539205_01.jpg",
+      "foto/montebre/3389753274890048513_01.jpg",
+      "foto/montebre/3387577908306060873_01.jpg",
+      "foto/montebre/3386567945221297656_01.jpg",
+      "foto/montebre/3385254252104064029_01.jpg",
+      "foto/montebre/3386137895093497315_01.jpg",
+      "foto/montebre/3384623412166125727_01.jpg"
+    ]
+  },
+  {
+    "cluster_id": 1,
+    "size": 16,
+    "label": "Outdoor community painting workshop",
+    "description": "A group of people, primarily youth, participating in a collaborative painting project on a large scale in an outdoor park setting. They are using brushes, paints, and markers to create a communal artwork on long sheets of paper.",
+    "search_prompt": "group of people painting together on a long communal canvas outdoors in a park",
+    "confidence": 0.95,
+    "representative_photos": [
+      "foto/montebre/3188069086474453750_01.jpg",
+      "foto/montebre/3188069137091359902_01.jpg",
+      "foto/montebre/3188069138878151323_01.jpg",
+      "foto/montebre/3194617057542276940_01.jpg",
+      "foto/montebre/3188222436889163144_01.jpg",
+      "foto/montebre/3188222484955834313_01.jpg",
+      "foto/montebre/3188222486398679267_01.jpg",
+      "foto/montebre/3656485416782391791_01.jpg"
+    ]
+  },
+  {
+    "cluster_id": 18,
+    "size": 16,
+    "label": "Monte San Salvatore mountain view",
+    "description": "A scenic view of the cone-shaped Monte San Salvatore mountain across Lake Lugano, framed by colorful spring flower beds in Parco Ciani.",
+    "search_prompt": "Monte San Salvatore mountain across Lake Lugano with colorful tulips and daisies in the foreground",
+    "confidence": 1.0,
+    "representative_photos": [
+      "foto/montebre/3332112272837500692_01.jpg",
+      "foto/montebre/3349806580485883769_01.jpg",
+      "foto/montebre/3330247920128069241_01.jpg",
+      "foto/montebre/3443393728158783026_01.jpg",
+      "foto/montebre/3347775583230896001_01.jpg",
+      "foto/montebre/3343989007229152725_01.jpg",
+      "foto/montebre/3340455909694808281_01.jpg",
+      "foto/montebre/3331042044498327015_01.jpg"
+    ]
+  },
+  {
+    "cluster_id": 4,
+    "size": 16,
+    "label": "BMW E36 front wheel profile",
+    "description": "A series of identical compositions featuring the front wheel, fender, and headlight of different BMW E36 cars with a Swiss alpine background.",
+    "search_prompt": "front wheel and fender of a BMW E36 car, mountain landscape background",
+    "confidence": 1.0,
+    "representative_photos": [
+      "foto/montebre/3387372591464438528_01.jpg",
+      "foto/montebre/3385059150020153380_01.jpg",
+      "foto/montebre/3386617546909168217_01.jpg",
+      "foto/montebre/3389009921412095336_01.jpg",
+      "foto/montebre/3391126689995699514_01.jpg",
+      "foto/montebre/3386015263786518706_01.jpg",
+      "foto/montebre/3387971894505949604_01.jpg",
+      "foto/montebre/3390310870990562033_01.jpg"
+    ]
+  },
+  {
+    "cluster_id": 2,
+    "size": 16,
+    "label": "BMW E36 rear view",
+    "description": "A series of photos capturing the rear profile of various BMW 3-series (E36) models, including coupes and convertibles, parked at a scenic mountain location.",
+    "search_prompt": "rear center view of a BMW E36 car parked against a grassy mountain slope",
+    "confidence": 1.0,
+    "representative_photos": [
+      "foto/montebre/3385146399009116089_01.jpg",
+      "foto/montebre/3385357679967944658_01.jpg",
+      "foto/montebre/3393386601685636441_01.jpg",
+      "foto/montebre/3387461145887084923_01.jpg",
+      "foto/montebre/3391731432497488551_01.jpg",
+      "foto/montebre/3390474375932814687_01.jpg",
+      "foto/montebre/3385896379444021447_01.jpg",
+      "foto/montebre/3386529122340695725_01.jpg"
+    ]
+  },
+  {
+    "cluster_id": 22,
+    "size": 15,
+    "label": "Cloud-pruned tree overlooking Lake Lugano",
+    "description": "A Niwaki-style Japanese cypress tree in Parco Ciani, positioned in front of a view of Lake Lugano and Monte San Salvatore.",
+    "search_prompt": "a cloud-pruned tree with spherical foliage clumps in front of a large lake and a conical green mountain",
+    "confidence": 1.0,
+    "representative_photos": [
+      "foto/montebre/3139684671418443046_01.jpg",
+      "foto/montebre/3411881086013351714_01.jpg",
+      "foto/montebre/3665597586648440938_01.jpg",
+      "foto/montebre/3408469977310969509_01.jpg",
+      "foto/montebre/3612224241920259432_01.jpg",
+      "foto/montebre/3244849124400592213_01.jpg",
+      "foto/montebre/3694011694565228593_01.jpg",
+      "foto/montebre/3280991321836327319_01.jpg"
+    ]
+  },
+  {
+    "cluster_id": 12,
+    "size": 13,
+    "label": "Villa Ciani in Lugano",
+    "description": "A neoclassical peach-colored villa featuring a distinctive green-domed cupola, situated within the manicured gardens of Parco Ciani.",
+    "search_prompt": "neoclassical peach-colored building with a green-domed cupola and garden foreground",
+    "confidence": 1.0,
+    "representative_photos": [
+      "foto/montebre/3331041712267373582_01.jpg",
+      "foto/montebre/3432084782714034658_01.jpg",
+      "foto/montebre/3188968785644351915_01.jpg",
+      "foto/montebre/3556047113524719498_01.jpg",
+      "foto/montebre/3683901254165227127_01.jpg",
+      "foto/montebre/3699156068298001429_01.jpg",
+      "foto/montebre/3683276848305856038_01.jpg",
+      "foto/montebre/3440082837686609778_01.jpg"
+    ]
+  },
+  {
+    "cluster_id": 16,
+    "size": 13,
+    "label": "Digital Nomad metal sculpture",
+    "description": "A contemporary sculpture in Parco Ciani depicting a person sitting cross-legged while using a laptop, constructed from layered metal plates.",
+    "search_prompt": "layered metal sculpture of a person using a laptop",
+    "confidence": 1.0,
+    "representative_photos": [
+      "foto/montebre/3487563064231425770_01.jpg",
+      "foto/montebre/3578815851970988992_01.jpg",
+      "foto/montebre/3821703853247354291_01.jpg",
+      "foto/montebre/3664277646140787478_01.jpg",
+      "foto/montebre/3591877206683761897_01.jpg",
+      "foto/montebre/3598225267425209964_01.jpg",
+      "foto/montebre/3706045149698590689_01.jpg",
+      "foto/montebre/3497429820155133473_01.jpg"
+    ]
+  },
+  {
+    "cluster_id": 5,
+    "size": 11,
+    "label": "Event posters for Parco Ciani",
+    "description": "Graphic promotional materials and posters for various cultural events, festivals, and community activities hosted within Parco Ciani in Lugano.",
+    "search_prompt": "graphic design posters with 'Parco Ciani' text and colorful backgrounds",
+    "confidence": 1.0,
+    "representative_photos": [
+      "foto/montebre/3149506616726276893_01.jpg",
+      "foto/montebre/3175732976363406934_01.jpg",
+      "foto/montebre/3143002584876602285_01.jpg",
+      "foto/montebre/3438078663540877029_01.jpg",
+      "foto/montebre/3602564042271923096_01.jpg",
+      "foto/montebre/3187185817213577131_01.jpg",
+      "foto/montebre/3184625458242485223_01.jpg",
+      "foto/montebre/3587300815069916176_01.jpg"
+    ]
+  },
+  {
+    "cluster_id": 11,
+    "size": 10,
+    "label": "Monte San Salvatore above fog",
+    "description": "The photos depict the iconic peak of Monte San Salvatore rising above a dense sea of clouds in the Lugano region.",
+    "search_prompt": "a mountain peak with a small building and antenna on top emerging from a sea of white clouds",
+    "confidence": 1.0,
+    "representative_photos": [
+      "foto/montebre/3576616937757874459_01.jpg",
+      "foto/montebre/3576618344141632239_01.jpg",
+      "foto/montebre/3791941866028299635_01.jpg",
+      "foto/montebre/3009710343802396212_01.jpg",
+      "foto/montebre/3576616046896246344_01.jpg",
+      "foto/montebre/3791942277036549244_01.jpg",
+      "foto/montebre/3791941419972475331_01.jpg",
+      "foto/montebre/3010477219197641490_01.jpg"
+    ]
+  },
+  {
+    "cluster_id": 10,
+    "size": 9,
+    "label": "Festival Info Point shipping container",
+    "description": "A red shipping container repurposed as an information booth for the LongLake Festival in Parco Ciani. It is surrounded by lawn areas with blue deckchairs, umbrellas, and string lights.",
+    "search_prompt": "red shipping container with 'FESTIVAL INFO POINT' text and blue deckchairs on grass",
+    "confidence": 1.0,
+    "representative_photos": [
+      "foto/montebre/3148016943793358636_01.jpg",
+      "foto/montebre/3148876201216797359_01.jpg",
+      "foto/montebre/3152654072032999599_01.jpg",
+      "foto/montebre/3149492921711319770_01.jpg",
+      "foto/montebre/3152505358245087535_01.jpg",
+      "foto/montebre/3152511019817232019_01.jpg",
+      "foto/montebre/3174136313580479564_01.jpg",
+      "foto/montebre/3151666513618284339_01.jpg"
+    ]
+  },
+  {
+    "cluster_id": 9,
+    "size": 7,
+    "label": "Historic alleys of Gandria",
+    "description": "Picturesque cobblestone streets and traditional stone masonry buildings in the village of Gandria, featuring a notable bronze statue of a woman.",
+    "search_prompt": "narrow cobblestone street with stone houses and a bronze statue of a woman",
+    "confidence": 1.0,
+    "representative_photos": [
+      "foto/montebre/3078798470919637724_01.jpg",
+      "foto/montebre/3235885376481192987_01.jpg",
+      "foto/montebre/3191142649057372986_01.jpg",
+      "foto/montebre/3067761401325534919_01.jpg",
+      "foto/montebre/3604021473152388343_01.jpg",
+      "foto/montebre/3754835734730438974_01.jpg",
+      "foto/montebre/3235363472249768000_01.jpg"
+    ]
+  },
+  {
+    "cluster_id": 0,
+    "size": 7,
+    "label": "Monte Brè Funicular railway",
+    "description": "A historic red cable railway in Lugano that ascends Monte Brè, featuring vintage-style carriages with wooden seating. It provides a scenic transport link between the city and panoramic viewpoints overlooking Lake Lugano.",
+    "search_prompt": "red funicular train car on steep mountain tracks",
+    "confidence": 1.0,
+    "representative_photos": [
+      "foto/montebre/3077354691776326443_01.jpg",
+      "foto/montebre/3709941812803948803_01.jpg",
+      "foto/montebre/3333663628027391295_01.jpg",
+      "foto/montebre/3738328141845530110_01.jpg",
+      "foto/montebre/3785253478378263895_01.jpg",
+      "foto/montebre/3174413249365148799_01.jpg",
+      "foto/montebre/3764073770877751842_01.jpg"
+    ]
+  },
+  {
+    "cluster_id": 13,
+    "size": 7,
+    "label": "View of Monte Brè",
+    "description": "The silhouette of Monte Brè with residential buildings scattered across its slopes, viewed from Lugano under various lighting and cloud conditions.",
+    "search_prompt": "silhouette of Monte Brè mountain with houses on its side under a cloudy sky",
+    "confidence": 1.0,
+    "representative_photos": [
+      "foto/montebre/3213182049468272156_01.jpg",
+      "foto/montebre/3117927475661194673_01.jpg",
+      "foto/montebre/3157857993919793303_01.jpg",
+      "foto/montebre/3716927377789170065_01.jpg",
+      "foto/montebre/3081409581574099801_01.jpg",
+      "foto/montebre/3671653647562282551_01.jpg",
+      "foto/montebre/3535017916081847540_01.jpg"
+    ]
+  },
+  {
+    "cluster_id": 8,
+    "size": 7,
+    "label": "Iconic red park benches",
+    "description": "Distinctive bright red slatted benches found throughout Parco Ciani in Lugano, frequently used as a resting spot and photo backdrop.",
+    "search_prompt": "bright red slatted park bench",
+    "confidence": 0.8,
+    "representative_photos": [
+      "foto/montebre/3110718217177505080_01.jpg",
+      "foto/montebre/3573724713810217569_01.jpg",
+      "foto/montebre/3271263262317422643_01.jpg",
+      "foto/montebre/3149055206805043225_01.jpg",
+      "foto/montebre/3432087637164569159_01.jpg",
+      "foto/montebre/3208213336581785498_01.jpg",
+      "foto/montebre/3490360083188249354_01.jpg"
+    ]
+  },
+  {
+    "cluster_id": 21,
+    "size": 6,
+    "label": "Parco Ciani lakeside flower beds",
+    "description": "Vibrant flower beds at the edge of Parco Ciani in Lugano, overlooking Lake Lugano with Monte San Salvatore in the background.",
+    "search_prompt": "vibrant flower beds along a lakeside promenade with a prominent mountain peak in the background",
+    "confidence": 1.0,
+    "representative_photos": [
+      "foto/montebre/3142538868355683668_01.jpg",
+      "foto/montebre/3171307425494640673_01.jpg",
+      "foto/montebre/3152326883730465993_01.jpg",
+      "foto/montebre/3230207813429194586_01.jpg",
+      "foto/montebre/3151334999368672444_01.jpg",
+      "foto/montebre/3186564715281863986_01.jpg"
+    ]
+  },
+  {
+    "cluster_id": 17,
+    "size": 6,
+    "label": "Statue of Dying Socrates",
+    "description": "A white marble sculpture by Mark Antokolsky depicting the philosopher Socrates in his final moments, slumped in a seated position. It is a prominent landmark located within Parco Ciani in Lugano, Switzerland.",
+    "search_prompt": "white marble statue of an elderly bearded man sitting slumped in a chair outdoors",
+    "confidence": 1.0,
+    "representative_photos": [
+      "foto/montebre/3673693542304203793_01.jpg",
+      "foto/montebre/3499143957777306957_01.jpg",
+      "foto/montebre/3644567600767776997_01.jpg",
+      "foto/montebre/3189002079552502672_01.jpg",
+      "foto/montebre/3747758861038980113_01.jpg",
+      "foto/montebre/3489282321074694662_01.jpg"
+    ]
+  },
+  {
+    "cluster_id": 14,
+    "size": 6,
+    "label": "Lake Lugano and mountain views",
+    "description": "Portraits of visitors featuring the iconic scenic backdrop of Lake Lugano and its surrounding mountains from Parco Ciani.",
+    "search_prompt": "scenic view of Lake Lugano with mountains and park greenery in the background",
+    "confidence": 0.85,
+    "representative_photos": [
+      "foto/montebre/3605018124501025551_01.jpg",
+      "foto/montebre/3605018337286417868_01.jpg",
+      "foto/montebre/3605018659996154210_01.jpg",
+      "foto/montebre/3548455868468113775_01.jpg",
+      "foto/montebre/3614394820698141738_01.jpg",
+      "foto/montebre/3569964790866486291_01.jpg"
+    ]
+  },
+  {
+    "cluster_id": 6,
+    "size": 6,
+    "label": "Lagoon Punk Rock Fest posters",
+    "description": "A collection of promotional posters and schedule flyers for the Lagoon Punk Rock Fest 2025, featuring stylized monster illustrations.",
+    "search_prompt": "cartoon style punk rock festival promotional posters with green sea monsters and band lineups",
+    "confidence": 1.0,
+    "representative_photos": [
+      "foto/montebre/3704694346972655805_01.jpg",
+      "foto/montebre/3704695180305325078_01.jpg",
+      "foto/montebre/3706887380235989448_01.jpg",
+      "foto/montebre/3663433848730032291_01.jpg",
+      "foto/montebre/3861194855842369473_01.jpg",
+      "foto/montebre/3650999679970545494_01.jpg"
+    ]
+  }
+]
