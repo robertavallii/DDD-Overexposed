@@ -1,66 +1,18 @@
 ### DDD-2025-GroupX
 <h5> Lucia Ciapessoni - Drini Bejtaga - Walter De Nicola - Roberta Valli - Elia Miglio </h5>
-[Link demo]()<br>
 
-# overtourism
-![Overview](/)
+# Overexposed
 
-### Video Demo
-![Demo](/)
+### ABSTRACT
 
+Overexposed examines how social media–driven tourism has transformed the city of Lugano into a set of highly represented locations, where the value of a place is increasingly linked to its visibility on digital platforms. This data visualization project explores the tension between the physical reality of Lugano and its digital representation. The interface transitions from a density map of the most frequently posted locations to an immersive 3D and 360° environment, allowing users to explore clusters of images and geolocated data. The aim is to question the stereotypical representation of the city and to highlight how algorithms and social dynamics influence the definition of points of interest and the collective perception of urban space.
 
-<video width="600" controls>
-  <source src="" type="video/mp4">
-</video>
-
-### Abstract (300 charachters)
-
-### Protocol Diagram
-
-![Protocol](/docs/06_flowchart.jpg)
-
-### What topic does the project address?
-
-
-## What Data Have You Considered?
-
-
-### Images From Films
-
-### AI-Generated Alien Images
-
-### Structure of the Final Dataset (CSV)
-
-**Fields included in the CSV:**
-
-
-![Dataset](/docs/07_dataset.jpg)
- 
-
-### Morphological Parts Dataset
-
-### Visualisation
-
-![Overview](/)
-
-![Decomposition - Body](/)
-
-![Decomposition - Grid](/)
-
-
-#### Link to the dataset
-[Dataset]()
-
-### What does the visualisation show?
-
-
-![example img](/)
+![data-viz](/Volumes/T7/_repo/DDD-Overexposed/img_documentazione/img_0.png)
+![data-viz](/Volumes/T7/_repo/DDD-Overexposed/img_documentazione/img_1.png)
+![data-viz](/Volumes/T7/_repo/DDD-Overexposed/img_documentazione/img_2.png)
 
 
 
-![example img](/)
+### CALL FOR CITIZEN
 
-
-![Alien TV example]()
-
-
+Explore the interface and engage with the debate. Navigate the most shared locations and reflect on how social media constructs the image of Lugano. Question what is visible, what is overlooked, and how these dynamics shape the collective perception of the city.**
