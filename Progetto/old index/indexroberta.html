@@ -1,0 +1,1118 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>De-Turistificazione</title>
+
+  <script src="https://api.mapbox.com/mapbox-gl-js/v3.9.4/mapbox-gl.js"></script>
+  <link href="https://api.mapbox.com/mapbox-gl-js/v3.9.4/mapbox-gl.css" rel="stylesheet" />
+
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=DM+Sans:wght@300;400;500;700&family=Space+Mono:wght@400;700&display=swap');
+
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    html, body { width: 100%; height: 100%; overflow: hidden; background: #0a0a0a; }
+    body { font-family: 'DM Sans', sans-serif; color: #e0e0e0; }
+
+    #map { position: absolute; inset: 0; }
+
+    /* Hide Mapbox defaults we don't want */
+    .mapboxgl-ctrl-bottom-left { display: none !important; }
+
+    /* ─── Header ─── */
+    #header {
+      position: absolute; top: 0; left: 0; right: 0;
+      padding: 20px 28px;
+      background: linear-gradient(to bottom, rgba(0,0,0,0.7), transparent);
+      z-index: 10; pointer-events: none;
+    }
+    #header h1 {
+      font-family: 'Space Mono', monospace;
+      font-size: 14px; font-weight: 700;
+      letter-spacing: 3px; text-transform: uppercase; color: #fff;
+      margin-bottom: 4px;
+    }
+    #header .subtitle { font-size: 11px; color: rgba(255,255,255,0.5); letter-spacing: 1px; }
+
+    /* ─── Zoom indicator ─── */
+    #zoom-indicator {
+      position: absolute; top: 20px; right: 28px;
+      font-family: 'Space Mono', monospace; font-size: 10px;
+      letter-spacing: 2px; color: rgba(255,255,255,0.3);
+      z-index: 10; pointer-events: none;
+    }
+
+    /* ─── Info panel (bottom-left) ─── */
+    #panel {
+      position: absolute; bottom: 40px; left: 28px;
+      max-width: 340px;
+      background: rgba(10,10,10,0.88); backdrop-filter: blur(20px);
+      border: 1px solid rgba(255,255,255,0.08); border-radius: 12px;
+      padding: 20px; z-index: 10;
+      opacity: 0; transform: translateY(12px);
+      transition: opacity 0.3s, transform 0.3s;
+      pointer-events: none;
+    }
+    #panel.visible { opacity: 1; transform: translateY(0); pointer-events: auto; }
+    #panel .label {
+      font-family: 'Space Mono', monospace; font-size: 12px; font-weight: 700;
+      letter-spacing: 2px; text-transform: uppercase; color: #fff; margin-bottom: 8px;
+    }
+    #panel .description { font-size: 13px; line-height: 1.5; color: rgba(255,255,255,0.6); }
+    #panel .meta {
+      margin-top: 12px; font-family: 'Space Mono', monospace;
+      font-size: 10px; color: rgba(255,255,255,0.3); letter-spacing: 1px;
+    }
+
+    /* ─── Nav buttons ─── */
+    #nav {
+      position: absolute; bottom: 40px; right: 28px; z-index: 10;
+      display: flex; gap: 8px;
+    }
+    #nav button {
+      font-family: 'Space Mono', monospace; font-size: 10px;
+      letter-spacing: 1px; text-transform: uppercase;
+      background: rgba(255,255,255,0.1); color: rgba(255,255,255,0.6);
+      border: 1px solid rgba(255,255,255,0.15); border-radius: 6px;
+      padding: 8px 14px; cursor: pointer; transition: all 0.2s;
+    }
+    #nav button:hover { background: rgba(255,255,255,0.2); color: #fff; }
+    #nav button.active { color: #fff; border-color: rgba(255,255,255,0.5); background: rgba(255,255,255,0.18); }
+
+    #view-toggle {
+      background: rgba(255,255,255,0.08);
+      border-color: rgba(120, 90, 255, 0.35);
+      color: #d8d8ff;
+      font-size: 11px;
+      letter-spacing: 1.5px;
+      border-radius: 999px;
+      padding: 8px 16px;
+      margin-top: 8px;
+      align-self: flex-end;
+      transition: background 0.2s, color 0.2s, transform 0.2s;
+    }
+    #view-toggle:hover {
+      background: rgba(120, 90, 255, 0.18);
+      color: #fff;
+      transform: translateY(-1px);
+    }
+
+    /* ─── Cluster gallery side panel ─── */
+    #photo-detail {
+      position: fixed; top: 0; right: 0; bottom: 0; width: 100vw;
+      background: rgba(0,0,0,0.18); backdrop-filter: blur(4px);
+      border-left: none;
+      z-index: 400; transform: translateX(100%);
+      transition: transform 0.35s cubic-bezier(0.4,0,0.2,1);
+      overflow: hidden;
+    }
+    #photo-detail.open { transform: translateX(0); }
+    #photo-detail .pd-close {
+      position: fixed; top: 0; left: 0; right: 0; display: flex; justify-content: flex-end;
+      padding: 16px 20px 8px;
+      background: linear-gradient(to bottom, rgba(0,0,0,0.52) 0%, rgba(0,0,0,0.2) 62%, rgba(0,0,0,0) 100%);
+      backdrop-filter: blur(6px);
+      z-index: 10;
+      pointer-events: none;
+    }
+    #photo-detail .pd-close button {
+      background: rgba(255,255,255,0.08); border: 1px solid rgba(255,255,255,0.12);
+      color: rgba(255,255,255,0.5); font-family: 'Space Mono', monospace;
+      font-size: 10px; letter-spacing: 1px; padding: 6px 12px;
+      cursor: pointer; border-radius: 4px; transition: all 0.2s;
+      pointer-events: auto;
+    }
+    #photo-detail .pd-close button:hover { background: rgba(255,255,255,0.15); color: #fff; }
+    #photo-detail .pd-body {
+      padding: 86px 20px 24px;
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+      gap: 20px;
+      height: 100vh;
+    }
+    #photo-detail .pd-left,
+    #photo-detail .pd-right { min-width: 0; min-height: 0; }
+    #photo-detail .pd-left {
+      display: flex;
+      flex-direction: column;
+      overflow: hidden;
+    }
+    #photo-detail .pd-right {
+      display: flex;
+      flex-direction: column;
+      overflow: hidden;
+    }
+    #photo-detail .pd-headline {
+      font-family: 'Space Mono', monospace; font-size: 11px;
+      letter-spacing: 2px; text-transform: uppercase; color: rgba(255,255,255,0.36);
+      margin-bottom: 8px;
+    }
+    #photo-detail .pd-title { font-size: 20px; font-weight: 700; color: #fff; }
+    #photo-detail .pd-subtitle { font-size: 13px; color: rgba(255,255,255,0.55); margin-top: 2px; }
+    #photo-detail .pd-grid {
+      margin-top: 16px;
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: 8px;
+      flex: 1;
+      min-height: 0;
+      overflow-y: auto;
+      overflow-x: hidden;
+      align-content: start;
+      padding-right: 4px;
+    }
+    #photo-detail .pd-grid-item {
+      display: flex;
+      flex-direction: column;
+      background: rgba(255,255,255,0.02);
+      border: 1px solid rgba(255,255,255,0.06);
+    }
+    #photo-detail .pd-grid-item.is-featured {
+      grid-column: 1 / -1;
+    }
+    #photo-detail .pd-grid-item.is-featured img {
+      aspect-ratio: 16 / 9;
+    }
+    #photo-detail .pd-grid-item img {
+      width: 100%;
+      aspect-ratio: 1;
+      object-fit: cover;
+      display: block;
+    }
+    #photo-detail .pd-grid-meta {
+      padding: 8px 8px 9px;
+      display: grid;
+      gap: 3px;
+      background: rgba(0,0,0,0.65);
+    }
+    #photo-detail .pd-meta-user {
+      font-family: 'Space Mono', monospace;
+      font-size: 10px;
+      color: rgba(255,255,255,0.86);
+    }
+    #photo-detail .pd-meta-caption {
+      font-size: 11px;
+      color: rgba(255,255,255,0.72);
+      line-height: 1.25;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+    #photo-detail .pd-meta-place,
+    #photo-detail .pd-meta-date {
+      font-size: 10px;
+      color: rgba(255,255,255,0.48);
+    }
+    #photo-detail .pd-empty {
+      margin-top: 16px;
+      font-size: 13px;
+      color: rgba(255,255,255,0.45);
+    }
+    #photo-detail .pd-sv-wrap {
+      flex: 1;
+      min-height: 0;
+      border: 1px solid rgba(255,255,255,0.08);
+      background: rgba(0,0,0,0.35);
+      position: relative;
+    }
+    #photo-detail .pd-sv-frame {
+      width: 100%;
+      height: 100%;
+      border: 0;
+      display: block;
+    }
+    #photo-detail .pd-sv-fallback {
+      position: absolute;
+      inset: auto 12px 12px 12px;
+      padding: 8px 10px;
+      background: rgba(0,0,0,0.7);
+      border: 1px solid rgba(255,255,255,0.14);
+      font-size: 11px;
+      color: rgba(255,255,255,0.7);
+      pointer-events: none;
+    }
+    #photo-detail .pd-sv-link {
+      color: #9ec7ff;
+      text-decoration: none;
+      pointer-events: auto;
+    }
+    #photo-detail .pd-sv-link:hover { color: #c6ddff; }
+    @media (max-width: 1100px) {
+      #photo-detail .pd-grid { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+    }
+    @media (max-width: 820px) {
+      #photo-detail .pd-body { grid-template-columns: 1fr; }
+      #photo-detail .pd-grid { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+      #photo-detail .pd-grid-item.is-featured {
+        grid-column: 1 / -1;
+      }
+      #photo-detail .pd-sv-wrap,
+      #photo-detail .pd-sv-frame { min-height: 0; }
+    }
+
+    /* ─── Popup for photo thumbnails on map ─── */
+    .mapboxgl-popup-content {
+      background: transparent !important;
+      box-shadow: none !important;
+      padding: 0 !important;
+      border-radius: 0 !important;
+    }
+    .mapboxgl-popup-tip { display: none !important; }
+    .map-photo-thumb {
+      width: 64px; height: 64px; border-radius: 0;
+      object-fit: cover; cursor: pointer;
+      border: none;
+      box-shadow: 0 4px 16px rgba(0,0,0,0.6);
+      transition: transform 0.15s;
+    }
+    .map-photo-thumb:hover {
+      transform: scale(1.15);
+    }
+
+    /* ─── Legend ─── */
+    #legend {
+      position: absolute; bottom: 90px; left: 28px;
+      background: rgba(10,10,10,0.8); backdrop-filter: blur(12px);
+      border: 1px solid rgba(255,255,255,0.06); border-radius: 8px;
+      padding: 12px 16px; z-index: 10;
+      opacity: 0; transition: opacity 0.3s;
+      pointer-events: none;
+    }
+    #legend.visible { opacity: 1; }
+    #legend .legend-title {
+      font-family: 'Space Mono', monospace; font-size: 9px;
+      letter-spacing: 2px; text-transform: uppercase;
+      color: rgba(255,255,255,0.35); margin-bottom: 8px;
+    }
+    #legend .legend-bar {
+      width: 180px; height: 10px; border-radius: 5px;
+      background: linear-gradient(to right, #555, #ffc864, #ff8c32, #e63c28, #c81e64, #7814a0);
+    }
+    #legend .legend-labels {
+      display: flex; justify-content: space-between;
+      font-size: 9px; color: rgba(255,255,255,0.4); margin-top: 4px;
+    }
+  </style>
+</head>
+<body>
+
+<div id="map"></div>
+
+<div id="header">
+  <h1>De-Turistificazione</h1>
+  <div class="subtitle">Mappatura degli hotspot fotografici — Lugano</div>
+</div>
+
+<div id="zoom-indicator"></div>
+
+<div id="panel">
+  <div class="label" id="panel-label"></div>
+  <div class="description" id="panel-desc"></div>
+  <div class="meta" id="panel-meta"></div>
+</div>
+
+<div id="legend">
+  <div class="legend-title">Pressione turistica</div>
+  <div class="legend-bar"></div>
+  <div class="legend-labels"><span>bassa</span><span>alta</span></div>
+</div>
+
+<div id="photo-detail">
+  <div class="pd-close"><button onclick="closeDetail()">✕ CHIUDI</button></div>
+  <div class="pd-body">
+    <aside class="pd-left">
+      <div class="pd-headline">Street View</div>
+      <div class="pd-subtitle" id="pd-sv-subtitle">Vista del luogo selezionato</div>
+      <div class="pd-sv-wrap">
+        <iframe id="pd-streetview" class="pd-sv-frame" src="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+        <div class="pd-sv-fallback">
+          Se non vedi Street View, apri in nuova scheda:
+          <a id="pd-sv-link" class="pd-sv-link" href="#" target="_blank" rel="noopener">Apri su Google Maps</a>
+        </div>
+      </div>
+    </aside>
+    <section class="pd-right">
+      <div class="pd-headline">Cluster</div>
+      <div class="pd-title" id="pd-cluster-title">—</div>
+      <div class="pd-subtitle" id="pd-cluster-subtitle">—</div>
+      <div class="pd-grid" id="pd-grid"></div>
+      <div class="pd-empty" id="pd-empty" style="display:none">Nessuna immagine disponibile per questo cluster.</div>
+    </section>
+  </div>
+</div>
+
+<div id="nav"></div>
+
+<script>
+// ============================================================
+// CONFIG
+// ============================================================
+mapboxgl.accessToken = 'pk.eyJ1Ijoid2FsdGVyZGV4IiwiYSI6ImNtb2lpcnNhMzAzMmwycXIwYjM1ZmpvZXgifQ.annhzZwu_2Sbs02XVPjQRw'; // ← inserisci qui il tuo token
+const DATA_URL = 'data.json';
+const PHOTO_INFO_URL = 'photo_info.json';
+const IMG_BASE = ''; // prefisso percorso immagini, vuoto se stessa cartella
+const DEFAULT_VIEW_MODE = '3d'; // '3d' or '2d'
+let currentViewMode = DEFAULT_VIEW_MODE;
+
+// Zoom thresholds
+const ZOOM_CITY = 13.5;       // sotto: vista città
+const ZOOM_LOCATION = 15.5;   // sotto: cluster + heatmap, sopra: foto singole
+const ZOOM_PHOTOS = 16.5;     // sopra: marker foto visibili
+const ZOOM_LOCATION_BUTTON = 16.1; // zoom used by location nav buttons
+const ZOOM_THUMBS_START = 16.9; // sotto: niente miniature
+const ZOOM_THUMBS_FULL = 17.6;  // sopra: miniature piene (con cap)
+const INITIAL_ZOOM = ZOOM_CITY + 0.05; // slightly farther, but overlay still visible
+
+// ============================================================
+// STATE
+// ============================================================
+let map = null;
+let appData = null;
+let photoInfo = {};
+let photoPopups = [];
+let selectedDotPopup = null;
+
+// ============================================================
+// HELPERS
+// ============================================================
+function resolveImagePath(path) {
+  if (!path) return '';
+  if (path.startsWith('http') || path.startsWith('data:')) return path;
+  return IMG_BASE ? IMG_BASE.replace(/\/+$/, '') + '/' + path.replace(/^\/+/, '') : path;
+}
+function resolveThumbPath(photoObj) {
+  return resolveImagePath(photoObj.thumb || photoObj.path);
+}
+function extractPhotoId(path) {
+  if (!path) return '';
+  return path.replace(/\\/g, '/').split('/').pop();
+}
+function formatNumber(n) {
+  if (n === '' || n == null) return '—';
+  n = Number(n); if (isNaN(n)) return '—';
+  if (n >= 1e6) return (n/1e6).toFixed(1)+'M';
+  if (n >= 1e3) return (n/1e3).toFixed(1)+'K';
+  return n.toString();
+}
+function formatDate(d) {
+  if (!d) return '—';
+  try { return new Date(d).toLocaleDateString('it-IT',{day:'numeric',month:'long',year:'numeric'}); }
+  catch { return d; }
+}
+
+// ============================================================
+// INIT
+// ============================================================
+async function init() {
+  // Load data
+  const [dataRes, infoRes] = await Promise.all([
+    fetch(DATA_URL),
+    fetch(PHOTO_INFO_URL).catch(() => null),
+  ]);
+  appData = await dataRes.json();
+  if (infoRes?.ok) {
+    photoInfo = await infoRes.json();
+    console.log('Photo info:', Object.keys(photoInfo).length, 'entries');
+  }
+
+  // Build GeoJSON sources
+  buildGeoJSON();
+
+  // Create map
+  map = new mapboxgl.Map({
+    container: 'map',
+    style: 'mapbox://styles/mapbox/satellite-streets-v12',
+    center: [8.960, 46.005],
+    zoom: INITIAL_ZOOM,
+    pitch: currentViewMode === '3d' ? 50 : 0,
+    bearing: currentViewMode === '3d' ? -10 : 0,
+    antialias: true,
+  });
+
+  map.on('load', () => {
+    // 3D terrain source (terrain is enabled only when view mode is 3D)
+    map.addSource('mapbox-dem', {
+      type: 'raster-dem',
+      url: 'mapbox://mapbox.mapbox-terrain-dem-v1',
+      tileSize: 512,
+      maxzoom: 14,
+    });
+    if (currentViewMode === '3d') {
+      map.setTerrain({ source: 'mapbox-dem', exaggeration: 1.2 });
+    }
+
+    // Add data sources and layers
+    addDataLayers();
+    buildNavButtons();
+    updateZoomIndicator();
+    updateViewToggleButton();
+    updateLayerVisibility();
+
+    // Micro intro animation: keep overlay/heatmap visible while giving movement at load
+    map.easeTo({
+      zoom: INITIAL_ZOOM + 0.45,
+      duration: 2200,
+      easing: t => 1 - Math.pow(1 - t, 3),
+      essential: true,
+    });
+  });
+
+  map.on('zoom', () => {
+    updateZoomIndicator();
+    updateLayerVisibility();
+    updatePhotoPopups();
+  });
+
+  map.on('moveend', () => {
+    updatePhotoPopups();
+  });
+}
+
+// ============================================================
+// GEOJSON GENERATION
+// ============================================================
+let allPhotosGeoJSON = null;
+let allClustersGeoJSON = null;
+
+function buildGeoJSON() {
+  const photoFeatures = [];
+  const clusterFeatures = [];
+
+  appData.locations.forEach(loc => {
+    loc.clusters.forEach(cl => {
+      // Cluster centroid feature
+      clusterFeatures.push({
+        type: 'Feature',
+        geometry: { type: 'Point', coordinates: [cl.lng, cl.lat] },
+        properties: {
+          cluster_id: cl.cluster_id,
+          label: cl.label,
+          description: cl.description || '',
+          size: cl.size || 1,
+          cover: cl.cover || '',
+          location_name: loc.name,
+        },
+      });
+
+      // Individual photo features
+      if (cl.photos) {
+        cl.photos.forEach(photo => {
+          photoFeatures.push({
+            type: 'Feature',
+            geometry: { type: 'Point', coordinates: [photo.lng, photo.lat] },
+            properties: {
+              path: photo.path,
+              thumb: photo.thumb || '',
+              cluster_label: cl.label,
+              cluster_desc: cl.description || '',
+              location_name: loc.name,
+              weight: cl.size || 1,
+            },
+          });
+        });
+      }
+    });
+  });
+
+  allPhotosGeoJSON = { type: 'FeatureCollection', features: photoFeatures };
+  allClustersGeoJSON = { type: 'FeatureCollection', features: clusterFeatures };
+  console.log(`GeoJSON: ${photoFeatures.length} photos, ${clusterFeatures.length} clusters`);
+}
+
+// ============================================================
+// MAP LAYERS
+// ============================================================
+function addDataLayers() {
+  // ─── SOURCE: all photo points ───
+  map.addSource('photos', {
+    type: 'geojson',
+    data: allPhotosGeoJSON,
+  });
+
+  // ─── SOURCE: cluster centroids ───
+  map.addSource('clusters', {
+    type: 'geojson',
+    data: allClustersGeoJSON,
+  });
+
+  // ─── LAYER 0: Dark overlay — un poligono mondiale nero sotto la heatmap ───
+  map.addSource('dark-overlay-src', {
+    type: 'geojson',
+    data: {
+      type: 'Feature',
+      geometry: {
+        type: 'Polygon',
+        coordinates: [[[-180,-90],[180,-90],[180,90],[-180,90],[-180,-90]]],
+      },
+    },
+  });
+
+  // Inserisci PRIMA di tutti i symbol/label layer esistenti
+  // così sta sopra al satellite ma sotto alla heatmap
+  const firstSymbol = map.getStyle().layers.find(l => l.type === 'symbol');
+  map.addLayer({
+    id: 'dark-overlay',
+    type: 'fill',
+    source: 'dark-overlay-src',
+    paint: {
+      'fill-color': '#000000',
+      'fill-opacity': [
+        'interpolate', ['linear'], ['zoom'],
+        ZOOM_CITY - 0.5, 0,
+        ZOOM_CITY, 0.6,
+        ZOOM_LOCATION, 0.7,
+        ZOOM_PHOTOS, 0.55,
+        ZOOM_PHOTOS + 1, 0.35,
+      ],
+    },
+  }, firstSymbol ? firstSymbol.id : undefined);
+
+  // ─── LAYER 1: Heatmap (visible at location zoom) ───
+  map.addLayer({
+    id: 'photos-heat',
+    type: 'heatmap',
+    source: 'photos',
+    minzoom: ZOOM_CITY,
+    maxzoom: ZOOM_PHOTOS + 1,
+    paint: {
+      // Weight by cluster size
+      'heatmap-weight': [
+        'interpolate', ['linear'], ['get', 'weight'],
+        1, 0.3,
+        30, 0.6,
+        80, 1,
+      ],
+      // Intensity increases with zoom
+      'heatmap-intensity': [
+        'interpolate', ['linear'], ['zoom'],
+        ZOOM_CITY, 0.3,
+        ZOOM_LOCATION, 0.8,
+        ZOOM_PHOTOS, 1.2,
+      ],
+      // Color ramp: transparent → orange → red → magenta → purple (saturated)
+      'heatmap-color': [
+        'interpolate', ['linear'], ['heatmap-density'],
+        0,    'rgba(0,0,0,0)',
+        0.08, 'rgba(80,60,40,0.4)',
+        0.15, 'rgba(255,180,60,0.6)',
+        0.3,  'rgba(255,120,30,0.75)',
+        0.45, 'rgba(240,50,30,0.85)',
+        0.65, 'rgba(210,20,100,0.92)',
+        0.85, 'rgba(140,15,170,0.96)',
+        1.0,  'rgba(90,10,180,1.0)',
+      ],
+      // Radius increases with zoom
+      'heatmap-radius': [
+        'interpolate', ['linear'], ['zoom'],
+        ZOOM_CITY, 25,
+        ZOOM_LOCATION, 40,
+        ZOOM_PHOTOS, 55,
+      ],
+      // Stay strong through overlay, fade at photo level
+      'heatmap-opacity': [
+        'interpolate', ['linear'], ['zoom'],
+        ZOOM_CITY - 0.5, 0,
+        ZOOM_CITY, 0.85,
+        ZOOM_LOCATION, 0.95,
+        ZOOM_PHOTOS, 0.6,
+        ZOOM_PHOTOS + 0.5, 0,
+      ],
+    },
+  });
+
+  // ─── LAYER 2: Dot density circles (visible at location→photo zoom) ───
+  map.addLayer({
+    id: 'photos-dots',
+    type: 'circle',
+    source: 'photos',
+    minzoom: ZOOM_LOCATION - 0.5,
+    paint: {
+      'circle-radius': [
+        'interpolate', ['linear'], ['zoom'],
+        ZOOM_LOCATION, 4,
+        ZOOM_PHOTOS, 6,
+        ZOOM_PHOTOS + 2, 8,
+      ],
+      'circle-color': [
+        'interpolate', ['linear'], ['get', 'weight'],
+        1,  '#ffcc55',
+        10, '#ff9933',
+        30, '#ee4422',
+        60, '#dd1166',
+        80, '#9918cc',
+      ],
+      'circle-opacity': [
+        'interpolate', ['linear'], ['zoom'],
+        ZOOM_LOCATION - 0.5, 0,
+        ZOOM_LOCATION, 0.6,
+        ZOOM_PHOTOS, 0.8,
+        ZOOM_PHOTOS + 2, 0.4,
+      ],
+      'circle-blur': 0.2,
+    },
+  });
+
+  // ─── LAYER 3: Cluster labels (visible at location zoom) ───
+  map.addLayer({
+    id: 'cluster-labels',
+    type: 'symbol',
+    source: 'clusters',
+    minzoom: ZOOM_CITY + 0.5,
+    maxzoom: ZOOM_PHOTOS + 1,
+    layout: {
+      'text-field': ['get', 'label'],
+      'text-font': ['DIN Pro Medium', 'Arial Unicode MS Regular'],
+      'text-size': [
+        'interpolate', ['linear'], ['zoom'],
+        ZOOM_CITY + 0.5, 10,
+        ZOOM_LOCATION, 13,
+      ],
+      'text-offset': [0, 1.5],
+      'text-anchor': 'top',
+      'text-allow-overlap': false,
+    },
+    paint: {
+      'text-color': '#fff',
+      'text-halo-color': 'rgba(0,0,0,0.8)',
+      'text-halo-width': 2,
+      'text-opacity': [
+        'interpolate', ['linear'], ['zoom'],
+        ZOOM_CITY + 0.5, 0,
+        ZOOM_CITY + 1, 1,
+      ],
+    },
+  });
+
+  // ─── LAYER 4: Cluster count badges ───
+  map.addLayer({
+    id: 'cluster-counts',
+    type: 'symbol',
+    source: 'clusters',
+    minzoom: ZOOM_CITY + 0.5,
+    maxzoom: ZOOM_PHOTOS + 1,
+    layout: {
+      'text-field': ['to-string', ['get', 'size']],
+      'text-font': ['DIN Pro Bold', 'Arial Unicode MS Bold'],
+      'text-size': 14,
+      'text-allow-overlap': true,
+    },
+    paint: {
+      'text-color': '#fff',
+      'text-halo-color': 'rgba(200,30,100,0.9)',
+      'text-halo-width': 8,
+      'text-halo-blur': 4,
+    },
+  });
+
+  function zoomToFeature(e) {
+    if (!e.features?.length) return;
+    const coords = e.lngLat.toArray();
+    const pitch = currentViewMode === '3d' ? 50 : 0;
+    const bearing = currentViewMode === '3d' ? -10 : 0;
+    map.once('moveend', () => {
+      updatePhotoPopups();
+    });
+    map.flyTo({ center: coords, zoom: ZOOM_PHOTOS, pitch, bearing, duration: 1000 });
+    hidePanel(); closeDetail();
+  }
+
+  // ─── Click handler for heatmap and dots at lower zoom ───
+  map.on('click', 'photos-heat', zoomToFeature);
+  map.on('click', 'photos-dots', (e) => {
+    if (!e.features?.length) return;
+    const f = e.features[0];
+    const coords = f.geometry.coordinates.slice();
+
+    if (map.getZoom() < ZOOM_PHOTOS) {
+      map.once('moveend', () => showDotThumbnail(f, coords));
+      zoomToFeature(e);
+      return;
+    }
+
+    showDotThumbnail(f, e.lngLat.toArray());
+  });
+
+  // ─── Click handler for cluster labels ───
+  map.on('click', 'cluster-labels', (e) => {
+    if (!e.features?.length) return;
+    const f = e.features[0];
+    const coords = f.geometry.coordinates;
+    showPanel(f.properties.label, f.properties.description, `${f.properties.size} foto · ${f.properties.location_name}`);
+    map.flyTo({ center: coords, zoom: ZOOM_PHOTOS, pitch: 45, duration: 1500 });
+  });
+
+  // Cursor changes
+  map.on('mouseenter', 'photos-dots', () => map.getCanvas().style.cursor = 'pointer');
+  map.on('mouseleave', 'photos-dots', () => map.getCanvas().style.cursor = '');
+  map.on('mouseenter', 'cluster-labels', () => map.getCanvas().style.cursor = 'pointer');
+  map.on('mouseleave', 'cluster-labels', () => map.getCanvas().style.cursor = '');
+  map.on('click', (e) => {
+    const dotHits = map.queryRenderedFeatures(e.point, { layers: ['photos-dots'] });
+    if (dotHits.length) return;
+    clearSelectedDotPopup();
+  });
+
+  // Hover for cluster info
+  map.on('mouseenter', 'cluster-counts', (e) => {
+    if (!e.features?.length) return;
+    const f = e.features[0].properties;
+    showPanel(f.label, f.description, `${f.size} foto · ${f.location_name}`);
+  });
+  map.on('mouseleave', 'cluster-counts', () => hidePanel());
+}
+
+// ============================================================
+// PHOTO POPUPS (thumbnail images at high zoom)
+// ============================================================
+function clearPhotoPopups() {
+  photoPopups.forEach(p => p.remove());
+  photoPopups = [];
+}
+
+function clearSelectedDotPopup() {
+  if (!selectedDotPopup) return;
+  selectedDotPopup.remove();
+  selectedDotPopup = null;
+}
+
+function showDotThumbnail(feature, lngLatCoords) {
+  if (!feature?.properties) return;
+  clearSelectedDotPopup();
+
+  const props = feature.properties;
+  const img = document.createElement('img');
+  img.className = 'map-photo-thumb';
+  img.src = resolveImagePath(props.thumb || props.path);
+  img.alt = props.cluster_label || 'Foto';
+  img.loading = 'lazy';
+  img.onerror = () => { img.style.display = 'none'; };
+  img.onclick = () => {
+    openClusterGalleryByPhotoPath(props.path);
+    clearSelectedDotPopup();
+  };
+
+  selectedDotPopup = new mapboxgl.Popup({
+    closeButton: false,
+    closeOnClick: true,
+    anchor: 'bottom',
+    offset: 16,
+  })
+    .setLngLat(lngLatCoords)
+    .setDOMContent(img)
+    .addTo(map);
+}
+
+function updatePhotoPopups() {
+  const zoom = map.getZoom();
+
+  // Miniature only above a stricter threshold for visual consistency
+  if (zoom < ZOOM_THUMBS_START) {
+    clearSelectedDotPopup();
+    if (photoPopups.length > 0) clearPhotoPopups();
+    return;
+  }
+
+  const bounds = map.getBounds();
+  clearPhotoPopups();
+
+  const visibleClusters = [];
+  for (const loc of appData.locations) {
+    for (const cl of loc.clusters) {
+      if (!cl.photos) continue;
+      const visiblePhotos = [];
+      for (const photo of cl.photos) {
+        if (photo.lng < bounds.getWest() || photo.lng > bounds.getEast() ||
+            photo.lat < bounds.getSouth() || photo.lat > bounds.getNorth()) continue;
+        visiblePhotos.push(photo);
+      }
+      if (visiblePhotos.length) {
+        visibleClusters.push({ loc, cl, photos: visiblePhotos });
+      }
+    }
+  }
+
+  if (!visibleClusters.length) return;
+
+  const addThumbPopup = (photo, cl, loc) => {
+    const imgSrc = resolveThumbPath(photo);
+    const el = document.createElement('img');
+    el.className = 'map-photo-thumb';
+    el.src = imgSrc;
+    el.loading = 'lazy';
+    el.onerror = () => el.style.display = 'none';
+    el.onclick = () => {
+      openClusterGallery(cl, loc, photo.path);
+    };
+
+    const popup = new mapboxgl.Popup({
+      closeButton: false,
+      closeOnClick: false,
+      anchor: 'center',
+      offset: 0,
+    })
+      .setLngLat([photo.lng, photo.lat])
+      .setDOMContent(el)
+      .addTo(map);
+
+    photoPopups.push(popup);
+  };
+
+  // Transitional zoom: at most one thumbnail per cluster (uniform readability)
+  if (zoom < ZOOM_THUMBS_FULL) {
+    visibleClusters.forEach(({ loc, cl, photos }) => {
+      addThumbPopup(photos[0], cl, loc);
+    });
+    return;
+  }
+
+  // Full thumbnail mode: distribute budget across clusters in round-robin
+  const maxPopups = 60;
+  const buckets = visibleClusters.map(({ loc, cl, photos }) => ({ loc, cl, photos, idx: 0 }));
+  let placed = 0;
+  while (placed < maxPopups) {
+    let advanced = false;
+    for (const b of buckets) {
+      if (placed >= maxPopups) break;
+      if (b.idx >= b.photos.length) continue;
+      addThumbPopup(b.photos[b.idx], b.cl, b.loc);
+      b.idx += 1;
+      placed += 1;
+      advanced = true;
+    }
+    if (!advanced) break;
+  }
+}
+
+// ============================================================
+// LAYER VISIBILITY UPDATES
+// ============================================================
+function updateLayerVisibility() {
+  const zoom = map.getZoom();
+  const legendEl = document.getElementById('legend');
+  legendEl.classList.toggle('visible', zoom > ZOOM_CITY && zoom < ZOOM_PHOTOS + 1);
+
+  // Hide colored dots once thumbnail mode starts
+  if (map.getLayer('photos-dots')) {
+    const dotsVisible = zoom < ZOOM_THUMBS_START;
+    map.setLayoutProperty('photos-dots', 'visibility', dotsVisible ? 'visible' : 'none');
+  }
+}
+
+function updateZoomIndicator() {
+  const zoom = map.getZoom();
+  const el = document.getElementById('zoom-indicator');
+  let level = 'CITTÀ';
+  if (zoom >= ZOOM_PHOTOS) level = 'FOTO';
+  else if (zoom >= ZOOM_CITY) level = 'CLUSTER';
+  el.textContent = `${level} · Z${zoom.toFixed(1)}`;
+}
+
+// ============================================================
+// NAV BUTTONS
+// ============================================================
+function buildNavButtons() {
+  const nav = document.getElementById('nav');
+  nav.innerHTML = '';
+
+  // Overview button
+  const btn0 = document.createElement('button');
+  btn0.textContent = 'Lugano';
+  btn0.onclick = () => {
+    setViewMode(currentViewMode);
+    map.flyTo({ center: [8.960, 46.005], zoom: 13, pitch: currentViewMode === '3d' ? 50 : 0, bearing: currentViewMode === '3d' ? -10 : 0, duration: 2000 });
+    hidePanel(); closeDetail();
+  };
+  nav.appendChild(btn0);
+
+  // Location buttons
+  appData.locations.forEach(loc => {
+    const btn = document.createElement('button');
+    btn.textContent = loc.name;
+    btn.onclick = () => {
+      setViewMode(currentViewMode);
+      map.flyTo({ center: [loc.lng, loc.lat], zoom: ZOOM_LOCATION_BUTTON, pitch: currentViewMode === '3d' ? 50 : 0, bearing: currentViewMode === '3d' ? -10 : 0, duration: 1500 });
+      hidePanel(); closeDetail();
+    };
+    nav.appendChild(btn);
+  });
+
+  buildViewToggle();
+}
+
+function buildViewToggle() {
+  const nav = document.getElementById('nav');
+  const toggle = document.createElement('button');
+  toggle.id = 'view-toggle';
+  toggle.textContent = currentViewMode === '3d' ? 'Passa a 2D' : 'Passa a 3D';
+  toggle.onclick = () => {
+    const nextMode = currentViewMode === '3d' ? '2d' : '3d';
+    setViewMode(nextMode);
+  };
+  nav.appendChild(toggle);
+}
+
+function updateViewToggleButton() {
+  const toggle = document.getElementById('view-toggle');
+  if (!toggle) return;
+  toggle.textContent = currentViewMode === '3d' ? 'Passa a 2D' : 'Passa a 3D';
+}
+
+function setViewMode(mode) {
+  if (!map) return;
+  currentViewMode = mode;
+
+  if (mode === '3d') {
+    map.setTerrain({ source: 'mapbox-dem', exaggeration: 1.2 });
+    map.easeTo({ pitch: 50, bearing: -10, duration: 800 });
+  } else {
+    map.setTerrain(null);
+    map.easeTo({ pitch: 0, bearing: 0, duration: 800 });
+  }
+
+  updateViewToggleButton();
+}
+
+// ============================================================
+// UI
+// ============================================================
+function showPanel(label, desc, meta) {
+  document.getElementById('panel-label').textContent = label || '';
+  document.getElementById('panel-desc').textContent = desc || '';
+  document.getElementById('panel-meta').textContent = meta || '';
+  document.getElementById('panel').classList.add('visible');
+}
+function hidePanel() {
+  document.getElementById('panel').classList.remove('visible');
+}
+
+// ============================================================
+// CLUSTER GALLERY PANEL
+// ============================================================
+function getClusterContextByPhotoPath(photoPath) {
+  const target = extractPhotoId(photoPath);
+  for (const loc of appData.locations) {
+    for (const cl of loc.clusters) {
+      if (!cl.photos) continue;
+      for (const photo of cl.photos) {
+        if (extractPhotoId(photo.path) === target) {
+          return { cluster: cl, location: loc };
+        }
+      }
+    }
+  }
+  return null;
+}
+
+function openClusterGalleryByPhotoPath(photoPath) {
+  const match = getClusterContextByPhotoPath(photoPath);
+  if (!match) return;
+  openClusterGallery(match.cluster, match.location, photoPath);
+}
+
+function buildStreetViewUrls(lat, lng) {
+  const safeLat = Number(lat);
+  const safeLng = Number(lng);
+  if (Number.isNaN(safeLat) || Number.isNaN(safeLng)) return { embed: '', maps: '' };
+
+  const embed = `https://www.google.com/maps?q=&layer=c&cbll=${safeLat},${safeLng}&cbp=11,0,0,0,0&z=17&output=svembed`;
+  const maps = `https://www.google.com/maps/@?api=1&map_action=pano&viewpoint=${safeLat},${safeLng}`;
+  return { embed, maps };
+}
+
+function openClusterGallery(cluster, location, selectedPath = null) {
+  const titleEl = document.getElementById('pd-cluster-title');
+  const subtitleEl = document.getElementById('pd-cluster-subtitle');
+  const gridEl = document.getElementById('pd-grid');
+  const emptyEl = document.getElementById('pd-empty');
+  const svFrameEl = document.getElementById('pd-streetview');
+  const svLinkEl = document.getElementById('pd-sv-link');
+  const svSubEl = document.getElementById('pd-sv-subtitle');
+
+  titleEl.textContent = cluster?.label || 'Cluster';
+  const total = cluster?.photos?.length || 0;
+  subtitleEl.textContent = `${location?.name || 'Luogo'} · ${total} foto`;
+  svSubEl.textContent = location?.name || 'Luogo';
+  gridEl.innerHTML = '';
+
+  const svLat = cluster?.lat ?? location?.lat;
+  const svLng = cluster?.lng ?? location?.lng;
+  const svUrls = buildStreetViewUrls(svLat, svLng);
+  svFrameEl.src = svUrls.embed;
+  svLinkEl.href = svUrls.maps || '#';
+
+  const photos = cluster?.photos || [];
+  if (!photos.length) {
+    emptyEl.style.display = '';
+    document.getElementById('photo-detail').classList.add('open');
+    return;
+  }
+
+  emptyEl.style.display = 'none';
+  const selectedId = selectedPath ? extractPhotoId(selectedPath) : '';
+  const sorted = selectedId
+    ? photos.slice().sort((a, b) => {
+        const aSel = extractPhotoId(a.path) === selectedId ? -1 : 0;
+        const bSel = extractPhotoId(b.path) === selectedId ? -1 : 0;
+        return aSel - bSel;
+      })
+    : photos;
+
+  const fakeMetaForPhoto = (photo, idx) => {
+    const pid = extractPhotoId(photo.path).replace(/\.\w+$/, '');
+    const shortId = pid ? pid.slice(0, 8).toLowerCase() : `img${idx + 1}`;
+    const username = `@user_${shortId}`;
+    const caption = `Scatto nel cluster ${cluster?.label || 'Lugano'}`;
+    const place = location?.name || 'Lugano';
+    const day = String((idx % 28) + 1).padStart(2, '0');
+    const month = String((idx % 12) + 1).padStart(2, '0');
+    const date = `${day}/${month}/2025`;
+    return { username, caption, place, date };
+  };
+
+  sorted.forEach((photo, idx) => {
+    const meta = fakeMetaForPhoto(photo, idx);
+    const card = document.createElement('div');
+    card.className = 'pd-grid-item';
+    if (selectedId && extractPhotoId(photo.path) === selectedId) {
+      card.classList.add('is-featured');
+    }
+
+    const img = document.createElement('img');
+    img.src = resolveImagePath(photo.path);
+    img.alt = cluster.label || 'Foto';
+    img.loading = 'lazy';
+    img.onerror = () => { img.style.display = 'none'; };
+
+    const metaEl = document.createElement('div');
+    metaEl.className = 'pd-grid-meta';
+    metaEl.innerHTML = `
+      <div class="pd-meta-user">${meta.username}</div>
+      <div class="pd-meta-caption">${meta.caption}</div>
+      <div class="pd-meta-place">${meta.place}</div>
+      <div class="pd-meta-date">${meta.date}</div>
+    `;
+
+    card.appendChild(img);
+    card.appendChild(metaEl);
+    gridEl.appendChild(card);
+  });
+
+  document.getElementById('photo-detail').classList.add('open');
+}
+
+function closeDetail() {
+  document.getElementById('photo-detail').classList.remove('open');
+}
+
+document.addEventListener('keydown', e => {
+  if (e.key === 'Escape') closeDetail();
+});
+
+// ============================================================
+// START
+// ============================================================
+init();
+</script>
+</body>
+</html>

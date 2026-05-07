@@ -1,0 +1,513 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>De-Turistificazione</title>
+
+  <script src="https://api.mapbox.com/mapbox-gl-js/v3.21.0/mapbox-gl.js"></script>
+  <link href="https://api.mapbox.com/mapbox-gl-js/v3.21.0/mapbox-gl.css" rel="stylesheet" />
+
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=DM+Sans:wght@300;400;500;700&family=Space+Mono:wght@400;700&display=swap');
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    html, body { width: 100%; height: 100%; overflow: hidden; background: #0a0a0a; }
+    body { font-family: 'DM Sans', sans-serif; color: #e0e0e0; }
+    #map { position: absolute; inset: 0; }
+    .mapboxgl-ctrl-bottom-left { display: none !important; }
+
+    #header {
+      position: absolute; top: 0; left: 0; right: 0; padding: 20px 28px;
+      background: linear-gradient(to bottom, rgba(0,0,0,0.7), transparent);
+      z-index: 10; pointer-events: none;
+    }
+    #header h1 {
+      font-family: 'Space Mono', monospace; font-size: 14px; font-weight: 700;
+      letter-spacing: 3px; text-transform: uppercase; color: #fff; margin-bottom: 4px;
+    }
+    #header .subtitle { font-size: 11px; color: rgba(255,255,255,0.5); letter-spacing: 1px; }
+
+    #zoom-indicator {
+      position: absolute; top: 20px; right: 28px;
+      font-family: 'Space Mono', monospace; font-size: 10px;
+      letter-spacing: 2px; color: rgba(255,255,255,0.3);
+      z-index: 10; pointer-events: none;
+    }
+
+    #panel {
+      position: absolute; bottom: 40px; left: 28px; max-width: 340px;
+      background: rgba(10,10,10,0.88); backdrop-filter: blur(20px);
+      border: 1px solid rgba(255,255,255,0.08); border-radius: 12px;
+      padding: 20px; z-index: 10;
+      opacity: 0; transform: translateY(12px);
+      transition: opacity 0.3s, transform 0.3s; pointer-events: none;
+    }
+    #panel.visible { opacity: 1; transform: translateY(0); pointer-events: auto; }
+    #panel .label {
+      font-family: 'Space Mono', monospace; font-size: 12px; font-weight: 700;
+      letter-spacing: 2px; text-transform: uppercase; color: #fff; margin-bottom: 8px;
+    }
+    #panel .description { font-size: 13px; line-height: 1.5; color: rgba(255,255,255,0.6); }
+    #panel .meta { margin-top: 12px; font-family: 'Space Mono', monospace; font-size: 10px; color: rgba(255,255,255,0.3); letter-spacing: 1px; }
+
+    #nav { position: absolute; bottom: 40px; right: 28px; z-index: 10; display: flex; gap: 8px; }
+    #nav button {
+      font-family: 'Space Mono', monospace; font-size: 10px; letter-spacing: 1px; text-transform: uppercase;
+      background: rgba(255,255,255,0.1); color: rgba(255,255,255,0.6);
+      border: 1px solid rgba(255,255,255,0.15); border-radius: 6px;
+      padding: 8px 14px; cursor: pointer; transition: all 0.2s;
+    }
+    #nav button:hover { background: rgba(255,255,255,0.2); color: #fff; }
+
+    #photo-detail {
+      position: fixed; top: 0; right: 0; bottom: 0; width: 380px;
+      background: rgba(8,8,8,0.95); backdrop-filter: blur(24px);
+      border-left: 1px solid rgba(255,255,255,0.06); z-index: 400;
+      transform: translateX(100%); transition: transform 0.35s cubic-bezier(0.4,0,0.2,1);
+      overflow-y: auto; overflow-x: hidden;
+    }
+    #photo-detail.open { transform: translateX(0); }
+    #photo-detail .pd-close { position: sticky; top: 0; display: flex; justify-content: flex-end; padding: 16px 20px 8px; background: linear-gradient(to bottom, rgba(8,8,8,0.95) 60%, transparent); z-index: 2; }
+    #photo-detail .pd-close button { background: rgba(255,255,255,0.08); border: 1px solid rgba(255,255,255,0.12); color: rgba(255,255,255,0.5); font-family: 'Space Mono', monospace; font-size: 10px; letter-spacing: 1px; padding: 6px 12px; cursor: pointer; border-radius: 4px; }
+    #photo-detail .pd-image { width: 100%; aspect-ratio: 1; object-fit: cover; border-bottom: 1px solid rgba(255,255,255,0.06); }
+    #photo-detail .pd-body { padding: 20px; }
+    #photo-detail .pd-section { margin-bottom: 20px; }
+    #photo-detail .pd-section-title { font-family: 'Space Mono', monospace; font-size: 9px; font-weight: 700; letter-spacing: 2px; text-transform: uppercase; color: rgba(255,255,255,0.3); margin-bottom: 8px; }
+    #photo-detail .pd-username { font-size: 15px; font-weight: 600; color: #fff; }
+    #photo-detail .pd-username .verified { display: inline-block; width: 14px; height: 14px; background: #3897f0; border-radius: 50%; vertical-align: middle; margin-left: 4px; position: relative; }
+    #photo-detail .pd-username .verified::after { content: '✓'; color: #fff; font-size: 9px; font-weight: 700; position: absolute; top: 50%; left: 50%; transform: translate(-50%,-50%); }
+    #photo-detail .pd-caption { font-size: 13px; line-height: 1.55; color: rgba(255,255,255,0.6); word-break: break-word; max-height: 120px; overflow-y: auto; }
+    #photo-detail .pd-stats { display: flex; gap: 20px; }
+    #photo-detail .pd-stat { text-align: center; }
+    #photo-detail .pd-stat-value { font-family: 'Space Mono', monospace; font-size: 16px; font-weight: 700; color: #fff; }
+    #photo-detail .pd-stat-label { font-size: 10px; color: rgba(255,255,255,0.35); margin-top: 2px; }
+    #photo-detail .pd-meta-row { display: flex; justify-content: space-between; padding: 6px 0; border-bottom: 1px solid rgba(255,255,255,0.04); }
+    #photo-detail .pd-meta-key { font-size: 11px; color: rgba(255,255,255,0.35); }
+    #photo-detail .pd-meta-val { font-size: 11px; color: rgba(255,255,255,0.7); text-align: right; max-width: 60%; word-break: break-word; }
+    #photo-detail .pd-link { display: inline-block; margin-top: 12px; font-family: 'Space Mono', monospace; font-size: 10px; letter-spacing: 1px; text-transform: uppercase; color: #3897f0; text-decoration: none; }
+
+    .mapboxgl-popup-content { background: transparent !important; box-shadow: none !important; padding: 0 !important; border-radius: 0 !important; }
+    .mapboxgl-popup-tip { display: none !important; }
+    .map-photo-thumb { width: 64px; height: 64px; border-radius: 4px; object-fit: cover; cursor: pointer; border: 2px solid rgba(255,255,255,0.3); box-shadow: 0 4px 16px rgba(0,0,0,0.6); transition: transform 0.15s, border-color 0.15s; }
+    .map-photo-thumb:hover { transform: scale(1.15); border-color: rgba(255,255,255,0.7); }
+
+    #legend { position: absolute; bottom: 90px; left: 28px; background: rgba(10,10,10,0.8); backdrop-filter: blur(12px); border: 1px solid rgba(255,255,255,0.06); border-radius: 8px; padding: 12px 16px; z-index: 10; opacity: 0; transition: opacity 0.3s; pointer-events: none; }
+    #legend.visible { opacity: 1; }
+    #legend .legend-title { font-family: 'Space Mono', monospace; font-size: 9px; letter-spacing: 2px; text-transform: uppercase; color: rgba(255,255,255,0.35); margin-bottom: 8px; }
+    #legend .legend-bar { width: 180px; height: 10px; border-radius: 5px; background: linear-gradient(to right, #555, #ffc864, #ff8c32, #e63c28, #c81e64, #7814a0); }
+    #legend .legend-labels { display: flex; justify-content: space-between; font-size: 9px; color: rgba(255,255,255,0.4); margin-top: 4px; }
+  </style>
+</head>
+<body>
+
+<div id="map"></div>
+<div id="header"><h1>De-Turistificazione</h1><div class="subtitle">Mappatura degli hotspot fotografici — Lugano</div></div>
+<div id="zoom-indicator"></div>
+<div id="panel"><div class="label" id="panel-label"></div><div class="description" id="panel-desc"></div><div class="meta" id="panel-meta"></div></div>
+<div id="legend"><div class="legend-title">Pressione turistica</div><div class="legend-bar"></div><div class="legend-labels"><span>bassa</span><span>alta</span></div></div>
+
+<div id="photo-detail">
+  <div class="pd-close"><button onclick="closeDetail()">✕ CHIUDI</button></div>
+  <img class="pd-image" id="pd-image" src="" alt="" />
+  <div class="pd-body">
+    <div class="pd-section"><div class="pd-section-title">Autore</div><div class="pd-username" id="pd-username"></div></div>
+    <div class="pd-section"><div class="pd-section-title">Engagement</div>
+      <div class="pd-stats">
+        <div class="pd-stat"><div class="pd-stat-value" id="pd-likes">—</div><div class="pd-stat-label">likes</div></div>
+        <div class="pd-stat"><div class="pd-stat-value" id="pd-comments">—</div><div class="pd-stat-label">commenti</div></div>
+        <div class="pd-stat"><div class="pd-stat-value" id="pd-views">—</div><div class="pd-stat-label">views</div></div>
+      </div>
+    </div>
+    <div class="pd-section" id="pd-caption-section"><div class="pd-section-title">Caption</div><div class="pd-caption" id="pd-caption"></div></div>
+    <div class="pd-section"><div class="pd-section-title">Dettagli</div><div id="pd-meta"></div></div>
+    <div class="pd-section" id="pd-link-section" style="display:none"><a class="pd-link" id="pd-post-link" href="" target="_blank" rel="noopener">Apri post originale →</a></div>
+  </div>
+</div>
+<div id="nav"></div>
+
+<script>
+// ============================================================
+// CONFIG
+// ============================================================
+mapboxgl.accessToken = 'pk.eyJ1Ijoid2FsdGVyZGV4IiwiYSI6ImNtb2lpcnNhMzAzMmwycXIwYjM1ZmpvZXgifQ.annhzZwu_2Sbs02XVPjQRw';
+const DATA_URL = 'data.json';
+const PHOTO_INFO_URL = 'photo_info.json';
+const IMG_BASE = '';
+
+const ZOOM_CITY = 13.5;
+const ZOOM_LOCATION = 15.5;
+const ZOOM_PHOTOS = 16.5;
+
+// Model scale
+const MODEL_SCALE_XZ = 2;
+const MODEL_SCALE_Y_MIN = 2;
+const MODEL_SCALE_Y_MAX = 8;
+
+// ============================================================
+// STATE
+// ============================================================
+let map = null;
+let appData = null;
+let photoInfo = {};
+let photoPopups = [];
+
+// ============================================================
+// HELPERS
+// ============================================================
+function resolveImagePath(p) {
+  if (!p) return '';
+  if (p.startsWith('http') || p.startsWith('data:')) return p;
+  return IMG_BASE ? IMG_BASE.replace(/\/+$/,'') + '/' + p.replace(/^\/+/,'') : p;
+}
+
+// Build absolute URL from relative path (for model files)
+function toAbsoluteUrl(relativePath) {
+  const base = window.location.href.substring(0, window.location.href.lastIndexOf('/') + 1);
+  return base + relativePath;
+}
+
+function resolveThumbPath(o) { return resolveImagePath(o.thumb || o.path); }
+function extractPhotoId(p) { return p ? p.replace(/\\/g,'/').split('/').pop() : ''; }
+function formatNumber(n) {
+  if (n==null || n==='') return '—';
+  n = Number(n); if (isNaN(n)) return '—';
+  if (n>=1e6) return (n/1e6).toFixed(1)+'M';
+  if (n>=1e3) return (n/1e3).toFixed(1)+'K';
+  return n.toString();
+}
+function formatDate(d) {
+  if (!d) return '—';
+  try { return new Date(d).toLocaleDateString('it-IT',{day:'numeric',month:'long',year:'numeric'}); }
+  catch { return d; }
+}
+
+// ============================================================
+// GEOJSON
+// ============================================================
+let allPhotosGeoJSON = null;
+let allClustersGeoJSON = null;
+
+function buildGeoJSON() {
+  const photoFeatures = [];
+  const clusterFeatures = [];
+  appData.locations.forEach(loc => {
+    loc.clusters.forEach(cl => {
+      clusterFeatures.push({
+        type: 'Feature',
+        geometry: { type: 'Point', coordinates: [cl.lng, cl.lat] },
+        properties: { cluster_id: cl.cluster_id, label: cl.label, description: cl.description || '', size: cl.size || 1, location_name: loc.name },
+      });
+      if (cl.photos) {
+        cl.photos.forEach(photo => {
+          photoFeatures.push({
+            type: 'Feature',
+            geometry: { type: 'Point', coordinates: [photo.lng, photo.lat] },
+            properties: { path: photo.path, thumb: photo.thumb || '', cluster_label: cl.label, cluster_desc: cl.description || '', location_name: loc.name, weight: cl.size || 1 },
+          });
+        });
+      }
+    });
+  });
+  allPhotosGeoJSON = { type: 'FeatureCollection', features: photoFeatures };
+  allClustersGeoJSON = { type: 'FeatureCollection', features: clusterFeatures };
+}
+
+// ============================================================
+// ADD 3D MODELS (via map.addModel + model layer)
+// ============================================================
+function addModelLayer() {
+  // Find max cluster size for scaling
+  let maxSize = 1;
+  appData.locations.forEach(loc => {
+    loc.clusters.forEach(cl => {
+      if (cl.model) maxSize = Math.max(maxSize, cl.size || 1);
+    });
+  });
+
+  // Register each .glb with map.addModel() using absolute URLs
+  const modelFeatures = [];
+
+  appData.locations.forEach(loc => {
+    loc.clusters.forEach(cl => {
+      if (!cl.model) return;
+
+      const modelId = 'model_' + cl.cluster_id;
+      const absoluteUrl = toAbsoluteUrl(cl.model);
+
+      console.log(`Registering model: ${modelId} → ${absoluteUrl}`);
+
+      // Register the model with Mapbox
+      map.addModel(modelId, absoluteUrl);
+
+      // Compute scale
+      const sizeRatio = (cl.size || 1) / maxSize;
+      const scaleY = MODEL_SCALE_Y_MIN + (MODEL_SCALE_Y_MAX - MODEL_SCALE_Y_MIN) * sizeRatio;
+
+      modelFeatures.push({
+        type: 'Feature',
+        geometry: { type: 'Point', coordinates: [cl.lng, cl.lat] },
+        properties: {
+          model_id: modelId,
+          label: cl.label,
+          size: cl.size || 1,
+          scale_y: scaleY,
+        },
+      });
+    });
+  });
+
+  if (modelFeatures.length === 0) {
+    console.log('No models to add');
+    return;
+  }
+
+  console.log(`Adding ${modelFeatures.length} model features`);
+
+  // Add GeoJSON source for model positions
+  map.addSource('model-positions', {
+    type: 'geojson',
+    data: { type: 'FeatureCollection', features: modelFeatures },
+  });
+
+  // Add model layer
+  map.addLayer({
+    id: 'cluster-models',
+    type: 'model',
+    source: 'model-positions',
+    minzoom: ZOOM_LOCATION - 0.5,
+    layout: {
+      'model-id': ['get', 'model_id'],
+    },
+    paint: {
+      // Scale: [X, Z, Y] — Y is height in Mapbox model layer
+      'model-scale': [
+        'literal', [MODEL_SCALE_XZ, MODEL_SCALE_XZ, MODEL_SCALE_Y_MIN]
+      ],
+      // Fade in
+      'model-opacity': [
+        'interpolate', ['linear'], ['zoom'],
+        ZOOM_LOCATION - 0.5, 0,
+        ZOOM_LOCATION, 1,
+      ],
+    },
+  });
+
+  console.log('Model layer added successfully');
+}
+
+// ============================================================
+// ADD DATA LAYERS
+// ============================================================
+function addDataLayers() {
+  map.addSource('photos', { type: 'geojson', data: allPhotosGeoJSON });
+  map.addSource('clusters', { type: 'geojson', data: allClustersGeoJSON });
+
+  // Dark overlay
+  map.addSource('dark-overlay-src', {
+    type: 'geojson',
+    data: { type: 'Feature', geometry: { type: 'Polygon', coordinates: [[[-180,-90],[180,-90],[180,90],[-180,90],[-180,-90]]] } },
+  });
+
+  map.addLayer({
+    id: 'dark-overlay', type: 'fill', source: 'dark-overlay-src',
+    paint: {
+      'fill-color': '#000000',
+      'fill-opacity': ['interpolate', ['linear'], ['zoom'], ZOOM_CITY-0.5, 0, ZOOM_CITY, 0.6, ZOOM_LOCATION, 0.7, ZOOM_PHOTOS, 0.55, ZOOM_PHOTOS+1, 0.35],
+    },
+  });
+
+  // Heatmap
+  map.addLayer({
+    id: 'photos-heat', type: 'heatmap', source: 'photos',
+    minzoom: ZOOM_CITY, maxzoom: ZOOM_PHOTOS + 1,
+    paint: {
+      'heatmap-weight': ['interpolate', ['linear'], ['get', 'weight'], 1, 0.3, 30, 0.6, 80, 1],
+      'heatmap-intensity': ['interpolate', ['linear'], ['zoom'], ZOOM_CITY, 0.3, ZOOM_LOCATION, 0.8, ZOOM_PHOTOS, 1.2],
+      'heatmap-color': [
+        'interpolate', ['linear'], ['heatmap-density'],
+        0, 'rgba(0,0,0,0)', 0.08, 'rgba(80,60,40,0.4)', 0.15, 'rgba(255,180,60,0.6)',
+        0.3, 'rgba(255,120,30,0.75)', 0.45, 'rgba(240,50,30,0.85)', 0.65, 'rgba(210,20,100,0.92)',
+        0.85, 'rgba(140,15,170,0.96)', 1.0, 'rgba(90,10,180,1.0)',
+      ],
+      'heatmap-radius': ['interpolate', ['linear'], ['zoom'], ZOOM_CITY, 25, ZOOM_LOCATION, 40, ZOOM_PHOTOS, 55],
+      'heatmap-opacity': ['interpolate', ['linear'], ['zoom'], ZOOM_CITY-0.5, 0, ZOOM_CITY, 0.85, ZOOM_LOCATION, 0.95, ZOOM_PHOTOS, 0.6, ZOOM_PHOTOS+0.5, 0],
+    },
+  });
+
+  // Dots
+  map.addLayer({
+    id: 'photos-dots', type: 'circle', source: 'photos',
+    minzoom: ZOOM_LOCATION - 0.5,
+    paint: {
+      'circle-radius': ['interpolate', ['linear'], ['zoom'], ZOOM_LOCATION, 4, ZOOM_PHOTOS, 6, ZOOM_PHOTOS+2, 8],
+      'circle-color': ['interpolate', ['linear'], ['get', 'weight'], 1, '#ffcc55', 10, '#ff9933', 30, '#ee4422', 60, '#dd1166', 80, '#9918cc'],
+      'circle-opacity': ['interpolate', ['linear'], ['zoom'], ZOOM_LOCATION-0.5, 0, ZOOM_LOCATION, 0.6, ZOOM_PHOTOS, 0.8, ZOOM_PHOTOS+2, 0.4],
+      'circle-blur': 0.2,
+    },
+  });
+
+  // Cluster labels
+  map.addLayer({
+    id: 'cluster-labels', type: 'symbol', source: 'clusters',
+    minzoom: ZOOM_CITY + 0.5, maxzoom: ZOOM_PHOTOS + 1,
+    layout: { 'text-field': ['get', 'label'], 'text-font': ['DIN Pro Medium', 'Arial Unicode MS Regular'], 'text-size': ['interpolate', ['linear'], ['zoom'], ZOOM_CITY+0.5, 10, ZOOM_LOCATION, 13], 'text-offset': [0, 1.5], 'text-anchor': 'top', 'text-allow-overlap': false },
+    paint: { 'text-color': '#fff', 'text-halo-color': 'rgba(0,0,0,0.8)', 'text-halo-width': 2, 'text-opacity': ['interpolate', ['linear'], ['zoom'], ZOOM_CITY+0.5, 0, ZOOM_CITY+1, 1] },
+  });
+
+  // Cluster count badges
+  map.addLayer({
+    id: 'cluster-counts', type: 'symbol', source: 'clusters',
+    minzoom: ZOOM_CITY + 0.5, maxzoom: ZOOM_PHOTOS + 1,
+    layout: { 'text-field': ['to-string', ['get', 'size']], 'text-font': ['DIN Pro Bold', 'Arial Unicode MS Bold'], 'text-size': 14, 'text-allow-overlap': true },
+    paint: { 'text-color': '#fff', 'text-halo-color': 'rgba(200,30,100,0.9)', 'text-halo-width': 8, 'text-halo-blur': 4 },
+  });
+
+  // 3D Models — added LAST so they render on top
+  addModelLayer();
+
+  // Interactions
+  map.on('click', 'photos-dots', (e) => {
+    if (!e.features?.length) return;
+    const p = e.features[0].properties;
+    openPhotoDetail(p.path, { label: p.cluster_label, description: p.cluster_desc }, { name: p.location_name });
+  });
+  map.on('click', 'cluster-labels', (e) => {
+    if (!e.features?.length) return;
+    const f = e.features[0];
+    showPanel(f.properties.label, f.properties.description, `${f.properties.size} foto · ${f.properties.location_name}`);
+    map.flyTo({ center: f.geometry.coordinates, zoom: ZOOM_PHOTOS, pitch: 60, duration: 1500 });
+  });
+  map.on('mouseenter', 'photos-dots', () => map.getCanvas().style.cursor = 'pointer');
+  map.on('mouseleave', 'photos-dots', () => map.getCanvas().style.cursor = '');
+  map.on('mouseenter', 'cluster-labels', () => map.getCanvas().style.cursor = 'pointer');
+  map.on('mouseleave', 'cluster-labels', () => map.getCanvas().style.cursor = '');
+  map.on('mouseenter', 'cluster-counts', (e) => { if (e.features?.length) { const f = e.features[0].properties; showPanel(f.label, f.description, `${f.size} foto · ${f.location_name}`); } });
+  map.on('mouseleave', 'cluster-counts', () => hidePanel());
+}
+
+// ============================================================
+// PHOTO POPUPS
+// ============================================================
+function clearPhotoPopups() { photoPopups.forEach(p => p.remove()); photoPopups = []; }
+function updatePhotoPopups() {
+  const zoom = map.getZoom();
+  if (zoom < ZOOM_PHOTOS) { if (photoPopups.length) clearPhotoPopups(); return; }
+  const bounds = map.getBounds();
+  clearPhotoPopups();
+  let count = 0;
+  for (const loc of appData.locations) {
+    for (const cl of loc.clusters) {
+      if (!cl.photos) continue;
+      for (const photo of cl.photos) {
+        if (count >= 60) break;
+        if (photo.lng < bounds.getWest() || photo.lng > bounds.getEast() || photo.lat < bounds.getSouth() || photo.lat > bounds.getNorth()) continue;
+        const el = document.createElement('img');
+        el.className = 'map-photo-thumb'; el.src = resolveThumbPath(photo); el.loading = 'lazy';
+        el.onerror = () => el.style.display = 'none';
+        el.onclick = () => openPhotoDetail(photo.path, cl, loc);
+        const popup = new mapboxgl.Popup({ closeButton: false, closeOnClick: false, anchor: 'center', offset: 0 }).setLngLat([photo.lng, photo.lat]).setDOMContent(el).addTo(map);
+        photoPopups.push(popup); count++;
+      }
+      if (count >= 60) break;
+    }
+    if (count >= 60) break;
+  }
+}
+
+// ============================================================
+// UI
+// ============================================================
+function updateLayerVisibility() { const z = map.getZoom(); document.getElementById('legend').classList.toggle('visible', z > ZOOM_CITY && z < ZOOM_PHOTOS+1); }
+function updateZoomIndicator() { const z = map.getZoom(); let l = 'CITTÀ'; if (z >= ZOOM_PHOTOS) l = 'FOTO'; else if (z >= ZOOM_CITY) l = 'CLUSTER'; document.getElementById('zoom-indicator').textContent = `${l} · Z${z.toFixed(1)}`; }
+function buildNavButtons() {
+  const nav = document.getElementById('nav'); nav.innerHTML = '';
+  const btn0 = document.createElement('button'); btn0.textContent = 'Lugano';
+  btn0.onclick = () => { map.flyTo({ center: [8.960,46.005], zoom: 13, pitch: 50, bearing: -10, duration: 2000 }); hidePanel(); closeDetail(); };
+  nav.appendChild(btn0);
+  appData.locations.forEach(loc => {
+    const btn = document.createElement('button'); btn.textContent = loc.name;
+    btn.onclick = () => { map.flyTo({ center: [loc.lng, loc.lat], zoom: ZOOM_LOCATION, pitch: 50, bearing: -10, duration: 1500 }); hidePanel(); closeDetail(); };
+    nav.appendChild(btn);
+  });
+}
+function showPanel(l, d, m) { document.getElementById('panel-label').textContent = l||''; document.getElementById('panel-desc').textContent = d||''; document.getElementById('panel-meta').textContent = m||''; document.getElementById('panel').classList.add('visible'); }
+function hidePanel() { document.getElementById('panel').classList.remove('visible'); }
+
+// ============================================================
+// PHOTO DETAIL
+// ============================================================
+function openPhotoDetail(photoPath, cluster, location) {
+  const pid = extractPhotoId(photoPath); const pidNoExt = pid.replace(/\.\w+$/, '');
+  const info = photoInfo[pid] || photoInfo[pidNoExt] || null;
+  document.getElementById('pd-image').src = resolveImagePath(photoPath);
+  if (info) {
+    const u = document.getElementById('pd-username'); u.innerHTML = '@' + (info.username || '?'); if (info.is_verified) u.innerHTML += '<span class="verified"></span>';
+    document.getElementById('pd-likes').textContent = formatNumber(info.like_count);
+    document.getElementById('pd-comments').textContent = formatNumber(info.comment_count);
+    document.getElementById('pd-views').textContent = formatNumber(info.view_count);
+    const cs = document.getElementById('pd-caption-section'); const ce = document.getElementById('pd-caption');
+    if (info.caption) { ce.textContent = info.caption; cs.style.display = ''; } else cs.style.display = 'none';
+    const me = document.getElementById('pd-meta'); me.innerHTML = '';
+    [['Data', formatDate(info.taken_at)], ['Luogo', info.location_name || location.name], ['Cluster', cluster.label], ['Tipo', info.product_type || '—']].forEach(([k,v]) => { const r = document.createElement('div'); r.className = 'pd-meta-row'; r.innerHTML = `<span class="pd-meta-key">${k}</span><span class="pd-meta-val">${v||'—'}</span>`; me.appendChild(r); });
+    const ls = document.getElementById('pd-link-section'); const le = document.getElementById('pd-post-link');
+    if (info.post_url) { le.href = info.post_url; ls.style.display = ''; } else ls.style.display = 'none';
+  } else {
+    document.getElementById('pd-username').textContent = '—'; document.getElementById('pd-likes').textContent = '—'; document.getElementById('pd-comments').textContent = '—'; document.getElementById('pd-views').textContent = '—';
+    document.getElementById('pd-caption-section').style.display = 'none';
+    const me = document.getElementById('pd-meta'); me.innerHTML = '';
+    [['Cluster', cluster.label], ['Luogo', location.name], ['File', pid]].forEach(([k,v]) => { const r = document.createElement('div'); r.className = 'pd-meta-row'; r.innerHTML = `<span class="pd-meta-key">${k}</span><span class="pd-meta-val">${v}</span>`; me.appendChild(r); });
+    document.getElementById('pd-link-section').style.display = 'none';
+  }
+  document.getElementById('photo-detail').classList.add('open');
+}
+function closeDetail() { document.getElementById('photo-detail').classList.remove('open'); }
+document.addEventListener('keydown', e => { if (e.key === 'Escape') closeDetail(); });
+
+// ============================================================
+// INIT
+// ============================================================
+async function init() {
+  const [dataRes, infoRes] = await Promise.all([
+    fetch(DATA_URL),
+    fetch(PHOTO_INFO_URL).catch(() => null),
+  ]);
+  appData = await dataRes.json();
+  if (infoRes?.ok) photoInfo = await infoRes.json();
+  buildGeoJSON();
+
+  // Use Mapbox Standard Satellite as base
+  map = new mapboxgl.Map({
+    container: 'map',
+    style: 'mapbox://styles/mapbox/standard-satellite',
+    center: [8.960, 46.005],
+    zoom: 13,
+    pitch: 50,
+    bearing: -10,
+    antialias: true,
+  });
+
+  map.on('style.load', () => {
+    console.log('Style loaded');
+
+    // Terrain
+    map.addSource('mapbox-dem', {
+      type: 'raster-dem',
+      url: 'mapbox://mapbox.mapbox-terrain-dem-v1',
+      tileSize: 512, maxzoom: 14,
+    });
+    map.setTerrain({ source: 'mapbox-dem', exaggeration: 1.2 });
+
+    // All data layers + models
+    addDataLayers();
+    buildNavButtons();
+    updateZoomIndicator();
+  });
+
+  map.on('zoom', () => { updateZoomIndicator(); updateLayerVisibility(); updatePhotoPopups(); });
+  map.on('moveend', () => updatePhotoPopups());
+}
+
+init();
+</script>
+</body>
+</html>

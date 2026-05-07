@@ -1,0 +1,704 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>De-Turistificazione — Parco Ciani</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&family=DM+Sans:wght@400;500;700&display=swap');
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        :root {
+            --bg: #0a0a0a;
+            --text: #e8e8e8;
+            --accent: #ff3333;
+            --accent-dim: rgba(255, 51, 51, 0.15);
+            --panel-bg: rgba(10, 10, 10, 0.92);
+            --border: rgba(255, 255, 255, 0.08);
+        }
+
+        body {
+            font-family: 'DM Sans', sans-serif;
+            background: var(--bg);
+            color: var(--text);
+            height: 100vh;
+            overflow: hidden;
+        }
+
+        /* === STREET VIEW CONTAINER === */
+        #street-view {
+            width: 100%;
+            height: 100vh;
+            position: relative;
+        }
+
+        /* === OVERLAY (effetto de-turistificazione) === */
+        #detection-overlay {
+            position: absolute;
+            top: 0; left: 0;
+            width: 100%; height: 100%;
+            pointer-events: none;
+            z-index: 10;
+            transition: opacity 0.6s ease;
+            opacity: 0;
+        }
+
+        #detection-overlay.active {
+            opacity: 1;
+        }
+
+        /* Effetto glitch/distorsione */
+        #detection-overlay.effect-glitch {
+            background: repeating-linear-gradient(
+                0deg,
+                transparent,
+                transparent 2px,
+                rgba(255, 0, 0, 0.03) 2px,
+                rgba(255, 0, 0, 0.03) 4px
+            );
+            animation: glitch-bg 0.15s infinite;
+        }
+
+        @keyframes glitch-bg {
+            0% { transform: translate(0); }
+            20% { transform: translate(-2px, 1px); }
+            40% { transform: translate(1px, -1px); }
+            60% { transform: translate(-1px, 2px); }
+            80% { transform: translate(2px, -2px); }
+            100% { transform: translate(0); }
+        }
+
+        /* Effetto blur */
+        #detection-overlay.effect-blur {
+            backdrop-filter: blur(12px) saturate(0.3);
+            -webkit-backdrop-filter: blur(12px) saturate(0.3);
+        }
+
+        /* Effetto blackout */
+        #detection-overlay.effect-blackout {
+            background: rgba(0, 0, 0, 0.85);
+        }
+
+        /* Effetto noise */
+        #detection-overlay.effect-noise {
+            background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.4'/%3E%3C/svg%3E");
+            background-size: 256px 256px;
+            mix-blend-mode: multiply;
+            animation: noise-shift 0.1s steps(3) infinite;
+        }
+
+        @keyframes noise-shift {
+            0% { background-position: 0 0; }
+            33% { background-position: -50px -25px; }
+            66% { background-position: 25px -50px; }
+            100% { background-position: 0 0; }
+        }
+
+        /* === DETECTION LABEL === */
+        #detection-label {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            z-index: 15;
+            text-align: center;
+            pointer-events: none;
+            opacity: 0;
+            transition: opacity 0.4s ease;
+        }
+
+        #detection-label.visible {
+            opacity: 1;
+        }
+
+        #detection-label .hotspot-name {
+            font-family: 'Space Mono', monospace;
+            font-size: 1.4rem;
+            font-weight: 700;
+            color: var(--accent);
+            text-transform: uppercase;
+            letter-spacing: 0.15em;
+            text-shadow: 0 0 30px rgba(255, 51, 51, 0.5);
+            margin-bottom: 0.5rem;
+        }
+
+        #detection-label .hotspot-stats {
+            font-family: 'Space Mono', monospace;
+            font-size: 0.75rem;
+            color: rgba(255, 255, 255, 0.6);
+            letter-spacing: 0.1em;
+        }
+
+        #detection-label .strikethrough {
+            text-decoration: line-through;
+            text-decoration-color: var(--accent);
+            text-decoration-thickness: 2px;
+        }
+
+        /* === PANNELLO CONTROLLI === */
+        #controls {
+            position: absolute;
+            top: 20px;
+            left: 20px;
+            z-index: 20;
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+
+        .control-panel {
+            background: var(--panel-bg);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            padding: 16px 20px;
+        }
+
+        .control-panel h3 {
+            font-family: 'Space Mono', monospace;
+            font-size: 0.65rem;
+            text-transform: uppercase;
+            letter-spacing: 0.2em;
+            color: rgba(255, 255, 255, 0.4);
+            margin-bottom: 10px;
+        }
+
+        /* Toggle switch */
+        .toggle-container {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            cursor: pointer;
+        }
+
+        .toggle-track {
+            width: 44px;
+            height: 24px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 12px;
+            position: relative;
+            transition: background 0.3s ease;
+        }
+
+        .toggle-track.active {
+            background: var(--accent);
+        }
+
+        .toggle-thumb {
+            width: 18px;
+            height: 18px;
+            background: white;
+            border-radius: 50%;
+            position: absolute;
+            top: 3px;
+            left: 3px;
+            transition: transform 0.3s ease;
+        }
+
+        .toggle-track.active .toggle-thumb {
+            transform: translateX(20px);
+        }
+
+        .toggle-label {
+            font-size: 0.85rem;
+            font-weight: 500;
+            user-select: none;
+        }
+
+        /* Effect selector */
+        .effect-buttons {
+            display: flex;
+            gap: 6px;
+            flex-wrap: wrap;
+        }
+
+        .effect-btn {
+            font-family: 'Space Mono', monospace;
+            font-size: 0.65rem;
+            padding: 4px 10px;
+            border: 1px solid var(--border);
+            border-radius: 4px;
+            background: transparent;
+            color: rgba(255, 255, 255, 0.5);
+            cursor: pointer;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            transition: all 0.2s ease;
+        }
+
+        .effect-btn:hover {
+            border-color: rgba(255, 255, 255, 0.3);
+            color: white;
+        }
+
+        .effect-btn.active {
+            border-color: var(--accent);
+            color: var(--accent);
+            background: var(--accent-dim);
+        }
+
+        /* Threshold slider */
+        .threshold-control {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .threshold-control input[type="range"] {
+            flex: 1;
+            -webkit-appearance: none;
+            height: 3px;
+            background: rgba(255, 255, 255, 0.15);
+            border-radius: 2px;
+            outline: none;
+        }
+
+        .threshold-control input[type="range"]::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            width: 14px;
+            height: 14px;
+            background: var(--accent);
+            border-radius: 50%;
+            cursor: pointer;
+        }
+
+        .threshold-value {
+            font-family: 'Space Mono', monospace;
+            font-size: 0.75rem;
+            color: var(--accent);
+            min-width: 36px;
+            text-align: right;
+        }
+
+        /* === STATUS BAR === */
+        #status-bar {
+            position: absolute;
+            bottom: 20px;
+            left: 20px;
+            right: 20px;
+            z-index: 20;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .status-left, .status-right {
+            background: var(--panel-bg);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border: 1px solid var(--border);
+            border-radius: 6px;
+            padding: 10px 16px;
+            font-family: 'Space Mono', monospace;
+            font-size: 0.7rem;
+        }
+
+        .status-indicator {
+            display: inline-block;
+            width: 7px;
+            height: 7px;
+            border-radius: 50%;
+            margin-right: 8px;
+            background: #444;
+        }
+
+        .status-indicator.connected { background: #00cc66; }
+        .status-indicator.detecting { background: var(--accent); animation: pulse 1s infinite; }
+        .status-indicator.error { background: #cc0000; }
+
+        @keyframes pulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.4; }
+        }
+
+        .hotspot-count {
+            color: var(--accent);
+            font-weight: 700;
+        }
+
+        /* === HOTSPOT LIST (pannello info) === */
+        #hotspot-list {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            z-index: 20;
+            max-height: calc(100vh - 100px);
+            overflow-y: auto;
+        }
+
+        .hotspot-item {
+            background: var(--panel-bg);
+            backdrop-filter: blur(20px);
+            border: 1px solid var(--border);
+            border-radius: 6px;
+            padding: 10px 14px;
+            margin-bottom: 6px;
+            font-size: 0.75rem;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            transition: all 0.3s ease;
+            min-width: 220px;
+        }
+
+        .hotspot-item.matched {
+            border-color: var(--accent);
+            background: rgba(255, 51, 51, 0.08);
+        }
+
+        .hotspot-dot {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.2);
+            flex-shrink: 0;
+            transition: background 0.3s ease;
+        }
+
+        .hotspot-item.matched .hotspot-dot {
+            background: var(--accent);
+            box-shadow: 0 0 8px rgba(255, 51, 51, 0.5);
+        }
+
+        .hotspot-info {
+            flex: 1;
+        }
+
+        .hotspot-info .name {
+            font-weight: 500;
+            color: rgba(255, 255, 255, 0.8);
+            font-size: 0.72rem;
+        }
+
+        .hotspot-item.matched .hotspot-info .name {
+            color: var(--accent);
+        }
+
+        .hotspot-info .count {
+            font-family: 'Space Mono', monospace;
+            font-size: 0.6rem;
+            color: rgba(255, 255, 255, 0.3);
+        }
+
+        .similarity-bar {
+            width: 40px;
+            height: 3px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 2px;
+            overflow: hidden;
+        }
+
+        .similarity-fill {
+            height: 100%;
+            background: var(--accent);
+            border-radius: 2px;
+            width: 0%;
+            transition: width 0.4s ease;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Street View -->
+    <div id="street-view"></div>
+
+    <!-- Overlay effetto -->
+    <div id="detection-overlay"></div>
+
+    <!-- Label centrale quando hotspot rilevato -->
+    <div id="detection-label">
+        <div class="hotspot-name" id="label-name"></div>
+        <div class="hotspot-stats" id="label-stats"></div>
+    </div>
+
+    <!-- Controlli a sinistra -->
+    <div id="controls">
+        <div class="control-panel">
+            <h3>De-Turistificazione</h3>
+            <div class="toggle-container" onclick="toggleDetection()">
+                <div class="toggle-track" id="toggle-track">
+                    <div class="toggle-thumb"></div>
+                </div>
+                <span class="toggle-label" id="toggle-label">Off</span>
+            </div>
+        </div>
+
+        <div class="control-panel" id="effect-panel" style="display:none;">
+            <h3>Effetto visivo</h3>
+            <div class="effect-buttons">
+                <button class="effect-btn active" data-effect="glitch">Glitch</button>
+                <button class="effect-btn" data-effect="blur">Blur</button>
+                <button class="effect-btn" data-effect="blackout">Blackout</button>
+                <button class="effect-btn" data-effect="noise">Noise</button>
+            </div>
+        </div>
+
+        <div class="control-panel" id="threshold-panel" style="display:none;">
+            <h3>Sensibilità</h3>
+            <div class="threshold-control">
+                <input type="range" id="threshold-slider" min="0.5" max="0.95" step="0.01" value="0.75">
+                <span class="threshold-value" id="threshold-display">0.75</span>
+            </div>
+        </div>
+    </div>
+
+    <!-- Lista hotspot a destra -->
+    <div id="hotspot-list"></div>
+
+    <!-- Status bar in basso -->
+    <div id="status-bar">
+        <div class="status-left">
+            <span class="status-indicator" id="server-status"></span>
+            <span id="status-text">Connessione al server...</span>
+        </div>
+        <div class="status-right">
+            <span id="inference-time">—</span>
+        </div>
+    </div>
+
+    <!-- Google Maps + Street View API -->
+    <!-- SOSTITUISCI YOUR_API_KEY con la tua chiave Google Maps -->
+    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAXzXu3IvXlcGl026207VNuPohfPWFIFJk"></script>
+
+    <script>
+        // === CONFIGURAZIONE ===
+        const SERVER_URL = "http://localhost:5001";
+        const DEBOUNCE_MS = 800;  // ms di attesa dopo movimento prima di analizzare
+        
+        // Coordinate Parco Ciani, Lugano   
+const PARCO_CIANI = { lat: 46.0041811, lng: 8.9569316 };
+const INITIAL_HEADING = 160;
+        const INITIAL_PITCH = 0;
+
+        // === STATO ===
+        let detectionActive = false;
+        let currentEffect = "glitch";
+        let debounceTimer = null;
+        let panorama = null;
+        let hotspots = [];
+        let matchedIds = new Set();
+
+        // === INIT ===
+        async function init() {
+            // Carica hotspot dal server
+            try {
+                const res = await fetch(`${SERVER_URL}/hotspots`);
+                hotspots = await res.json();
+                renderHotspotList();
+                setServerStatus("connected", `Server connesso — ${hotspots.length} hotspot`);
+            } catch (e) {
+                setServerStatus("error", "Server non raggiungibile. Avvia server.py");
+                console.error("Server non raggiungibile:", e);
+            }
+
+            // Init Street View
+            panorama = new google.maps.StreetViewPanorama(
+                document.getElementById("street-view"),
+                {
+                    position: PARCO_CIANI,
+                    pov: { heading: INITIAL_HEADING, pitch: INITIAL_PITCH },
+                    zoom: 1,
+                    disableDefaultUI: false,
+                    showRoadLabels: false,
+                }
+            );
+
+            // Listener: quando l'utente si muove/ruota
+            panorama.addListener("pov_changed", onViewChange);
+            panorama.addListener("position_changed", onViewChange);
+
+            // Effect buttons
+            document.querySelectorAll(".effect-btn").forEach(btn => {
+                btn.addEventListener("click", () => {
+                    document.querySelectorAll(".effect-btn").forEach(b => b.classList.remove("active"));
+                    btn.classList.add("active");
+                    currentEffect = btn.dataset.effect;
+                    updateOverlayEffect();
+                });
+            });
+
+            // Threshold slider
+            const slider = document.getElementById("threshold-slider");
+            slider.addEventListener("input", (e) => {
+                document.getElementById("threshold-display").textContent = parseFloat(e.target.value).toFixed(2);
+            });
+            slider.addEventListener("change", async (e) => {
+                try {
+                    await fetch(`${SERVER_URL}/threshold/${e.target.value}`, { method: "POST" });
+                } catch (err) { /* ignore */ }
+            });
+        }
+
+        // === TOGGLE DETECTION ===
+        function toggleDetection() {
+            detectionActive = !detectionActive;
+            const track = document.getElementById("toggle-track");
+            const label = document.getElementById("toggle-label");
+            
+            if (detectionActive) {
+                track.classList.add("active");
+                label.textContent = "On";
+                document.getElementById("effect-panel").style.display = "block";
+                document.getElementById("threshold-panel").style.display = "block";
+                analyzeCurrentView();
+            } else {
+                track.classList.remove("active");
+                label.textContent = "Off";
+                document.getElementById("effect-panel").style.display = "none";
+                document.getElementById("threshold-panel").style.display = "none";
+                hideOverlay();
+            }
+        }
+
+        // === VIEW CHANGE HANDLER (con debounce) ===
+        function onViewChange() {
+            if (!detectionActive) return;
+            
+            clearTimeout(debounceTimer);
+            hideOverlay();  // nascondi durante il movimento
+            
+            debounceTimer = setTimeout(() => {
+                analyzeCurrentView();
+            }, DEBOUNCE_MS);
+        }
+
+        // === CATTURA E ANALIZZA ===
+        async function analyzeCurrentView() {
+            if (!detectionActive) return;
+            
+            setServerStatus("detecting", "Analisi in corso...");
+            
+            try {
+                // Cattura il frame da Street View via Static API
+                const pov = panorama.getPov();
+                const pos = panorama.getPosition();
+                
+                // Usa Street View Static API per ottenere l'immagine
+                const staticUrl = `https://maps.googleapis.com/maps/api/streetview?size=640x480&location=${pos.lat()},${pos.lng()}&heading=${pov.heading}&pitch=${pov.pitch}&fov=90&key=${getApiKey()}`;
+                
+                // Scarica l'immagine e convertila in base64
+                const imageBase64 = await fetchImageAsBase64(staticUrl);
+                
+                // Manda al server per detection
+                const response = await fetch(`${SERVER_URL}/detect`, {
+                    method: "POST",
+                    headers: { "Content-Type": "application/json" },
+                    body: JSON.stringify({ image: imageBase64 })
+                });
+                
+                const result = await response.json();
+                
+                // Aggiorna UI
+                document.getElementById("inference-time").textContent = `${result.inference_time_ms}ms`;
+                
+                // Aggiorna matched hotspots
+                matchedIds = new Set(result.matches.map(m => m.cluster_id));
+                updateHotspotList(result.matches);
+                
+                if (result.hotspot_detected && detectionActive) {
+                    showOverlay(result.matches);
+                    setServerStatus("detecting", `Rilevati ${result.matches.length} hotspot`);
+                } else {
+                    hideOverlay();
+                    setServerStatus("connected", "Nessun hotspot rilevato");
+                }
+                
+            } catch (e) {
+                console.error("Errore analisi:", e);
+                setServerStatus("error", "Errore di comunicazione");
+            }
+        }
+
+        // === FETCH IMMAGINE COME BASE64 ===
+        async function fetchImageAsBase64(url) {
+            const response = await fetch(url);
+            const blob = await response.blob();
+            return new Promise((resolve) => {
+                const reader = new FileReader();
+                reader.onloadend = () => resolve(reader.result);
+                reader.readAsDataURL(blob);
+            });
+        }
+
+        // === ESTRAI API KEY DALLO SCRIPT TAG ===
+        function getApiKey() {
+            const scripts = document.querySelectorAll("script[src*='maps.googleapis.com']");
+            for (const s of scripts) {
+                const match = s.src.match(/key=([^&]+)/);
+                if (match) return match[1];
+            }
+            return "YOUR_API_KEY";
+        }
+
+        // === OVERLAY ===
+        function showOverlay(matches) {
+            const overlay = document.getElementById("detection-overlay");
+            overlay.className = "active effect-" + currentEffect;
+            
+            // Mostra label centrale
+            const topMatch = matches[0];
+            const labelEl = document.getElementById("detection-label");
+            document.getElementById("label-name").innerHTML = 
+                `<span class="strikethrough">${topMatch.label}</span>`;
+            document.getElementById("label-stats").textContent = 
+                `Fotografato da ${topMatch.tourist_photo_count} turisti — similarità ${(topMatch.similarity * 100).toFixed(0)}%`;
+            labelEl.classList.add("visible");
+        }
+
+        function hideOverlay() {
+            const overlay = document.getElementById("detection-overlay");
+            overlay.className = "";
+            document.getElementById("detection-label").classList.remove("visible");
+            matchedIds = new Set();
+            renderHotspotList();
+        }
+
+        function updateOverlayEffect() {
+            const overlay = document.getElementById("detection-overlay");
+            if (overlay.classList.contains("active")) {
+                overlay.className = "active effect-" + currentEffect;
+            }
+        }
+
+        // === HOTSPOT LIST ===
+        function renderHotspotList() {
+            const container = document.getElementById("hotspot-list");
+            container.innerHTML = hotspots.map(h => `
+                <div class="hotspot-item ${matchedIds.has(h.cluster_id) ? 'matched' : ''}" 
+                     id="hotspot-${h.cluster_id}">
+                    <div class="hotspot-dot"></div>
+                    <div class="hotspot-info">
+                        <div class="name">${h.label}</div>
+                        <div class="count">${h.size} foto turistiche</div>
+                    </div>
+                    <div class="similarity-bar">
+                        <div class="similarity-fill" id="sim-${h.cluster_id}"></div>
+                    </div>
+                </div>
+            `).join("");
+        }
+
+        function updateHotspotList(matches) {
+            renderHotspotList();
+            for (const m of matches) {
+                const simFill = document.getElementById(`sim-${m.cluster_id}`);
+                if (simFill) {
+                    simFill.style.width = `${m.similarity * 100}%`;
+                }
+            }
+        }
+
+        // === SERVER STATUS ===
+        function setServerStatus(state, text) {
+            const indicator = document.getElementById("server-status");
+            indicator.className = "status-indicator " + state;
+            document.getElementById("status-text").textContent = text;
+        }
+
+        // === START ===
+        window.addEventListener("load", init);
+    </script>
+</body>
+</html>

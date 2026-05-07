@@ -1,0 +1,1009 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>De-Turistificazione</title>
+
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=DM+Sans:wght@300;400;500;700&family=Space+Mono:wght@400;700&display=swap');
+
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    html, body {
+      width: 100%; height: 100%;
+      font-family: 'DM Sans', sans-serif;
+      background: #0a0a0a;
+      color: #e0e0e0;
+      overflow: hidden;
+    }
+
+    #map3d {
+      width: 100%; height: 100%;
+      position: absolute; inset: 0;
+    }
+
+    gmp-popover {
+      --gmp-popover-background-color: transparent;
+      --gmp-popover-border-color: transparent;
+    }
+    gmp-popover::part(popover) {
+      background: transparent !important;
+      border: none !important;
+      box-shadow: none !important;
+      padding: 0 !important;
+    }
+
+    .photo-card {
+      display: block; cursor: pointer;
+      border: 1px solid rgba(255,255,255,0.2);
+      box-shadow: 0 4px 16px rgba(0,0,0,0.6);
+      transition: transform 0.2s ease, box-shadow 0.2s ease;
+      background: #1a1a1e; overflow: hidden; border-radius: 3px;
+      will-change: transform;
+      contain: layout style paint;
+    }
+    .photo-card:hover {
+      transform: scale(1.15);
+      box-shadow: 0 8px 32px rgba(0,0,0,0.8);
+      border-color: rgba(255,255,255,0.5);
+      z-index: 1000;
+    }
+    .photo-card img { width: 100%; height: 100%; object-fit: cover; display: block; }
+
+    .badge-card {
+      display: block; cursor: pointer;
+      border: 1px solid rgba(255,255,255,0.15);
+      box-shadow: 0 4px 20px rgba(0,0,0,0.7);
+      transition: transform 0.2s ease, box-shadow 0.2s ease;
+      background: rgba(20,20,20,0.9); overflow: hidden; border-radius: 50%;
+      pointer-events: auto;
+    }
+    .badge-card:hover {
+      transform: scale(1.2);
+      box-shadow: 0 8px 36px rgba(0,0,0,0.9);
+      border-color: rgba(255,255,255,0.5);
+      z-index: 1000;
+    }
+    .badge-card img { width: 100%; height: 100%; object-fit: contain; display: block; }
+
+    #header {
+      position: absolute; top: 0; left: 0; right: 0;
+      padding: 20px 28px;
+      background: linear-gradient(to bottom, rgba(0,0,0,0.7) 0%, rgba(0,0,0,0) 100%);
+      z-index: 20; pointer-events: none;
+    }
+    #header h1 {
+      font-family: 'Space Mono', monospace; font-size: 14px; font-weight: 700;
+      letter-spacing: 3px; text-transform: uppercase; color: #fff; margin-bottom: 4px;
+    }
+    #header .subtitle {
+      font-size: 11px; color: rgba(255,255,255,0.5); letter-spacing: 1px;
+    }
+
+    #panel {
+      position: absolute; bottom: 40px; left: 28px;
+      max-width: 340px;
+      background: rgba(10,10,10,0.88); backdrop-filter: blur(20px);
+      border: 1px solid rgba(255,255,255,0.08); border-radius: 12px;
+      padding: 20px; z-index: 20;
+      opacity: 0; transform: translateY(12px);
+      transition: opacity 0.3s ease, transform 0.3s ease;
+      pointer-events: none;
+    }
+    #panel.visible { opacity: 1; transform: translateY(0); pointer-events: auto; }
+    #panel .label {
+      font-family: 'Space Mono', monospace; font-size: 12px; font-weight: 700;
+      letter-spacing: 2px; text-transform: uppercase; color: #fff; margin-bottom: 8px;
+    }
+    #panel .description { font-size: 13px; line-height: 1.5; color: rgba(255,255,255,0.6); }
+    #panel .meta {
+      margin-top: 12px; font-family: 'Space Mono', monospace; font-size: 10px;
+      color: rgba(255,255,255,0.3); letter-spacing: 1px;
+    }
+
+    #zoom-indicator {
+      position: absolute; top: 20px; right: 28px;
+      font-family: 'Space Mono', monospace; font-size: 10px;
+      letter-spacing: 2px; color: rgba(255,255,255,0.3); z-index: 20; pointer-events: none;
+    }
+
+    #streetview-overlay {
+      position: fixed; top: 0; left: 0; bottom: 0;
+      right: 0; z-index: 300; background: #000;
+      display: none; flex-direction: column;
+      transition: right 0.35s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+    #streetview-overlay.open { display: flex; }
+    #streetview-overlay.with-panel { right: 380px; }
+    #streetview-container { flex: 1; width: 100%; height: 100%; }
+    #close-streetview {
+      position: absolute; top: 24px; left: 28px; z-index: 310;
+      font-family: 'Space Mono', monospace; font-size: 11px; letter-spacing: 2px;
+      background: rgba(0,0,0,0.7); color: white;
+      border: 1px solid rgba(255,255,255,0.3); padding: 10px 18px;
+      cursor: pointer; transition: all 0.2s; text-transform: uppercase;
+    }
+    #close-streetview:hover { background: rgba(255,255,255,0.2); border-color: white; }
+
+    #nav {
+      position: absolute; bottom: 40px; right: 28px;
+      z-index: 20; display: flex; gap: 8px; flex-wrap: wrap;
+      justify-content: flex-end; max-width: 60vw;
+    }
+    #nav button {
+      font-family: 'Space Mono', monospace; font-size: 10px; letter-spacing: 1px;
+      text-transform: uppercase; background: rgba(255,255,255,0.1);
+      color: rgba(255,255,255,0.6); border: 1px solid rgba(255,255,255,0.15);
+      border-radius: 6px; padding: 8px 14px; cursor: pointer;
+      transition: all 0.2s; white-space: nowrap;
+    }
+    #nav button:hover { background: rgba(255,255,255,0.2); color: #fff; }
+    #nav button.active {
+      color: #fff; border-color: rgba(255,255,255,0.5);
+      background: rgba(255,255,255,0.18);
+    }
+
+    /* Photo detail side panel */
+    #photo-detail {
+      position: fixed;
+      top: 0; right: 0; bottom: 0;
+      width: 380px;
+      background: rgba(8, 8, 8, 0.95);
+      backdrop-filter: blur(24px);
+      -webkit-backdrop-filter: blur(24px);
+      border-left: 1px solid rgba(255,255,255,0.06);
+      z-index: 400;
+      transform: translateX(100%);
+      transition: transform 0.35s cubic-bezier(0.4, 0, 0.2, 1);
+      overflow-y: auto;
+      overflow-x: hidden;
+    }
+    #photo-detail.open {
+      transform: translateX(0);
+    }
+    #photo-detail .pd-close {
+      position: sticky; top: 0;
+      display: flex; justify-content: flex-end;
+      padding: 16px 20px 8px;
+      background: linear-gradient(to bottom, rgba(8,8,8,0.95) 60%, transparent);
+      z-index: 2;
+    }
+    #photo-detail .pd-close button {
+      background: rgba(255,255,255,0.08);
+      border: 1px solid rgba(255,255,255,0.12);
+      color: rgba(255,255,255,0.5);
+      font-family: 'Space Mono', monospace;
+      font-size: 10px; letter-spacing: 1px;
+      padding: 6px 12px; cursor: pointer;
+      border-radius: 4px; transition: all 0.2s;
+    }
+    #photo-detail .pd-close button:hover {
+      background: rgba(255,255,255,0.15);
+      color: #fff;
+    }
+    #photo-detail .pd-image {
+      width: 100%;
+      aspect-ratio: 1;
+      object-fit: cover;
+      border-bottom: 1px solid rgba(255,255,255,0.06);
+    }
+    #photo-detail .pd-body { padding: 20px; }
+
+    #photo-detail .pd-section {
+      margin-bottom: 20px;
+    }
+    #photo-detail .pd-section-title {
+      font-family: 'Space Mono', monospace;
+      font-size: 9px; font-weight: 700;
+      letter-spacing: 2px; text-transform: uppercase;
+      color: rgba(255,255,255,0.3);
+      margin-bottom: 8px;
+    }
+    #photo-detail .pd-username {
+      font-size: 15px; font-weight: 600;
+      color: #fff;
+    }
+    #photo-detail .pd-username .verified {
+      display: inline-block;
+      width: 14px; height: 14px;
+      background: #3897f0;
+      border-radius: 50%;
+      vertical-align: middle;
+      margin-left: 4px;
+      position: relative;
+    }
+    #photo-detail .pd-username .verified::after {
+      content: '✓'; color: #fff;
+      font-size: 9px; font-weight: 700;
+      position: absolute; top: 50%; left: 50%;
+      transform: translate(-50%, -50%);
+    }
+    #photo-detail .pd-caption {
+      font-size: 13px; line-height: 1.55;
+      color: rgba(255,255,255,0.6);
+      word-break: break-word;
+      max-height: 120px;
+      overflow-y: auto;
+    }
+    #photo-detail .pd-stats {
+      display: flex; gap: 20px;
+    }
+    #photo-detail .pd-stat {
+      text-align: center;
+    }
+    #photo-detail .pd-stat-value {
+      font-family: 'Space Mono', monospace;
+      font-size: 16px; font-weight: 700; color: #fff;
+    }
+    #photo-detail .pd-stat-label {
+      font-size: 10px;
+      color: rgba(255,255,255,0.35);
+      margin-top: 2px;
+    }
+    #photo-detail .pd-meta-row {
+      display: flex; justify-content: space-between;
+      padding: 6px 0;
+      border-bottom: 1px solid rgba(255,255,255,0.04);
+    }
+    #photo-detail .pd-meta-key {
+      font-size: 11px; color: rgba(255,255,255,0.35);
+    }
+    #photo-detail .pd-meta-val {
+      font-size: 11px; color: rgba(255,255,255,0.7);
+      text-align: right; max-width: 60%;
+      word-break: break-word;
+    }
+    #photo-detail .pd-link {
+      display: inline-block; margin-top: 12px;
+      font-family: 'Space Mono', monospace;
+      font-size: 10px; letter-spacing: 1px;
+      text-transform: uppercase;
+      color: #3897f0;
+      text-decoration: none;
+      transition: color 0.2s;
+    }
+    #photo-detail .pd-link:hover { color: #6db3f5; }
+  </style>
+</head>
+<body>
+
+<gmp-map-3d id="map3d"
+  center="45.995,8.960,800"
+  heading="0" tilt="60" range="8000"
+  mode="SATELLITE"
+></gmp-map-3d>
+
+<div id="header">
+  <h1>De-Turistificazione</h1>
+  <div class="subtitle">Mappatura degli hotspot fotografici — Lugano</div>
+</div>
+
+<div id="zoom-indicator"></div>
+
+<div id="panel">
+  <div class="label" id="panel-label"></div>
+  <div class="description" id="panel-desc"></div>
+  <div class="meta" id="panel-meta"></div>
+</div>
+
+<div id="streetview-overlay">
+  <button id="close-streetview" onclick="closeStreetView()">✕ Chiudi Street View</button>
+  <div id="streetview-container"></div>
+</div>
+
+<!-- Photo detail side panel -->
+<div id="photo-detail">
+  <div class="pd-close"><button onclick="closeStreetView()">✕ CHIUDI</button></div>
+  <img class="pd-image" id="pd-image" src="" alt="" />
+  <div class="pd-body">
+    <div class="pd-section">
+      <div class="pd-section-title">Autore</div>
+      <div class="pd-username" id="pd-username"></div>
+    </div>
+    <div class="pd-section">
+      <div class="pd-section-title">Engagement</div>
+      <div class="pd-stats">
+        <div class="pd-stat"><div class="pd-stat-value" id="pd-likes">—</div><div class="pd-stat-label">likes</div></div>
+        <div class="pd-stat"><div class="pd-stat-value" id="pd-comments">—</div><div class="pd-stat-label">commenti</div></div>
+        <div class="pd-stat"><div class="pd-stat-value" id="pd-views">—</div><div class="pd-stat-label">views</div></div>
+      </div>
+    </div>
+    <div class="pd-section" id="pd-caption-section">
+      <div class="pd-section-title">Caption</div>
+      <div class="pd-caption" id="pd-caption"></div>
+    </div>
+    <div class="pd-section">
+      <div class="pd-section-title">Dettagli</div>
+      <div id="pd-meta"></div>
+    </div>
+    <div class="pd-section" id="pd-link-section" style="display:none">
+      <a class="pd-link" id="pd-post-link" href="" target="_blank" rel="noopener">Apri post originale →</a>
+    </div>
+  </div>
+</div>
+
+<div id="nav">
+  <button onclick="flyToOverview()" data-nav="overview" class="active">Lugano</button>
+</div>
+
+<script>
+  // ============================================================
+  // CONFIG
+  // ============================================================
+  const DATA_URL = 'data.json';
+  const PHOTO_INFO_URL = 'photo_info.json';
+  const IMG_BASE = '';
+
+  // Range thresholds (con isteresi, ma più alti per non zoomare troppo vicino)
+  const RANGE_CITY_TO_LOCATION = 5000;   // sotto questo → compaiono i cluster
+  const RANGE_LOCATION_TO_CITY = 5500;   // sopra questo → tornano i badge
+  const RANGE_LOCATION_TO_PHOTOS = 1500; // sotto questo → foto singole
+  const RANGE_PHOTOS_TO_LOCATION = 1800; // sopra questo → tornano i cluster
+
+  const BADGE_SIZE = 90;
+  const CLUSTER_CARD_SIZE = 65;
+  const PHOTO_CARD_SIZE = 50;
+
+  // ⚠️ Limiti per evitare rallentamenti: modificabili
+  const MAX_PHOTOS_TOTAL = 80;     // massimo foto totali visualizzate per località
+  const MAX_PHOTOS_PER_CLUSTER = 30; // massimo foto da un singolo cluster
+
+  // Thumbnail cache: ridimensiona le immagini a max 120px per non caricare i full-res
+  const thumbCache = {};
+  function getThumbnail(src, size, callback) {
+    const key = src + '_' + size;
+    if (thumbCache[key]) { callback(thumbCache[key]); return; }
+    const img = new Image();
+    img.crossOrigin = 'anonymous';
+    img.onload = () => {
+      const canvas = document.createElement('canvas');
+      canvas.width = size; canvas.height = size;
+      const ctx = canvas.getContext('2d');
+      // Cover-crop
+      const aspect = img.width / img.height;
+      let sx=0, sy=0, sw=img.width, sh=img.height;
+      if (aspect > 1) { sx=(img.width-img.height)/2; sw=img.height; }
+      else { sy=(img.height-img.width)/2; sh=img.width; }
+      ctx.drawImage(img, sx, sy, sw, sh, 0, 0, size, size);
+      const dataUrl = canvas.toDataURL('image/jpeg', 0.6);
+      thumbCache[key] = dataUrl;
+      callback(dataUrl);
+    };
+    img.onerror = () => callback(null);
+    img.src = src;
+  }
+
+  // ============================================================
+  // STATE
+  // ============================================================
+  let appData = null;
+  let photoInfo = null;  // from photo_info.json
+  let map3D = null;
+  let PopoverEl = null;
+  let AltitudeModeEnum = null;
+  let currentLevel = 'city';        // 'city' | 'location' | 'photos'
+  let activePopovers = [];
+  let currentLocationIndex = null;
+  let isAnimating = false;
+  let streetViewPanorama = null;
+  let lastLevelChangeTime = 0;
+  const LEVEL_CHANGE_COOLDOWN = 2000; // ms
+
+  // Canvas count badges
+  const iconCache = {};
+  function createCountBadge(text, count) {
+    const key = `badge_${text}_${count}`;
+    if (iconCache[key]) return iconCache[key];
+    const size = 256;
+    const canvas = document.createElement('canvas');
+    canvas.width = size; canvas.height = size;
+    const ctx = canvas.getContext('2d');
+    ctx.beginPath();
+    ctx.arc(size/2, size/2, size/2-6, 0, Math.PI*2);
+    ctx.fillStyle = 'rgba(18,18,18,0.88)';
+    ctx.fill();
+    ctx.strokeStyle = 'rgba(255,255,255,0.3)';
+    ctx.lineWidth = 3;
+    ctx.stroke();
+    ctx.fillStyle = '#fff';
+    ctx.font = `bold ${size*0.2}px "DM Sans", sans-serif`;
+    ctx.textAlign = 'center';
+    ctx.textBaseline = 'middle';
+    ctx.fillText(count.toString(), size/2, size/2-16);
+    ctx.fillStyle = 'rgba(255,255,255,0.55)';
+    ctx.font = `${size*0.09}px "Space Mono", monospace`;
+    const short = text.length > 14 ? text.substring(0,13)+'…' : text;
+    ctx.fillText(short, size/2, size/2+28);
+    const url = canvas.toDataURL();
+    iconCache[key] = url;
+    return url;
+  }
+
+  // ============================================================
+  // INIT
+  // ============================================================
+  async function init() {
+    const lib = await google.maps.importLibrary('maps3d');
+    PopoverEl = lib.PopoverElement;
+    AltitudeModeEnum = lib.AltitudeMode;
+    await customElements.whenDefined('gmp-map-3d');
+    map3D = document.getElementById('map3d');
+
+    try {
+      const [dataRes, infoRes] = await Promise.all([
+        fetch(DATA_URL),
+        fetch(PHOTO_INFO_URL).catch(() => null),
+      ]);
+      appData = await dataRes.json();
+      if (infoRes && infoRes.ok) {
+        photoInfo = await infoRes.json();
+        console.log('Photo info loaded:', Object.keys(photoInfo).length, 'entries');
+      } else {
+        console.warn('photo_info.json non trovato — pannello dettagli disabilitato');
+        photoInfo = {};
+      }
+    } catch (e) {
+      console.error(e);
+      return;
+    }
+
+    buildNavButtons();
+    renderCityBadges();
+    startCameraPolling();
+  }
+
+  function buildNavButtons() {
+    const nav = document.getElementById('nav');
+    nav.innerHTML = '<button onclick="flyToOverview()" data-nav="overview" class="active">Lugano</button>';
+    appData.locations.forEach((loc, i) => {
+      const btn = document.createElement('button');
+      btn.textContent = loc.name;
+      btn.dataset.locIndex = i;
+      btn.onclick = () => flyToLocation(i);
+      nav.appendChild(btn);
+    });
+  }
+
+  function setActiveNavButton(index) {
+    document.querySelectorAll('#nav button').forEach(b => b.classList.remove('active'));
+    if (index === null) {
+      document.querySelector('#nav button[data-nav="overview"]').classList.add('active');
+    } else {
+      const btn = document.querySelector(`#nav button[data-loc-index="${index}"]`);
+      if (btn) btn.classList.add('active');
+    }
+  }
+
+  // ============================================================
+  // POPOVER RENDERING
+  // ============================================================
+  function clearPopovers() {
+    activePopovers.forEach(p => { try { p.remove(); } catch(e) {} });
+    activePopovers = [];
+  }
+
+  function renderCityBadges() {
+    clearPopovers();
+    currentLevel = 'city';
+    currentLocationIndex = null;
+    setActiveNavButton(null);
+    hidePanel();
+    if (!appData) return;
+
+    appData.locations.forEach((loc, i) => {
+      const popover = new PopoverEl({
+        open: true,
+        lightDismissDisabled: true,
+        positionAnchor: { lat: loc.lat, lng: loc.lng, altitude: 120 },
+        altitudeMode: AltitudeModeEnum.RELATIVE_TO_GROUND,
+      });
+      const card = document.createElement('div');
+      card.className = 'badge-card';
+      card.style.width = BADGE_SIZE+'px';
+      card.style.height = BADGE_SIZE+'px';
+      const img = document.createElement('img');
+      img.src = createCountBadge(loc.name, loc.total_photos);
+      card.appendChild(img);
+      card.onclick = (e) => { e.stopPropagation(); flyToLocation(i); };
+      popover.append(card);
+      map3D.append(popover);
+      activePopovers.push(popover);
+    });
+    updateZoomIndicator();
+  }
+
+  function renderClusterMarkers(locIndex) {
+    clearPopovers();
+    const loc = appData.locations[locIndex];
+    if (!loc || !loc.clusters) return;
+    currentLevel = 'location';
+    currentLocationIndex = locIndex;
+    setActiveNavButton(locIndex);
+    hidePanel();
+
+    loc.clusters.forEach((cl, ci) => {
+      const baseSize = CLUSTER_CARD_SIZE + Math.min(cl.size||10,200)*0.15;
+      // Mostra max 3 foto per cluster a questo livello (anteprima leggera)
+      const num = Math.min(3, (cl.photos?.length||1));
+      for (let i=0; i<num; i++) {
+        const angle = (i/num)*Math.PI*2 + (ci*1.2);
+        const spread = 0.00008 + i*0.00004;
+        const lat = cl.lat + Math.cos(angle)*spread;
+        const lng = cl.lng + Math.sin(angle)*spread;
+        const rot = (Math.random()-0.5)*14;
+        const sz = Math.round(baseSize + (Math.random()-0.5)*16);
+
+        const popover = new PopoverEl({
+          open: true,
+          lightDismissDisabled: true,
+          positionAnchor: { lat, lng, altitude: 8 },
+          altitudeMode: AltitudeModeEnum.RELATIVE_TO_GROUND,
+        });
+        const card = document.createElement('div');
+        card.className = 'photo-card';
+        card.style.width = sz+'px';
+        card.style.height = sz+'px';
+        card.style.transform = `rotate(${rot}deg)`;
+        // Placeholder grigio, poi carica thumbnail
+        card.style.background = '#2a2a2a';
+        const imgEl = document.createElement('img');
+        imgEl.style.opacity = '0';
+        imgEl.style.transition = 'opacity 0.3s';
+        const imgSrc = resolveImagePath(cl.cover || (cl.photos?.[i]?.path || cl.photos?.[0]?.path || ''));
+        getThumbnail(imgSrc, sz * 2, (thumb) => {
+          if (thumb) { imgEl.src = thumb; imgEl.style.opacity = '1'; }
+        });
+        imgEl.onerror = () => card.style.display='none';
+        card.appendChild(imgEl);
+        card.onclick = (e) => {
+          e.stopPropagation();
+          showPanel(cl.label, cl.description||'', `${cl.size} foto · ${loc.name}`);
+          flyToCluster(cl, locIndex);
+        };
+        popover.append(card);
+        map3D.append(popover);
+        activePopovers.push(popover);
+      }
+    });
+    updateZoomIndicator();
+  }
+
+  function renderPhotoMarkers(locIndex) {
+    clearPopovers();
+    const loc = appData.locations[locIndex];
+    if (!loc || !loc.clusters) return;
+    currentLevel = 'photos';
+    currentLocationIndex = locIndex;
+    setActiveNavButton(locIndex);
+    hidePanel();
+
+    // Collect all photos to render
+    const allPhotos = [];
+    for (const cl of loc.clusters) {
+      if (!cl.photos) continue;
+      const photosToShow = cl.photos.slice(0, MAX_PHOTOS_PER_CLUSTER);
+      for (const photo of photosToShow) {
+        if (allPhotos.length >= MAX_PHOTOS_TOTAL) break;
+        allPhotos.push({ photo, cl });
+      }
+      if (allPhotos.length >= MAX_PHOTOS_TOTAL) break;
+    }
+
+    // Render in batches of 15 to avoid blocking the main thread
+    const BATCH_SIZE = 15;
+    let batchIndex = 0;
+
+    function renderBatch() {
+      const start = batchIndex * BATCH_SIZE;
+      const end = Math.min(start + BATCH_SIZE, allPhotos.length);
+      if (start >= allPhotos.length) return;
+
+      // Use DocumentFragment for batch DOM operations
+      for (let i = start; i < end; i++) {
+        const { photo, cl } = allPhotos[i];
+        const rot = (Math.random()-0.5)*10;
+        const sz = Math.round(PHOTO_CARD_SIZE + (Math.random()-0.5)*12);
+
+        const popover = new PopoverEl({
+          open: true,
+          lightDismissDisabled: true,
+          positionAnchor: { lat: photo.lat, lng: photo.lng, altitude: 4 },
+          altitudeMode: AltitudeModeEnum.RELATIVE_TO_GROUND,
+        });
+        const card = document.createElement('div');
+        card.className = 'photo-card';
+        card.style.width = sz+'px';
+        card.style.height = sz+'px';
+        card.style.transform = `rotate(${rot}deg)`;
+        card.style.background = '#2a2a2a';
+        const imgEl = document.createElement('img');
+        imgEl.style.opacity = '0';
+        imgEl.style.transition = 'opacity 0.3s';
+        const imgSrc = resolveThumbPath(photo);
+        // Stagger thumbnail loading to avoid simultaneous HTTP requests
+        setTimeout(() => {
+          getThumbnail(imgSrc, sz * 2, (thumb) => {
+            if (thumb) { imgEl.src = thumb; imgEl.style.opacity = '1'; }
+          });
+        }, (i - start) * 50); // 50ms stagger per image in batch
+        imgEl.onerror = () => card.style.display='none';
+        card.appendChild(imgEl);
+        card.onclick = (e) => {
+          e.stopPropagation();
+          openStreetView(photo.lat, photo.lng);
+          showPanel(cl.label, cl.description||'', loc.name);
+          openPhotoDetail(photo.path, cl, loc);
+        };
+        popover.append(card);
+        map3D.append(popover);
+        activePopovers.push(popover);
+      }
+
+      batchIndex++;
+      if (batchIndex * BATCH_SIZE < allPhotos.length) {
+        requestAnimationFrame(renderBatch);
+      }
+    }
+
+    renderBatch();
+    updateZoomIndicator();
+  }
+
+  function resolveImagePath(path) {
+    if (!path) return '';
+    if (path.startsWith('http') || path.startsWith('data:')) return path;
+    return IMG_BASE ? encodeURI(IMG_BASE.replace(/\/+$/,'')+'/'+path.replace(/^\/+/,'')) : path;
+  }
+
+  // Preferisci il thumbnail pre-generato se disponibile
+  function resolveThumbPath(photoObj) {
+    if (photoObj.thumb) return resolveImagePath(photoObj.thumb);
+    return resolveImagePath(photoObj.path);
+  }
+
+  // ============================================================
+  // CAMERA POLLING (livelli automatici)
+  // ============================================================
+  function startCameraPolling() {
+    function poll() {
+      if (!map3D || isAnimating) {
+        requestAnimationFrame(poll);
+        return;
+      }
+      try {
+        const range = map3D.range;
+        const center = map3D.center;
+        const now = Date.now();
+
+        let newLevel = currentLevel;
+        if (currentLevel === 'city' && range < RANGE_CITY_TO_LOCATION) {
+          newLevel = 'location';
+        } else if (currentLevel === 'location') {
+          if (range > RANGE_LOCATION_TO_CITY) newLevel = 'city';
+          else if (range < RANGE_LOCATION_TO_PHOTOS) newLevel = 'photos';
+        } else if (currentLevel === 'photos' && range > RANGE_PHOTOS_TO_LOCATION) {
+          newLevel = 'location';
+        }
+
+        let nearestLoc = null;
+        if (newLevel !== 'city') {
+          nearestLoc = findNearestLocationIndex(center.lat, center.lng);
+        }
+
+        const levelChanged = (newLevel !== currentLevel);
+        const locationChanged = (newLevel !== 'city' && nearestLoc !== null && nearestLoc !== currentLocationIndex);
+
+        if ((levelChanged || locationChanged) && (now - lastLevelChangeTime > LEVEL_CHANGE_COOLDOWN)) {
+          lastLevelChangeTime = now;
+          currentLevel = newLevel;
+          if (nearestLoc !== null) {
+            currentLocationIndex = nearestLoc;
+          } else if (newLevel === 'city') {
+            currentLocationIndex = null;
+          }
+          applyCurrentLevel();
+        } else if (!levelChanged && newLevel === 'city' && currentLevel === 'city' && activePopovers.length === 0) {
+          renderCityBadges();
+        }
+
+        // Aggiorna sempre l'indicatore di zoom
+        updateZoomIndicator();
+
+      } catch(e) {}
+      requestAnimationFrame(poll);
+    }
+    requestAnimationFrame(poll);
+  }
+
+  function findNearestLocationIndex(lat, lng) {
+    let minDist = Infinity;
+    let nearest = null;
+    appData.locations.forEach((loc, i) => {
+      const dLat = loc.lat - lat;
+      const dLng = loc.lng - lng;
+      const dist = Math.sqrt(dLat*dLat + dLng*dLng);
+      if (dist < minDist) {
+        minDist = dist;
+        nearest = i;
+      }
+    });
+    if (minDist > 0.05) return null;
+
+    // Isteresi: se siamo già su una location, cambia solo se la nuova è
+    // significativamente più vicina (30% più vicina)
+    if (currentLocationIndex !== null && nearest !== currentLocationIndex) {
+      const curLoc = appData.locations[currentLocationIndex];
+      const curDist = Math.sqrt(
+        (curLoc.lat - lat) ** 2 + (curLoc.lng - lng) ** 2
+      );
+      if (minDist > curDist * 0.7) {
+        return currentLocationIndex; // resta sulla location corrente
+      }
+    }
+
+    return nearest;
+  }
+
+  function applyCurrentLevel() {
+    if (currentLevel === 'city') {
+      currentLocationIndex = null;
+      renderCityBadges();
+    } else if (currentLevel === 'location' && currentLocationIndex !== null) {
+      renderClusterMarkers(currentLocationIndex);
+    } else if (currentLevel === 'photos' && currentLocationIndex !== null) {
+      renderPhotoMarkers(currentLocationIndex);
+    }
+  }
+
+  function updateZoomIndicator() {
+    const el = document.getElementById('zoom-indicator');
+    if (!map3D) return;
+    try {
+      const range = map3D.range;
+      const labels = { city: 'CITTÀ', location: 'CLUSTER', photos: 'FOTO' };
+      el.textContent = `${labels[currentLevel]} · ${Math.round(range)}m`;
+    } catch(e) {}
+  }
+
+  // ============================================================
+  // NAVIGATION (esplicita, con animazione)
+  // ============================================================
+  function flyToOverview() {
+    if (!map3D || isAnimating) return;
+    isAnimating = true;
+    closeStreetView();
+    map3D.flyCameraTo({
+      endCamera: {
+        center: { lat:45.995, lng:8.960, altitude:800 },
+        range: 8000, heading:0, tilt:60
+      },
+      durationMillis: 2000
+    });
+    setTimeout(() => {
+      renderCityBadges();
+      isAnimating = false;
+    }, 2200);
+  }
+
+  function flyToLocation(locIndex) {
+    if (!map3D || isAnimating) return;
+    const loc = appData.locations[locIndex];
+    isAnimating = true;
+    closeStreetView();
+    map3D.flyCameraTo({
+      endCamera: {
+        center: { lat: loc.lat, lng: loc.lng, altitude: 350 },
+        range: 2000, heading:0, tilt:58
+      },
+      durationMillis: 1800
+    });
+    setTimeout(() => {
+      currentLevel = 'location';
+      currentLocationIndex = locIndex;
+      renderClusterMarkers(locIndex);
+      isAnimating = false;
+    }, 2000);
+  }
+
+  function flyToCluster(cluster, locIndex) {
+    if (!map3D || isAnimating) return;
+    isAnimating = true;
+    closeStreetView();
+    map3D.flyCameraTo({
+      endCamera: {
+        center: { lat: cluster.lat, lng: cluster.lng, altitude: 120 },
+        range: 800, heading:0, tilt:55
+      },
+      durationMillis: 1500
+    });
+    setTimeout(() => {
+      currentLevel = 'photos';
+      currentLocationIndex = locIndex;
+      renderPhotoMarkers(locIndex);
+      isAnimating = false;
+    }, 1700);
+  }
+
+  // ============================================================
+  // STREET VIEW
+  // ============================================================
+  function openStreetView(lat, lng) {
+    const overlay = document.getElementById('streetview-overlay');
+    const container = document.getElementById('streetview-container');
+    overlay.classList.add('open');
+    // Street View shrinks when photo panel is open
+    overlay.classList.add('with-panel');
+    if (!streetViewPanorama) {
+      streetViewPanorama = new google.maps.StreetViewPanorama(container, {
+        position: { lat, lng },
+        pov: { heading:0, pitch:0 },
+        zoom: 1,
+        addressControl: false,
+        showRoadLabels: false,
+        fullscreenControl: false,
+        motionTracking: false,
+        motionTrackingControl: false
+      });
+    } else {
+      streetViewPanorama.setPosition({ lat, lng });
+      streetViewPanorama.setVisible(true);
+    }
+    // Trigger resize after transition
+    setTimeout(() => {
+      if (streetViewPanorama) google.maps.event.trigger(streetViewPanorama, 'resize');
+    }, 400);
+  }
+
+  function closeStreetView() {
+    document.getElementById('streetview-overlay').classList.remove('open', 'with-panel');
+    if (streetViewPanorama) streetViewPanorama.setVisible(false);
+    closePhotoDetail();
+  }
+
+  // ============================================================
+  // UI
+  // ============================================================
+  function showPanel(label, desc, meta) {
+    document.getElementById('panel-label').textContent = label||'';
+    document.getElementById('panel-desc').textContent = desc||'';
+    document.getElementById('panel-meta').textContent = meta||'';
+    document.getElementById('panel').classList.add('visible');
+  }
+  function hidePanel() {
+    document.getElementById('panel').classList.remove('visible');
+  }
+
+  // ============================================================
+  // PHOTO DETAIL PANEL
+  // ============================================================
+  function extractPhotoId(path) {
+    // "foto/parcociani/2965696903912490122_01.jpg" → "2965696903912490122_01.jpg"
+    if (!path) return '';
+    const parts = path.replace(/\\/g, '/').split('/');
+    return parts[parts.length - 1];
+  }
+
+  function formatNumber(n) {
+    if (n === '' || n === null || n === undefined) return '—';
+    n = Number(n);
+    if (isNaN(n)) return '—';
+    if (n >= 1000000) return (n/1000000).toFixed(1) + 'M';
+    if (n >= 1000) return (n/1000).toFixed(1) + 'K';
+    return n.toString();
+  }
+
+  function formatDate(dateStr) {
+    if (!dateStr) return '—';
+    try {
+      const d = new Date(dateStr);
+      return d.toLocaleDateString('it-IT', { day: 'numeric', month: 'long', year: 'numeric' });
+    } catch { return dateStr; }
+  }
+
+  function openPhotoDetail(photoPath, cluster, location) {
+    const pid = extractPhotoId(photoPath);
+    // Try matching with and without .jpg extension
+    const pidNoExt = pid.replace(/\.\w+$/, '');
+    const info = photoInfo[pid] || photoInfo[pidNoExt] || null;
+
+    const panel = document.getElementById('photo-detail');
+
+    // Always show the image
+    const imgEl = document.getElementById('pd-image');
+    imgEl.src = resolveImagePath(photoPath);
+
+    if (info) {
+      // Username
+      const userEl = document.getElementById('pd-username');
+      userEl.innerHTML = '@' + (info.username || '?');
+      if (info.is_verified) {
+        userEl.innerHTML += '<span class="verified"></span>';
+      }
+
+      // Stats
+      document.getElementById('pd-likes').textContent = formatNumber(info.like_count);
+      document.getElementById('pd-comments').textContent = formatNumber(info.comment_count);
+      document.getElementById('pd-views').textContent = formatNumber(info.view_count);
+
+      // Caption
+      const captionSection = document.getElementById('pd-caption-section');
+      const captionEl = document.getElementById('pd-caption');
+      if (info.caption) {
+        captionEl.textContent = info.caption;
+        captionSection.style.display = '';
+      } else {
+        captionSection.style.display = 'none';
+      }
+
+      // Meta details
+      const metaEl = document.getElementById('pd-meta');
+      metaEl.innerHTML = '';
+      const metaRows = [
+        ['Data', formatDate(info.taken_at)],
+        ['Luogo', info.location_name || location.name],
+        ['Cluster', cluster.label],
+        ['Tipo', info.product_type || '—'],
+      ];
+      if (info.carousel_total > 1) {
+        metaRows.push(['Carosello', `${info.carousel_index}/${info.carousel_total}`]);
+      }
+      metaRows.forEach(([key, val]) => {
+        const row = document.createElement('div');
+        row.className = 'pd-meta-row';
+        row.innerHTML = `<span class="pd-meta-key">${key}</span><span class="pd-meta-val">${val || '—'}</span>`;
+        metaEl.appendChild(row);
+      });
+
+      // Post link
+      const linkSection = document.getElementById('pd-link-section');
+      const linkEl = document.getElementById('pd-post-link');
+      if (info.post_url) {
+        linkEl.href = info.post_url;
+        linkSection.style.display = '';
+      } else {
+        linkSection.style.display = 'none';
+      }
+    } else {
+      // No info found — show minimal data
+      document.getElementById('pd-username').textContent = '—';
+      document.getElementById('pd-likes').textContent = '—';
+      document.getElementById('pd-comments').textContent = '—';
+      document.getElementById('pd-views').textContent = '—';
+      document.getElementById('pd-caption-section').style.display = 'none';
+      const metaEl = document.getElementById('pd-meta');
+      metaEl.innerHTML = '';
+      [['Cluster', cluster.label], ['Luogo', location.name], ['File', pid]].forEach(([k,v]) => {
+        const row = document.createElement('div');
+        row.className = 'pd-meta-row';
+        row.innerHTML = `<span class="pd-meta-key">${k}</span><span class="pd-meta-val">${v}</span>`;
+        metaEl.appendChild(row);
+      });
+      document.getElementById('pd-link-section').style.display = 'none';
+    }
+
+    panel.classList.add('open');
+  }
+
+  function closePhotoDetail() {
+    document.getElementById('photo-detail').classList.remove('open');
+  }
+
+  document.addEventListener('keydown', e => {
+    if (e.key === 'Escape') {
+      if (document.getElementById('streetview-overlay').classList.contains('open')) {
+        closeStreetView();
+      } else if (document.getElementById('photo-detail').classList.contains('open')) {
+        closePhotoDetail();
+      } else {
+        hidePanel();
+      }
+    }
+  });
+</script>
+
+<!-- Google Maps API -->
+<script async
+  src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDUXmHQWvlHQkzMIG7_SkzhE5HPoSZsNMs&v=alpha&libraries=maps3d&callback=init">
+</script>
+</body>
+</html>
