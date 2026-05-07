@@ -1,0 +1,317 @@
+[
+  {
+    "cluster_id": 14,
+    "size": 158,
+    "label": "The Gate of Parco Ciani",
+    "description": "An ornate wrought iron gate in Lugano's Parco Ciani that frames a picturesque view of Lake Lugano and the surrounding mountains. It is a famous photo spot featuring stone pillars with spherical finials and a pebble mosaic foreground.",
+    "search_prompt": "ornate wrought iron gate with stone pillars and sphere finials overlooking a lake and mountains",
+    "confidence": 1.0,
+    "representative_photos": [
+      "foto/parcociani/3679484590019463105_01.jpg",
+      "foto/parcociani/3726367727767285149_01.jpg",
+      "foto/parcociani/3722351563214988639_01.jpg",
+      "foto/parcociani/3169202259656676375_01.jpg",
+      "foto/parcociani/3454954372377114959_01.jpg",
+      "foto/parcociani/3678309015713264374_01.jpg",
+      "foto/parcociani/3684615018338502435_01.jpg",
+      "foto/parcociani/3411874040354217062_01.jpg"
+    ]
+  },
+  {
+    "cluster_id": 16,
+    "size": 79,
+    "label": "Monte San Salvatore from Parco Ciani",
+    "description": "A scenic view of the cone-shaped Monte San Salvatore mountain across Lake Lugano, typically framed by vibrant flower beds along the Parco Ciani promenade.",
+    "search_prompt": "cone-shaped mountain across a lake with colorful flower beds in the foreground",
+    "confidence": 1.0,
+    "representative_photos": [
+      "foto/parcociani/3705697681424838008_01.jpg",
+      "foto/parcociani/3138888883050659455_01.jpg",
+      "foto/parcociani/3668672482468227317_01.jpg",
+      "foto/parcociani/3697136673368596112_01.jpg",
+      "foto/parcociani/3151565288143055916_01.jpg",
+      "foto/parcociani/3169867347774581522_01.jpg",
+      "foto/parcociani/3358280484709133164_01.jpg",
+      "foto/parcociani/3184546742915871983_01.jpg"
+    ]
+  },
+  {
+    "cluster_id": 9,
+    "size": 34,
+    "label": "Helidon Xhixha's Earth sculpture",
+    "description": "A large, polished stainless steel sphere with a jagged, topographical indentation that reflects the surrounding landscape of Parco Ciani and Lake Lugano.",
+    "search_prompt": "large polished mirror-like metal sphere sculpture with jagged relief indentation in a park",
+    "confidence": 1.0,
+    "representative_photos": [
+      "foto/parcociani/3222902808423116364_01.jpg",
+      "foto/parcociani/3499142214054216598_01.jpg",
+      "foto/parcociani/3701727462795198938_01.jpg",
+      "foto/parcociani/3489067179980372909_01.jpg",
+      "foto/parcociani/3339513303824304537_01.jpg",
+      "foto/parcociani/3279354167166130377_01.jpg",
+      "foto/parcociani/3242425931862826220_01.jpg",
+      "foto/parcociani/3533836799563898642_01.jpg"
+    ]
+  },
+  {
+    "cluster_id": 13,
+    "size": 19,
+    "label": "Monte San Salvatore and flowers",
+    "description": "A scenic view from Parco Ciani in Lugano featuring a field of poppies in the foreground with Lake Lugano and the iconic conical Monte San Salvatore in the background.",
+    "search_prompt": "field of white and orange flowers in front of a lake and a large conical mountain",
+    "confidence": 1.0,
+    "representative_photos": [
+      "foto/parcociani/3595326649830453270_01.jpg",
+      "foto/parcociani/3591239181960531183_01.jpg",
+      "foto/parcociani/3632449633893312756_01.jpg",
+      "foto/parcociani/3607651065599829861_01.jpg",
+      "foto/parcociani/3617442763859690479_01.jpg",
+      "foto/parcociani/3604729476542370094_01.jpg",
+      "foto/parcociani/3602672527743508930_01.jpg",
+      "foto/parcociani/3602673918390206451_01.jpg"
+    ]
+  },
+  {
+    "cluster_id": 3,
+    "size": 18,
+    "label": "LongLake Festival live concerts",
+    "description": "Musical performances and concerts on outdoor stages featuring various artists during the annual LongLake Festival in Parco Ciani.",
+    "search_prompt": "musicians performing on a stage with colored stage lights at night",
+    "confidence": 1.0,
+    "representative_photos": [
+      "foto/parcociani/3221292500092656884_01.jpg",
+      "foto/parcociani/3221292509384789008_01.jpg",
+      "foto/parcociani/3410011700281693574_01.jpg",
+      "foto/parcociani/3680436863592719710_01.jpg",
+      "foto/parcociani/3747443264417805218_01.jpg",
+      "foto/parcociani/3221292550391508982_01.jpg",
+      "foto/parcociani/3721659663377772847_01.jpg",
+      "foto/parcociani/3219843156945556069_01.jpg"
+    ]
+  },
+  {
+    "cluster_id": 0,
+    "size": 17,
+    "label": "Outdoor community painting workshop",
+    "description": "A group of people is shown collaborating on a large-scale painting activity spread across long tables in a park setting.",
+    "search_prompt": "group of people painting on a long paper scroll outdoors on a table in a park",
+    "confidence": 1.0,
+    "representative_photos": [
+      "foto/parcociani/3188069137091359902_01.jpg",
+      "foto/parcociani/3188069086474453750_01.jpg",
+      "foto/parcociani/3188069138878151323_01.jpg",
+      "foto/parcociani/3194617057542276940_01.jpg",
+      "foto/parcociani/3188222436889163144_01.jpg",
+      "foto/parcociani/3188222484955834313_01.jpg",
+      "foto/parcociani/3188222486398679267_01.jpg",
+      "foto/parcociani/3656485416782391791_01.jpg"
+    ]
+  },
+  {
+    "cluster_id": 12,
+    "size": 16,
+    "label": "View of Monte San Salvatore",
+    "description": "An iconic scenic view of Monte San Salvatore mountain and Lake Lugano, captured from the seasonal flowerbeds of Parco Ciani.",
+    "search_prompt": "Monte San Salvatore mountain and Lake Lugano with colorful flowerbeds in the foreground",
+    "confidence": 1.0,
+    "representative_photos": [
+      "foto/parcociani/3332112272837500692_01.jpg",
+      "foto/parcociani/3349806580485883769_01.jpg",
+      "foto/parcociani/3330247920128069241_01.jpg",
+      "foto/parcociani/3443393728158783026_01.jpg",
+      "foto/parcociani/3347775583230896001_01.jpg",
+      "foto/parcociani/3343989007229152725_01.jpg",
+      "foto/parcociani/3340455909694808281_01.jpg",
+      "foto/parcociani/3331042044498327015_01.jpg"
+    ]
+  },
+  {
+    "cluster_id": 17,
+    "size": 15,
+    "label": "Sculpted tree and Monte San Salvatore",
+    "description": "A distinctive pom-pom-style topiary tree on the promenade of Parco Ciani in Lugano. It is framed against the backdrop of Lake Lugano and the iconic Monte San Salvatore mountain.",
+    "search_prompt": "pom-pom pruned topiary tree in foreground with a lake and pyramid-shaped mountain in background",
+    "confidence": 1.0,
+    "representative_photos": [
+      "foto/parcociani/3139684671418443046_01.jpg",
+      "foto/parcociani/3411881086013351714_01.jpg",
+      "foto/parcociani/3665597586648440938_01.jpg",
+      "foto/parcociani/3408469977310969509_01.jpg",
+      "foto/parcociani/3612224241920259432_01.jpg",
+      "foto/parcociani/3244849124400592213_01.jpg",
+      "foto/parcociani/3694011694565228593_01.jpg",
+      "foto/parcociani/3280991321836327319_01.jpg"
+    ]
+  },
+  {
+    "cluster_id": 8,
+    "size": 13,
+    "label": "Villa Ciani in Parco Ciani",
+    "description": "A neoclassical peach-colored villa featuring a distinctive green-domed cupola and symmetrical facade, located within the Parco Ciani in Lugano.",
+    "search_prompt": "peach-colored neoclassical villa with a green cupola and ornate flower beds on a green lawn",
+    "confidence": 1.0,
+    "representative_photos": [
+      "foto/parcociani/3331041712267373582_01.jpg",
+      "foto/parcociani/3432084782714034658_01.jpg",
+      "foto/parcociani/3188968785644351915_01.jpg",
+      "foto/parcociani/3556047113524719498_01.jpg",
+      "foto/parcociani/3683901254165227127_01.jpg",
+      "foto/parcociani/3699156068298001429_01.jpg",
+      "foto/parcociani/3683276848305856038_01.jpg",
+      "foto/parcociani/3440082837686609778_01.jpg"
+    ]
+  },
+  {
+    "cluster_id": 11,
+    "size": 13,
+    "label": "E-motion sculpture by Gionata Xerra",
+    "description": "A contemporary stainless steel sculpture in Parco Ciani, Lugano, depicting a person sitting cross-legged while using a laptop.",
+    "search_prompt": "sculpture of a seated person with a laptop made from layered metal sheets",
+    "confidence": 1.0,
+    "representative_photos": [
+      "foto/parcociani/3487563064231425770_01.jpg",
+      "foto/parcociani/3578815851970988992_01.jpg",
+      "foto/parcociani/3821703853247354291_01.jpg",
+      "foto/parcociani/3664277646140787478_01.jpg",
+      "foto/parcociani/3591877206683761897_01.jpg",
+      "foto/parcociani/3598225267425209964_01.jpg",
+      "foto/parcociani/3706045149698590689_01.jpg",
+      "foto/parcociani/3497429820155133473_01.jpg"
+    ]
+  },
+  {
+    "cluster_id": 1,
+    "size": 11,
+    "label": "Parco Ciani Event Graphics",
+    "description": "Promotional graphic posters and social media flyers for various public events and community festivals held at Parco Ciani in Lugano. These designs feature bold typography advertising activities like 'Mondo al Parco' and intergenerational workshops.",
+    "search_prompt": "graphic design posters and flyers for park events featuring bold text and colorful abstract backgrounds",
+    "confidence": 0.95,
+    "representative_photos": [
+      "foto/parcociani/3149506616726276893_01.jpg",
+      "foto/parcociani/3175732976363406934_01.jpg",
+      "foto/parcociani/3143002584876602285_01.jpg",
+      "foto/parcociani/3438078663540877029_01.jpg",
+      "foto/parcociani/3602564042271923096_01.jpg",
+      "foto/parcociani/3187185817213577131_01.jpg",
+      "foto/parcociani/3184625458242485223_01.jpg",
+      "foto/parcociani/3587300815069916176_01.jpg"
+    ]
+  },
+  {
+    "cluster_id": 6,
+    "size": 10,
+    "label": "Woman at Parco Ciani",
+    "description": "The common subject is a blonde woman taking selfie portraits at various locations within the park, including near the flowerbeds and the lakefront promenade.",
+    "search_prompt": "blonde woman with heavy makeup and blonde hair posing in a park setting",
+    "confidence": 1.0,
+    "representative_photos": [
+      "foto/parcociani/3614265528924811523_01.jpg",
+      "foto/parcociani/3605018124501025551_01.jpg",
+      "foto/parcociani/3614265788199896433_01.jpg",
+      "foto/parcociani/3605018337286417868_01.jpg",
+      "foto/parcociani/3614265385630683832_01.jpg",
+      "foto/parcociani/3604128380079418558_01.jpg",
+      "foto/parcociani/3605018659996154210_01.jpg",
+      "foto/parcociani/3604130953519701074_01.jpg"
+    ]
+  },
+  {
+    "cluster_id": 5,
+    "size": 9,
+    "label": "LongLake Festival Info Point",
+    "description": "A red shipping container repurposed as an information hub and shop for the LongLake Festival in Parco Ciani. It is situated on a grassy lawn surrounded by blue branded deck chairs and outdoor seating.",
+    "search_prompt": "red shipping container with 'Festival Info Point' text and blue deck chairs in a public park",
+    "confidence": 1.0,
+    "representative_photos": [
+      "foto/parcociani/3148016943793358636_01.jpg",
+      "foto/parcociani/3148876201216797359_01.jpg",
+      "foto/parcociani/3152654072032999599_01.jpg",
+      "foto/parcociani/3149492921711319770_01.jpg",
+      "foto/parcociani/3152505358245087535_01.jpg",
+      "foto/parcociani/3152511019817232019_01.jpg",
+      "foto/parcociani/3174136313580479564_01.jpg",
+      "foto/parcociani/3151666513618284339_01.jpg"
+    ]
+  },
+  {
+    "cluster_id": 10,
+    "size": 7,
+    "label": "Socrates Statue in Parco Ciani",
+    "description": "A white marble sculpture depicting the Greek philosopher Socrates in a seated, contemplative pose within a park setting.",
+    "search_prompt": "white marble statue of a seated bearded philosopher draped in robes in a park",
+    "confidence": 1.0,
+    "representative_photos": [
+      "foto/parcociani/3673693542304203793_01.jpg",
+      "foto/parcociani/3499143957777306957_01.jpg",
+      "foto/parcociani/3644567600767776997_01.jpg",
+      "foto/parcociani/3189002079552502672_01.jpg",
+      "foto/parcociani/3489282321074694662_01.jpg",
+      "foto/parcociani/3747758861038980113_01.jpg",
+      "foto/parcociani/3526216112698121301_01.jpg"
+    ]
+  },
+  {
+    "cluster_id": 4,
+    "size": 6,
+    "label": "Red benches of Parco Ciani",
+    "description": "Distinctive bright red wooden park benches found throughout Parco Ciani in Lugano, Switzerland. They are a signature feature of the park's landscape and a popular spot for tourist photos.",
+    "search_prompt": "bright red wooden park bench with metal frame",
+    "confidence": 1.0,
+    "representative_photos": [
+      "foto/parcociani/3573724713810217569_01.jpg",
+      "foto/parcociani/3271263262317422643_01.jpg",
+      "foto/parcociani/3149055206805043225_01.jpg",
+      "foto/parcociani/3432087637164569159_01.jpg",
+      "foto/parcociani/3208213336581785498_01.jpg",
+      "foto/parcociani/3141755230349650246_01.jpg"
+    ]
+  },
+  {
+    "cluster_id": 15,
+    "size": 6,
+    "label": "Parco Ciani lakeside garden view",
+    "description": "A recurring scenic view from Parco Ciani featuring vibrant flower beds in the foreground overlooking Lake Lugano. The backdrop prominently features the iconic pyramid-shaped Monte San Salvatore across the water.",
+    "search_prompt": "vibrant flowerbeds on a lakefront with mountains in the distance",
+    "confidence": 0.95,
+    "representative_photos": [
+      "foto/parcociani/3142538868355683668_01.jpg",
+      "foto/parcociani/3171307425494640673_01.jpg",
+      "foto/parcociani/3152326883730465993_01.jpg",
+      "foto/parcociani/3230207813429194586_01.jpg",
+      "foto/parcociani/3151334999368672444_01.jpg",
+      "foto/parcociani/3186564715281863986_01.jpg"
+    ]
+  },
+  {
+    "cluster_id": 7,
+    "size": 6,
+    "label": "Monte San Salvatore mountain view",
+    "description": "The iconic cone-shaped peak of Monte San Salvatore overlooking Lake Lugano, which serves as a popular scenic backdrop for tourist photos in Parco Ciani.",
+    "search_prompt": "cone-shaped mountain peak across a lake with tree branches in the foreground",
+    "confidence": 0.75,
+    "representative_photos": [
+      "foto/parcociani/3851957273208101858_01.jpg",
+      "foto/parcociani/3321410854861177734_01.jpg",
+      "foto/parcociani/3529326995436857884_01.jpg",
+      "foto/parcociani/3840393960103998559_01.jpg",
+      "foto/parcociani/3208359594681908664_01.jpg",
+      "foto/parcociani/3533903539949885604_01.jpg"
+    ]
+  },
+  {
+    "cluster_id": 2,
+    "size": 6,
+    "label": "Lagoon Punk Rock Fest posters",
+    "description": "Promotional graphics and schedules for the Lagoon Punk Rock Fest 2025 held in Parco Ciani, Lugano. The artwork features cartoon swamp monsters dressed as punk rockers performing underwater.",
+    "search_prompt": "cartoon green swamp monsters in leather jackets playing punk rock music underwater with a diver",
+    "confidence": 1.0,
+    "representative_photos": [
+      "foto/parcociani/3704694346972655805_01.jpg",
+      "foto/parcociani/3704695180305325078_01.jpg",
+      "foto/parcociani/3706887380235989448_01.jpg",
+      "foto/parcociani/3663433848730032291_01.jpg",
+      "foto/parcociani/3861194855842369473_01.jpg",
+      "foto/parcociani/3650999679970545494_01.jpg"
+    ]
+  }
+]

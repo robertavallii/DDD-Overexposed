@@ -1,0 +1,398 @@
+[
+  {
+    "cluster_id": 21,
+    "size": 86,
+    "label": "Santa Maria del Sasso Church",
+    "description": "The images feature the historic stone bell tower and roof of the Church of Santa Maria del Sasso in Morcote, overlooking Lake Lugano. This iconic landmark is captured from an elevated perspective with the lake and mountains in the background.",
+    "search_prompt": "stone bell tower with a green dome and church roof overlooking a large lake and mountains",
+    "confidence": 1.0,
+    "representative_photos": [
+      "foto/morcote/3647236443230707600_01.jpg",
+      "foto/morcote/3769120733058994185_01.jpg",
+      "foto/morcote/3806972549054375750_01.jpg",
+      "foto/morcote/3612416735492597305_01.jpg",
+      "foto/morcote/3600573185426198784_01.jpg",
+      "foto/morcote/3708201352063144913_01.jpg",
+      "foto/morcote/3678676884537110524_01.jpg",
+      "foto/morcote/3645445074311516397_01.jpg"
+    ]
+  },
+  {
+    "cluster_id": 18,
+    "size": 72,
+    "label": "Morcote village and Church",
+    "description": "A picturesque view of the lakeside village of Morcote featuring the Church of Santa Maria del Sasso and its prominent bell tower on a lush hillside.",
+    "search_prompt": "lakeside village with colorful buildings and a stone church with a tall bell tower on a green hillside",
+    "confidence": 1.0,
+    "representative_photos": [
+      "foto/morcote/3741032024170608129_01.jpg",
+      "foto/morcote/3694029620215153152_01.jpg",
+      "foto/morcote/3708590289419545568_01.jpg",
+      "foto/morcote/3692277323587113437_01.jpg",
+      "foto/morcote/3683078182865607778_01.jpg",
+      "foto/morcote/3693394337333580978_01.jpg",
+      "foto/morcote/3586038290340635771_01.jpg",
+      "foto/morcote/3787464253595371303_01.jpg"
+    ]
+  },
+  {
+    "cluster_id": 12,
+    "size": 53,
+    "label": "Swing the World Morcote",
+    "description": "A scenic wooden swing decorated with flowers that overlooks Lake Lugano and the historic bell tower of the Santa Maria del Sasso church in Morcote.",
+    "search_prompt": "wooden swing with flower garlands overlooking a lake and a church tower with a green dome",
+    "confidence": 1.0,
+    "representative_photos": [
+      "foto/morcote/3671567309624988515_01.jpg",
+      "foto/morcote/3682565896178116785_01.jpg",
+      "foto/morcote/3759436853888047396_01.jpg",
+      "foto/morcote/3678615262045261732_01.jpg",
+      "foto/morcote/3719361213173260619_01.jpg",
+      "foto/morcote/3710094210943330552_01.jpg",
+      "foto/morcote/3741694427573114331_01.jpg",
+      "foto/morcote/3612159190746840316_01.jpg"
+    ]
+  },
+  {
+    "cluster_id": 10,
+    "size": 50,
+    "label": "Narrow stepped alleys of Gandria",
+    "description": "Historic, extremely narrow pedestrian lanes featuring steep stone staircases and tall buildings, characteristic of the lakeside village of Gandria near Lugano.",
+    "search_prompt": "narrow stepped stone alleyway with tall historic buildings in Gandria Switzerland",
+    "confidence": 0.95,
+    "representative_photos": [
+      "foto/morcote/3670669687323116687_01.jpg",
+      "foto/morcote/3693916621401291401_01.jpg",
+      "foto/morcote/3686802323481689341_01.jpg",
+      "foto/morcote/3712672462573175239_01.jpg",
+      "foto/morcote/3651257732559815069_01.jpg",
+      "foto/morcote/3641979362055776482_01.jpg",
+      "foto/morcote/3616961788147535545_01.jpg",
+      "foto/morcote/3678700661877672181_01.jpg"
+    ]
+  },
+  {
+    "cluster_id": 2,
+    "size": 42,
+    "label": "Festive Holiday Meal Collages",
+    "description": "A collection of digital collages showcasing elaborate home-cooked festive meals, featuring roast turkey, roast chicken, and seasonal desserts decorated for holidays like Thanksgiving and Mother's Day.",
+    "search_prompt": "festive dining table with roast poultry, decorated desserts, and holiday-themed table settings",
+    "confidence": 0.9,
+    "representative_photos": [
+      "foto/morcote/3774560195826189674_01.jpg",
+      "foto/morcote/3570040177925641178_01.jpg",
+      "foto/morcote/3774559380461863293_01.jpg",
+      "foto/morcote/3630119902610841887_01.jpg",
+      "foto/morcote/3691848939690702757_01.jpg",
+      "foto/morcote/3685344546601923649_01.jpg",
+      "foto/morcote/3668028673613699255_01.jpg",
+      "foto/morcote/3646896871205515751_01.jpg"
+    ]
+  },
+  {
+    "cluster_id": 20,
+    "size": 39,
+    "label": "Panoramic view from Morcote",
+    "description": "A scenic high-angle vista overlooking the red-tiled roofs of Morcote village and the expansive waters of Lake Lugano, framed by lush terraced slopes and mountains.",
+    "search_prompt": "scenic viewpoint of Morcote village red roofs and Lake Lugano with terraced hillsides",
+    "confidence": 1.0,
+    "representative_photos": [
+      "foto/morcote/3628726652346949742_01.jpg",
+      "foto/morcote/3712951896618429528_01.jpg",
+      "foto/morcote/3660743463584905339_01.jpg",
+      "foto/morcote/3636888822516697135_01.jpg",
+      "foto/morcote/3755491584692199929_01.jpg",
+      "foto/morcote/3716210374362700747_01.jpg",
+      "foto/morcote/3609098444343527676_01.jpg",
+      "foto/morcote/3583893633996201320_01.jpg"
+    ]
+  },
+  {
+    "cluster_id": 16,
+    "size": 35,
+    "label": "Lake Gate of Parco Ciani",
+    "description": "An iconic lakeside gate with two ornate stone pillars overlooking Lake Lugano, famously captured through a framing stone archway. It is a signature landmark within the Parco Ciani public park in Lugano.",
+    "search_prompt": "a view of Lake Lugano through a stone archway featuring two ornate stone gateposts on the water's edge",
+    "confidence": 1.0,
+    "representative_photos": [
+      "foto/morcote/3715011486587556862_01.jpg",
+      "foto/morcote/3690511926312505070_01.jpg",
+      "foto/morcote/3678532622606161222_01.jpg",
+      "foto/morcote/3600297582802281098_01.jpg",
+      "foto/morcote/3735328742550942624_01.jpg",
+      "foto/morcote/3690417899244381157_01.jpg",
+      "foto/morcote/3671439912244733243_01.jpg",
+      "foto/morcote/3583848604528642047_01.jpg"
+    ]
+  },
+  {
+    "cluster_id": 9,
+    "size": 30,
+    "label": "Roman Fountain and semicircular colonnade",
+    "description": "A neoclassical stone colonnade with a curved architrave and a matching bench overlooking Lake Lugano, situated near the Fontana Romana.",
+    "search_prompt": "neoclassical semicircular stone colonnade with columns and a stone bench overlooking a lake",
+    "confidence": 1.0,
+    "representative_photos": [
+      "foto/morcote/3654907534389964513_01.jpg",
+      "foto/morcote/3704271747834939716_01.jpg",
+      "foto/morcote/3694953671733403448_01.jpg",
+      "foto/morcote/3609283239581715370_01.jpg",
+      "foto/morcote/3626009450541164471_01.jpg",
+      "foto/morcote/3746662479209190171_01.jpg",
+      "foto/morcote/3697123663775613161_01.jpg",
+      "foto/morcote/3704392090788104019_01.jpg"
+    ]
+  },
+  {
+    "cluster_id": 17,
+    "size": 30,
+    "label": "Morcote lakeside promenade",
+    "description": "The scenic Lungolago in the village of Morcote, featuring small motorboats moored to white poles along the stone embankment of Lake Lugano.",
+    "search_prompt": "lakeside promenade with small boats moored to white poles next to a stone embankment and mountains in the background",
+    "confidence": 1.0,
+    "representative_photos": [
+      "foto/morcote/3615176227099591434_01.jpg",
+      "foto/morcote/3635384058594272727_01.jpg",
+      "foto/morcote/3838259812639713456_01.jpg",
+      "foto/morcote/3663021475950186273_01.jpg",
+      "foto/morcote/3833204383031010123_01.jpg",
+      "foto/morcote/3707705188389248504_01.jpg",
+      "foto/morcote/3836853432586397556_01.jpg",
+      "foto/morcote/3669176366611989528_01.jpg"
+    ]
+  },
+  {
+    "cluster_id": 5,
+    "size": 15,
+    "label": "White fluffy Bichon Frise dog",
+    "description": "A small white dog with curly fur is featured in every photo, seen sitting on various park benches and outdoors near Lake Lugano.",
+    "search_prompt": "small white fluffy dog with curly hair and black eyes and nose",
+    "confidence": 1.0,
+    "representative_photos": [
+      "foto/morcote/3574427299844757408_01.jpg",
+      "foto/morcote/3667846725972819577_01.jpg",
+      "foto/morcote/3680408801475003985_01.jpg",
+      "foto/morcote/3558695229004732763_01.jpg",
+      "foto/morcote/3574426453493125087_01.jpg",
+      "foto/morcote/3558694333730542190_01.jpg",
+      "foto/morcote/3660181609801577630_01.jpg",
+      "foto/morcote/3574425922116712011_01.jpg"
+    ]
+  },
+  {
+    "cluster_id": 8,
+    "size": 15,
+    "label": "San Lorenzo Cathedral bell tower",
+    "description": "A stone staircase lined with tall cypress trees leading towards the distinctive bell tower of the San Lorenzo Cathedral in Lugano.",
+    "search_prompt": "stone staircase lined with cypress trees and a tall stone bell tower with a green dome in the background",
+    "confidence": 1.0,
+    "representative_photos": [
+      "foto/morcote/3762759132349234915_01.jpg",
+      "foto/morcote/3646068768090988770_01.jpg",
+      "foto/morcote/3609904343881834421_01.jpg",
+      "foto/morcote/3674383233261460939_01.jpg",
+      "foto/morcote/3640457987632116869_01.jpg",
+      "foto/morcote/3615677653332751623_01.jpg",
+      "foto/morcote/3650905758834195954_01.jpg",
+      "foto/morcote/3649154459385635221_01.jpg"
+    ]
+  },
+  {
+    "cluster_id": 13,
+    "size": 13,
+    "label": "Grand Tour Switzerland photo frame",
+    "description": "A large red shield-shaped photo spot frame on a wooden pier in Morcote, part of the Grand Tour of Switzerland. It is used by tourists to frame scenic views of Lake Lugano and the surrounding mountains.",
+    "search_prompt": "red shield-shaped photo frame with 'Grand Tour of Switzerland' and 'Morcote' text on a lakeside pier",
+    "confidence": 1.0,
+    "representative_photos": [
+      "foto/morcote/3677295180309973708_01.jpg",
+      "foto/morcote/3642740568916782105_01.jpg",
+      "foto/morcote/3732251499667097669_01.jpg",
+      "foto/morcote/3640421108930416692_01.jpg",
+      "foto/morcote/3624321719091736138_01.jpg",
+      "foto/morcote/3791152076773148522_01.jpg",
+      "foto/morcote/3624391198887095603_01.jpg",
+      "foto/morcote/3623090905238854116_01.jpg"
+    ]
+  },
+  {
+    "cluster_id": 11,
+    "size": 13,
+    "label": "Scenic view of Lake Lugano",
+    "description": "The images depict various tourists posing at scenic overlooks within Parco Ciani, featuring panoramic views of Lake Lugano and the surrounding mountains.",
+    "search_prompt": "panoramic view of Lake Lugano with mountains and Mediterranean park vegetation",
+    "confidence": 0.95,
+    "representative_photos": [
+      "foto/morcote/3735306846002598392_01.jpg",
+      "foto/morcote/3746977401805772977_01.jpg",
+      "foto/morcote/3635470629961116971_01.jpg",
+      "foto/morcote/3695611483984075678_01.jpg",
+      "foto/morcote/3698501787929681977_01.jpg",
+      "foto/morcote/3833301555290625499_01.jpg",
+      "foto/morcote/3708535358315068379_01.jpg",
+      "foto/morcote/3760670288510458178_01.jpg"
+    ]
+  },
+  {
+    "cluster_id": 4,
+    "size": 12,
+    "label": "Blooming purple wisteria vines",
+    "description": "Cascading purple wisteria flowers decorating traditional stone buildings and balconies overlooking Lake Lugano.",
+    "search_prompt": "hanging clusters of purple wisteria flowers on a building facade with stone walls",
+    "confidence": 0.95,
+    "representative_photos": [
+      "foto/morcote/3724370270707276087_01.jpg",
+      "foto/morcote/3584643820323656163_01.jpg",
+      "foto/morcote/3616961022217247164_01.jpg",
+      "foto/morcote/3616321756228351662_01.jpg",
+      "foto/morcote/3620012621160552108_01.jpg",
+      "foto/morcote/3607548182845812713_01.jpg",
+      "foto/morcote/3623142679987266181_01.jpg",
+      "foto/morcote/3624247908845878873_01.jpg"
+    ]
+  },
+  {
+    "cluster_id": 19,
+    "size": 10,
+    "label": "Morcote lakeside village promenade",
+    "description": "The images show the iconic waterfront of Morcote on Lake Lugano, featuring a line of stone pines and historic buildings with arcades. This scenic view is a classic landmark of the Ticino region in Switzerland.",
+    "search_prompt": "lakeside promenade with stone pine trees and arcaded buildings",
+    "confidence": 1.0,
+    "representative_photos": [
+      "foto/morcote/3710755919106733079_01.jpg",
+      "foto/morcote/3839745126499675195_01.jpg",
+      "foto/morcote/3673100932648980216_01.jpg",
+      "foto/morcote/3673742156729141870_01.jpg",
+      "foto/morcote/3765912841514309480_01.jpg",
+      "foto/morcote/3807649161383100587_01.jpg",
+      "foto/morcote/3555631945922035323_01.jpg",
+      "foto/morcote/3815241633424592520_01.jpg"
+    ]
+  },
+  {
+    "cluster_id": 1,
+    "size": 10,
+    "label": "Interior of San Rocco Church",
+    "description": "The ornate interior and main altar of the Chiesa di San Rocco, featuring a distinctive red drapery and baroque architecture. It is located at the edge of Parco Ciani in Lugano.",
+    "search_prompt": "interior of a baroque church with a prominent red drape behind a marble altar and chandeliers",
+    "confidence": 1.0,
+    "representative_photos": [
+      "foto/morcote/3652166934170690629_01.jpg",
+      "foto/morcote/3649842034425379547_01.jpg",
+      "foto/morcote/3743770592425124361_01.jpg",
+      "foto/morcote/3640520836710433098_01.jpg",
+      "foto/morcote/3711380911163220013_01.jpg",
+      "foto/morcote/3651332856387708844_01.jpg",
+      "foto/morcote/3683708319218870222_01.jpg",
+      "foto/morcote/3764403678690954997_01.jpg"
+    ]
+  },
+  {
+    "cluster_id": 3,
+    "size": 10,
+    "label": "Decorative wooden wine barrels",
+    "description": "Large wooden wine barrels repurposed as outdoor tables or decorative displays in front of shops and restaurants.",
+    "search_prompt": "wooden wine barrel with metal hoops used as outdoor furniture",
+    "confidence": 0.95,
+    "representative_photos": [
+      "foto/morcote/3810007447067861024_01.jpg",
+      "foto/morcote/3652699106801820799_01.jpg",
+      "foto/morcote/3756895892809735806_01.jpg",
+      "foto/morcote/3791986975935588953_01.jpg",
+      "foto/morcote/3687379498098394136_01.jpg",
+      "foto/morcote/3713475546060711384_01.jpg",
+      "foto/morcote/3791986004098595657_01.jpg",
+      "foto/morcote/3695422999201250335_01.jpg"
+    ]
+  },
+  {
+    "cluster_id": 15,
+    "size": 9,
+    "label": "Historic village of Gandria",
+    "description": "Traditional stone buildings with arched windows and red-tiled roofs overlooking Lake Lugano from a hillside cobblestone path.",
+    "search_prompt": "historic stone house with arched windows and red tile roof on a cobblestone path overlooking a lake with mountains",
+    "confidence": 1.0,
+    "representative_photos": [
+      "foto/morcote/3686216467879122242_01.jpg",
+      "foto/morcote/3604824839259080228_01.jpg",
+      "foto/morcote/3647635713592400653_01.jpg",
+      "foto/morcote/3557136601302820016_01.jpg",
+      "foto/morcote/3584648578627379293_01.jpg",
+      "foto/morcote/3845498955052634386_01.jpg",
+      "foto/morcote/3706302615933969355_01.jpg",
+      "foto/morcote/3677951380050089194_01.jpg"
+    ]
+  },
+  {
+    "cluster_id": 14,
+    "size": 9,
+    "label": "Lakeside promenade in Parco Ciani",
+    "description": "A wooden boardwalk running along Lake Lugano, featuring decorative metal arches and floral planters on the railings.",
+    "search_prompt": "wooden lakeside boardwalk with metal arches and flower boxes",
+    "confidence": 1.0,
+    "representative_photos": [
+      "foto/morcote/3702044143483326979_01.jpg",
+      "foto/morcote/3645635828483416648_01.jpg",
+      "foto/morcote/3649546156098264702_01.jpg",
+      "foto/morcote/3567973025451524224_01.jpg",
+      "foto/morcote/3751267065202748989_01.jpg",
+      "foto/morcote/3665073764669169457_01.jpg",
+      "foto/morcote/3610372386179942550_01.jpg",
+      "foto/morcote/3619410206103160937_01.jpg"
+    ]
+  },
+  {
+    "cluster_id": 6,
+    "size": 9,
+    "label": "Road bikes by Lake Lugano",
+    "description": "Modern road bicycles posed along the scenic waterfront promenade of Lake Lugano, featuring the calm water and alpine mountains in the background.",
+    "search_prompt": "a road bicycle parked on a lakeside promenade with mountain scenery in the background",
+    "confidence": 0.95,
+    "representative_photos": [
+      "foto/morcote/3787318697514515639_01.jpg",
+      "foto/morcote/3631582641802815134_01.jpg",
+      "foto/morcote/3615765955947779852_01.jpg",
+      "foto/morcote/3680710204279009679_01.jpg",
+      "foto/morcote/3823251129702874457_01.jpg",
+      "foto/morcote/3568703376788536144_01.jpg",
+      "foto/morcote/3601972097505765375_01.jpg",
+      "foto/morcote/3585074672820373078_01.jpg"
+    ]
+  },
+  {
+    "cluster_id": 7,
+    "size": 9,
+    "label": "Wedding couples in Parco Ciani",
+    "description": "These images depict various couples and individuals in formal wedding attire posing for professional portraits within a park setting. The subjects are consistently brides in white gowns and grooms in suits, often holding floral bouquets.",
+    "search_prompt": "wedding couple bride in white dress and groom in suit posing outdoors",
+    "confidence": 1.0,
+    "representative_photos": [
+      "foto/morcote/3686599231421832098_01.jpg",
+      "foto/morcote/3769944153627894296_01.jpg",
+      "foto/morcote/3686116979322324907_01.jpg",
+      "foto/morcote/3760892298037847412_01.jpg",
+      "foto/morcote/3659167078060990357_01.jpg",
+      "foto/morcote/3746173069573264843_01.jpg",
+      "foto/morcote/3799684081123189596_01.jpg",
+      "foto/morcote/3820825795812433854_01.jpg"
+    ]
+  },
+  {
+    "cluster_id": 0,
+    "size": 9,
+    "label": "Monte San Salvatore",
+    "description": "The distinctive conical mountain rising above the blue waters of Lake Lugano, a signature landmark of the region.",
+    "search_prompt": "a prominent conical mountain peak overlooking a large blue lake under a cloudy sky",
+    "confidence": 0.75,
+    "representative_photos": [
+      "foto/morcote/3685886098046910461_01.jpg",
+      "foto/morcote/3685885562291709414_01.jpg",
+      "foto/morcote/3685884161134055945_01.jpg",
+      "foto/morcote/3685888784037301722_01.jpg",
+      "foto/morcote/3686021920121400222_01.jpg",
+      "foto/morcote/3686021025316774556_01.jpg",
+      "foto/morcote/3685931361515968819_01.jpg",
+      "foto/morcote/3685883555401122770_01.jpg"
+    ]
+  }
+]

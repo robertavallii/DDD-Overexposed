@@ -1,0 +1,213 @@
+[
+  {
+    "cluster_id": 10,
+    "size": 1189,
+    "label": "View from Monte San Salvatore",
+    "description": "A high-altitude panoramic view overlooking Lake Lugano and the Melide causeway, taken from a viewing platform on Monte San Salvatore.",
+    "search_prompt": "high-angle panoramic shot of Lake Lugano featuring the Melide causeway and surrounding mountains from a lookout with a black metal railing",
+    "confidence": 1.0,
+    "representative_photos": [
+      "foto/montesansalvatore/2902771864670088789_01.jpg",
+      "foto/montesansalvatore/2948989030839433049_01.jpg",
+      "foto/montesansalvatore/2876661512938061651_01.jpg",
+      "foto/montesansalvatore/3620166302974469888_01.jpg",
+      "foto/montesansalvatore/3654835535351981616_01.jpg",
+      "foto/montesansalvatore/2933746996742462472_01.jpg",
+      "foto/montesansalvatore/3022950565406680251_01.jpg",
+      "foto/montesansalvatore/2952452010406396065_01.jpg"
+    ]
+  },
+  {
+    "cluster_id": 7,
+    "size": 22,
+    "label": "Yellow tourist photo frame",
+    "description": "A large, tilted yellow rectangular frame used as a souvenir photo spot for tourists at a scenic viewpoint.",
+    "search_prompt": "large tilted yellow metal picture frame at a mountain overlook",
+    "confidence": 1.0,
+    "representative_photos": [
+      "foto/montesansalvatore/3361355256123533305_01.jpg",
+      "foto/montesansalvatore/3397528395293807439_01.jpg",
+      "foto/montesansalvatore/2911442964841382497_01.jpg",
+      "foto/montesansalvatore/3543962525610295182_01.jpg",
+      "foto/montesansalvatore/3199845689507983249_01.jpg",
+      "foto/montesansalvatore/3726591819045133466_01.jpg",
+      "foto/montesansalvatore/3507729512917920262_01.jpg",
+      "foto/montesansalvatore/3679341089994747592_01.jpg"
+    ]
+  },
+  {
+    "cluster_id": 3,
+    "size": 17,
+    "label": "Monte San Salvatore Funicular Station",
+    "description": "The base station of the funicular railway leading to Monte San Salvatore, a traditional building adorned with numerous international flags and distinctive red shutters.",
+    "search_prompt": "chalet-style building with white lower walls, dark wood upper level, red shutters, and many international flags hanging from the facade",
+    "confidence": 1.0,
+    "representative_photos": [
+      "foto/montesansalvatore/3123344794348205483_01.jpg",
+      "foto/montesansalvatore/2810213145894825247_01.jpg",
+      "foto/montesansalvatore/2844464770162669020_01.jpg",
+      "foto/montesansalvatore/2867720680373105917_01.jpg",
+      "foto/montesansalvatore/3419170387160164705_01.jpg",
+      "foto/montesansalvatore/2850289401864090909_01.jpg",
+      "foto/montesansalvatore/2996766163277423149_01.jpg",
+      "foto/montesansalvatore/3121547139209376782_01.jpg"
+    ]
+  },
+  {
+    "cluster_id": 2,
+    "size": 14,
+    "label": "Plated meat and vegetable dishes",
+    "description": "These images depict various restaurant-style meals featuring cooked meats like steak, ribs, or roast beef, accompanied by side dishes of roasted or steamed vegetables.",
+    "search_prompt": "a plate of food featuring sliced cooked meat and assorted vegetables like potatoes, zucchini, or carrots",
+    "confidence": 0.95,
+    "representative_photos": [
+      "foto/montesansalvatore/3124917278780774170_01.jpg",
+      "foto/montesansalvatore/3213979827488178950_01.jpg",
+      "foto/montesansalvatore/3643804316795462341_01.jpg",
+      "foto/montesansalvatore/3445974546853072365_01.jpg",
+      "foto/montesansalvatore/3472784285465290218_01.jpg",
+      "foto/montesansalvatore/3599614993793139420_01.jpg",
+      "foto/montesansalvatore/3772894397592001275_01.jpg",
+      "foto/montesansalvatore/3354603553870392605_01.jpg"
+    ]
+  },
+  {
+    "cluster_id": 8,
+    "size": 11,
+    "label": "Via Ferrata San Salvatore",
+    "description": "Climbers navigating a steep rock face equipped with fixed steel cables and metal rungs on a mountain route near Lugano.",
+    "search_prompt": "person in climbing gear on a via ferrata with steel cables and iron rungs",
+    "confidence": 1.0,
+    "representative_photos": [
+      "foto/montesansalvatore/3384677232511654533_01.jpg",
+      "foto/montesansalvatore/2776398370131623209_01.jpg",
+      "foto/montesansalvatore/2776398629968786185_01.jpg",
+      "foto/montesansalvatore/3645475049050275657_01.jpg",
+      "foto/montesansalvatore/2924357678766487801_01.jpg",
+      "foto/montesansalvatore/3167754280629384870_01.jpg",
+      "foto/montesansalvatore/2943195732131918384_01.jpg",
+      "foto/montesansalvatore/2968414707205930802_01.jpg"
+    ]
+  },
+  {
+    "cluster_id": 11,
+    "size": 11,
+    "label": "Orientation map overlooking Lake Lugano",
+    "description": "A vintage 1902 semi-circular orientation plaque showing a topographic map of the region, positioned at a high viewpoint overlooking the Melide causeway on Lake Lugano.",
+    "search_prompt": "semi-circular orientation table with text 'Pro Lugano' in front of a panoramic lake and mountain view",
+    "confidence": 1.0,
+    "representative_photos": [
+      "foto/montesansalvatore/3080635358042567140_01.jpg",
+      "foto/montesansalvatore/2862005669188871182_01.jpg",
+      "foto/montesansalvatore/3734454872113473252_01.jpg",
+      "foto/montesansalvatore/3067189324230676896_01.jpg",
+      "foto/montesansalvatore/2796827478393054737_01.jpg",
+      "foto/montesansalvatore/2893203845405637972_01.jpg",
+      "foto/montesansalvatore/3789003405692579510_01.jpg",
+      "foto/montesansalvatore/3327066260121272312_01.jpg"
+    ]
+  },
+  {
+    "cluster_id": 1,
+    "size": 9,
+    "label": "Handwritten chalkboard restaurant menus",
+    "description": "A collection of black chalkboard menus from a local restaurant, featuring various dishes and prices handwritten in vibrant, multi-colored chalk.",
+    "search_prompt": "black chalkboard menu with colorful handwritten text in Italian",
+    "confidence": 1.0,
+    "representative_photos": [
+      "foto/montesansalvatore/3665784883636114145_01.jpg",
+      "foto/montesansalvatore/3518475689235273816_01.jpg",
+      "foto/montesansalvatore/3568675101374653194_01.jpg",
+      "foto/montesansalvatore/3137381678448013903_01.jpg",
+      "foto/montesansalvatore/3523005301592053586_01.jpg",
+      "foto/montesansalvatore/3072786638807002157_01.jpg",
+      "foto/montesansalvatore/3719986002157657461_01.jpg",
+      "foto/montesansalvatore/3344560255277530798_01.jpg"
+    ]
+  },
+  {
+    "cluster_id": 4,
+    "size": 8,
+    "label": "Monte San Salvatore travel poster",
+    "description": "An outdoor information board showcasing a 1939 vintage travel poster for the Monte San Salvatore funicular in Lugano, Switzerland.",
+    "search_prompt": "blue information sign with vintage Monte San Salvatore mountain poster",
+    "confidence": 1.0,
+    "representative_photos": [
+      "foto/montesansalvatore/2848364222250476060_01.jpg",
+      "foto/montesansalvatore/2865302079195544336_01.jpg",
+      "foto/montesansalvatore/3564186763694106357_01.jpg",
+      "foto/montesansalvatore/2956307473104322798_01.jpg",
+      "foto/montesansalvatore/3317887821912705557_01.jpg",
+      "foto/montesansalvatore/3440909549081048388_01.jpg",
+      "foto/montesansalvatore/2908764426832436111_01.jpg",
+      "foto/montesansalvatore/3103024523502723380_01.jpg"
+    ]
+  },
+  {
+    "cluster_id": 9,
+    "size": 7,
+    "label": "Monte Brè transmitter tower",
+    "description": "A tall metal lattice telecommunications tower with a distinctive red and white top, situated on the summit of Monte Brè overlooking Lake Lugano.",
+    "search_prompt": "tall lattice telecommunications tower with red and white tip on a mountain peak",
+    "confidence": 1.0,
+    "representative_photos": [
+      "foto/montesansalvatore/3152648207070299510_01.jpg",
+      "foto/montesansalvatore/3152648224694793977_01.jpg",
+      "foto/montesansalvatore/2776318564027881888_01.jpg",
+      "foto/montesansalvatore/2790333191219621803_01.jpg",
+      "foto/montesansalvatore/3161170907791538106_01.jpg",
+      "foto/montesansalvatore/3507517896289025061_01.jpg",
+      "foto/montesansalvatore/2939459415686924822_01.jpg"
+    ]
+  },
+  {
+    "cluster_id": 5,
+    "size": 7,
+    "label": "Monte San Salvatore Funicular",
+    "description": "A red funicular railway transporting passengers to the summit of Monte San Salvatore. It offers iconic views of the city of Lugano and its lake.",
+    "search_prompt": "red funicular car climbing a steep track overlooking Lake Lugano",
+    "confidence": 1.0,
+    "representative_photos": [
+      "foto/montesansalvatore/3606167940379442586_01.jpg",
+      "foto/montesansalvatore/3140071359933444589_01.jpg",
+      "foto/montesansalvatore/3411888446195021868_01.jpg",
+      "foto/montesansalvatore/3577932893331463657_01.jpg",
+      "foto/montesansalvatore/3275837185398047190_01.jpg",
+      "foto/montesansalvatore/2825030579759224192_01.jpg",
+      "foto/montesansalvatore/2817130211335758904_01.jpg"
+    ]
+  },
+  {
+    "cluster_id": 6,
+    "size": 7,
+    "label": "Church of San Salvatore summit",
+    "description": "A small stone chapel with a gabled roof and a stone portico located at the peak of Monte San Salvatore in Lugano. It features a cross on its roof and the Latin inscription 'SALVATORI DICATVM' above the entrance.",
+    "search_prompt": "small stone church with a gabled roof, a cross on top, and an arched portico entrance",
+    "confidence": 1.0,
+    "representative_photos": [
+      "foto/montesansalvatore/2858158366996954277_01.jpg",
+      "foto/montesansalvatore/3111944100719656901_01.jpg",
+      "foto/montesansalvatore/3725839909346102352_01.jpg",
+      "foto/montesansalvatore/2993321066001691024_01.jpg",
+      "foto/montesansalvatore/2971140334121943251_01.jpg",
+      "foto/montesansalvatore/3068503245769300759_01.jpg",
+      "foto/montesansalvatore/3651334740912463612_01.jpg"
+    ]
+  },
+  {
+    "cluster_id": 0,
+    "size": 6,
+    "label": "Hellebore flowers in bloom",
+    "description": "These images show close-up and group views of Hellebore flowers, commonly known as Christmas roses, featuring their characteristic white or pink petals and prominent yellow stamens. They are a signature early-spring bloom in European parks like Parco Ciani.",
+    "search_prompt": "hellebore flower with yellow stamens and palmate leaves",
+    "confidence": 1.0,
+    "representative_photos": [
+      "foto/montesansalvatore/3030880536465437266_01.jpg",
+      "foto/montesansalvatore/3048772835396492321_01.jpg",
+      "foto/montesansalvatore/3038223957303675184_01.jpg",
+      "foto/montesansalvatore/3017540919267946376_01.jpg",
+      "foto/montesansalvatore/3073336685017726658_01.jpg",
+      "foto/montesansalvatore/3319212792991906543_01.jpg"
+    ]
+  }
+]
