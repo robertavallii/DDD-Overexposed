@@ -7,9 +7,9 @@
 
 Overexposed examines how social media–driven tourism has transformed the city of Lugano into a set of highly represented locations, where the value of a place is increasingly linked to its visibility on digital platforms. This data visualization project explores the tension between the physical reality of Lugano and its digital representation. The interface transitions from a density map of the most frequently posted locations to an immersive 3D and 360° environment, allowing users to explore clusters of images and geolocated data. The aim is to question the stereotypical representation of the city and to highlight how algorithms and social dynamics influence the definition of points of interest and the collective perception of urban space.
 
-![data-viz](/img_documentazione/img_0.png)
-![data-viz](/img_documentazione/img_1.png)
-![data-viz](/img_documentazione/img_2.png)
+![data-viz](documentazione/img_documentazione/img_0.png)
+![data-viz](documentazione/img_documentazione/img_1.png)
+![data-viz](documentazione/img_documentazione/img_2.png)
 
 
 
